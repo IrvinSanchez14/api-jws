@@ -19,17 +19,18 @@
   $user = new User($db);
 
   $data = json_decode(file_get_contents("php://input"));
-  $user->email = $data->params->email;
+  $user->email = $data->email;
   $email_exists = $user->emailExists();
   // password_verify verifica si la contrasena del formulario es la misma nos pide dos parametros
   // el primero es la contrasena del formulario
   // el segundo es la contrasena encriptada del usuario
-  if ($email_exists && password_verify($data->params->password, $user->password)) {
+  if ($email_exists && password_verify($data->password, $user->password)) {
     $token = array(
       "iss" => $iss,
       "aud" => $aud,
       "iat" => $iat,
       "nbf" => $nbf,
+      "exp" => $exp,
       "data" => array(
           "id" => $user->id,
           "firstname" => $user->firstname,
