@@ -10,6 +10,7 @@
   9- si la conexion es exitosa nos retorna la variable conexion sin ningun problema si no PDOException nos muestra un error a nivel de conexion con MYSQL */
 class Database
 {
+  private $version = "1.0.1";
   private $host = "localhost";
   private $db_name = "tesis";
   private $username = "root";
