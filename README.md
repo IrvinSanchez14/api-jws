@@ -1,5 +1,5 @@
 ## api-database-tesis
 
-branch IRVIN donde
+branch IRVIN
 irvin puto
 reputo el q lo lea 
