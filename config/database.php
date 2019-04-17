@@ -14,7 +14,7 @@ class Database
   private $host = "localhost";
   private $db_name = "tesis";
   private $username = "root";
-  private $password = "12s";
+  private $password = "";
   public $conn;
   public function getConnection()
   {

@@ -1,7 +1,7 @@
-## api-database-tesis
+# api-database-tesis
 
 branch IRVIN
 irvin puto
-reputo el q lo lea 
+reputo el q lo lea
 cambio en readme.md
 prueba pull request
