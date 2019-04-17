@@ -14,7 +14,15 @@ class Database
   private $host = "localhost";
   private $db_name = "tesis";
   private $username = "root";
+<<<<<<< HEAD
   private $password = "";
+=======
+<<<<<<< HEAD
+  private $password = "12s4";
+=======
+  private $password = "";
+>>>>>>> base de datos subida
+>>>>>>> base de datos subida
   public $conn;
   public function getConnection()
   {
