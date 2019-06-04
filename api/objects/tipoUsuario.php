@@ -32,11 +32,13 @@ class tipos_usuario
       - se hace el llamado a la conexion y se prepara el query a ejecutar
     5- se ejecuta toda la parte SQL y se retorna la misma variable $stmt */
     $query = "SELECT 
-                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, tu.Estado
+                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, tu.Estado,
                 FROM
                   " . $this->table_name . " tu
+                WHERE 
+                  tu.Estado = 0
                 ORDER BY
-                  tu.IdTipoUsuario DESC";
+                  tu.FechaActualizacion DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt;
@@ -131,5 +133,28 @@ class tipos_usuario
       return true;
     }
     return false;
+  }
+
+  function changeState()
+  {
+    $query = "UPDATE
+                " . $this->table_name . "
+              SET
+                Estado=:Estado
+              WHERE
+                IdTipoUsuario=:IdTipoUsuario";
+    $stmt = $this->conn->prepare($query);
+
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
+
+    $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

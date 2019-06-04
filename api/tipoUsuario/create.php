@@ -1,12 +1,12 @@
-
-<?php /* -- Funcionamiento del llamado a la API readALL --
+<?php
+/* -- Funcionamiento del llamado a la API readALL --
 1- colocamos un IF para identificar que tipo de metodo esperamos al momento de llamar a la API
   --- Tipos de Metodos ---
     GET - Lo utilizamos unicamente cuando realizamos consultas SELECT ya sea para llamar todos los datos o uno en especifico (metodo por URL)
     POST - lo utilizamos unicamente cuando realizamos consultas INSERT los datos son enviados por medio de un JSON
     PUT - Lo utilizamos unicamente cuando realizamos consultas UPDATE los datos son enviador por medio de un JSON
     DELETE - Lo utilizamos unicamente cuando realizamos consultas DELETE los datos son enviados por medio de un JSON */
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   /* -- Cabeceras y librerias --
   1- header() o cabeceras son las que necesitaremos para otorgarle permisos a nuestra API para poder ser consultado externamente sin ellas la API no podra devolver datos
   2- "Access-Control-Allow-Origin: *" -- Esta cabecera da los permisos de control a los usuarios que nosotros queramos en este caso colocamos el * porque todos tendran acceso a ella
@@ -40,23 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   3- igualamos esto a la $data que hemos descompuesto y lo separamos por el nombre que le ayamos colocado a nuestro campo en el formulario
   ATENCION!!! -- para un mejor desarrollo en la aplicacion tanto del lado de la API como del lado del cliente llamar a nuestras variables y campos del formulario igual a los de la base de datos para no perder la logica al momento de su traslado a la base
   4- se crea un IF donde le colocamos la funcion create() la cual esta en nuestra clase y si devuelve un valor true ejecuta que el usuario es creado si no un error tendremos en el aplicativo */
-  $tipoUsuario->IdTipoUsuario = $data->IdTipoUsuario;
-  $tipoUsuario->Nombre = $data->Nombre;
-  $tipoUsuario->Descripcion = $data->Descripcion;
-  $tipoUsuario->Estado = $Estado;
-
-  if ($tipoUsuario->create()) {
-    http_response_code(200);
+  if (empty($data->IdTipoUsuario)) {
     echo json_encode(
-      array("message" => "Datos guardados exitosamente en tipoUSuario.")
+      array("message" => "EMPTY")
     );
   } else {
-    http_response_code(404);
-    echo json_encode(
-      array("message" => "No se guardaron correctamente los datos.")
-    );
+    $tipoUsuario->IdTipoUsuario = $data->IdTipoUsuario;
+    $tipoUsuario->Nombre = $data->Nombre;
+    $tipoUsuario->Descripcion = $data->Descripcion;
+    $tipoUsuario->Estado = "0";
+
+    if ($tipoUsuario->create()) {
+      http_response_code(200);
+      echo json_encode(
+        array("message" => "Datos guardados exitosamente en tipoUSuario.")
+      );
+    } else {
+      http_response_code(404);
+      echo json_encode(
+        array("message" => "No se guardaron correctamente los datos.")
+      );
+    }
   }
 } else {
   http_response_code(404);
 }
-?>
