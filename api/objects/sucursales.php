@@ -1,8 +1,8 @@
 <?php
-class Empresas
+class Sucursales
 {
   private $conn;
-  private $table_name = "empresas";
+  private $table_name = "sucursales";
 
   public function __construct($db)
   {
@@ -12,11 +12,11 @@ class Empresas
   function readAll()
   {
     $query = "SELECT 
-                  em.IdEmpresa, em.Nombre, em.Razon_Social,em.Direccion,       em.Telefono, em.Correo, em.Estado, em.FechaCreacion
+                su.IdSucursal, su.IdEmpresa, su.Nombre, su.Direccion, su.Telefono, su.IdEncargado, su.Estado, su.FechaCreacion 
                 FROM
-                  " . $this->table_name . " em
+                  " . $this->table_name . " su
                 ORDER BY
-                  em.FechaCreacion DESC";
+                  su.FechaCreacion DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt;
