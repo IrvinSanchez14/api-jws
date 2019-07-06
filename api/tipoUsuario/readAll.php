@@ -5,7 +5,7 @@
     POST - lo utilizamos unicamente cuando realizamos consultas INSERT los datos son enviados por medio de un JSON
     PUT - Lo utilizamos unicamente cuando realizamos consultas UPDATE los datos son enviador por medio de un JSON
     DELETE - Lo utilizamos unicamente cuando realizamos consultas DELETE los datos son enviados por medio de un JSON */
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
+if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   /* -- Cabeceras y librerias --
   1- header() o cabeceras son las que necesitaremos para otorgarle permisos a nuestra API para poder ser consultado externamente sin ellas la API no podra devolver datos
   2- "Access-Control-Allow-Origin: *" -- Esta cabecera da los permisos de control a los usuarios que nosotros queramos en este caso colocamos el * porque todos tendran acceso a ella
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
   */
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
-  header("Access-Control-Allow-Methods: GET");
+  header("Access-Control-Allow-Methods: GET,OPTIONS");
   header("Access-Control-Max-Age: 3600");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 

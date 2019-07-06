@@ -32,7 +32,7 @@ class tipos_usuario
       - se hace el llamado a la conexion y se prepara el query a ejecutar
     5- se ejecuta toda la parte SQL y se retorna la misma variable $stmt */
     $query = "SELECT 
-                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, tu.Estado,
+                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, tu.Estado
                 FROM
                   " . $this->table_name . " tu
                 WHERE 

@@ -1,30 +1,36 @@
 <?php
-  header("Access-Control-Allow-Origin: *");
-  header("Content-Type: application/json; charset=UTF-8");
-  header("Access-Control-Allow-Methods: POST");
-  header("Access-Control-Max-Age: 3600");
-  header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-  
-  include_once '../config/database.php';
-  include_once 'objects/user.php';
-  include_once '../config/core.php';
-  include_once '../libs/BeforeValidException.php';
-  include_once '../libs/ExpiredException.php';
-  include_once '../libs/SignatureInvalidException.php';
-  include_once '../libs/JWT.php';
-  use \Firebase\JWT\JWT;
-  
+use Firebase\JWT\JWT;
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Request-Headers: *");
+
+if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
+  http_response_code(200);
+} else if ($_SERVER['REQUEST_METHOD'] == "GET") {
+  http_response_code(200);
+  echo "You dont have the correct method";
+} else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  http_response_code(200);
+  include_once '../../config/database.php';
+  include_once '../objects/user.php';
+  include_once '../../config/core.php';
+  include_once '../../libs/BeforeValidException.php';
+  include_once '../../libs/ExpiredException.php';
+  include_once '../../libs/SignatureInvalidException.php';
+  include_once '../../libs/JWT.php';
+
   $database = new Database();
   $db = $database->getConnection();
   $user = new User($db);
-
   $data = json_decode(file_get_contents("php://input"));
-  $user->email = $data->email;
+  $user->Email = $data->Email;
   $email_exists = $user->emailExists();
-  // password_verify verifica si la contrasena del formulario es la misma nos pide dos parametros
-  // el primero es la contrasena del formulario
-  // el segundo es la contrasena encriptada del usuario
-  if ($email_exists && password_verify($data->password, $user->password)) {
+
+  if ($email_exists && password_verify($data->Passwd, $user->Passwd)) {
     $token = array(
       "iss" => $iss,
       "aud" => $aud,
@@ -32,24 +38,29 @@
       "nbf" => $nbf,
       "exp" => $exp,
       "data" => array(
-          "id" => $user->id,
-          "firstname" => $user->firstname,
-          "lastname" => $user->lastname,
-          "email" => $user->email
+        "IdUsuario" => $user->IdUsuario,
+        "Nombre" => $user->Nombre,
+        "Alias" => $user->Alias,
+        "Passws" => $user->Passwd
       )
     );
     http_response_code(200);
-    $jwt = JWT::encode($token, $key);
+    $JWT = new JWT();
+    $jwt = $JWT->encode($token, $key);
     echo json_encode(
       array(
         "message" => "Successful login.",
-        "jwt" => $jwt
+        "jwt" => $jwt,
+        "user" => array(
+          "IdUsuario" => $user->IdUsuario,
+          "Nombre" => $user->Nombre,
+        )
       )
     );
   } else {
     http_response_code(401);
     echo json_encode(array("message" => "Login failed."));
   }
-
-?>
-
+} else {
+  http_response_code(404);
+}

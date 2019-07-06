@@ -6,11 +6,11 @@
   header("Access-Control-Max-Age: 3600");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
   
-  include_once '../config/core.php';
-  include_once '../libs/BeforeValidException.php';
-  include_once '../libs/ExpiredException.php';
-  include_once '../libs/SignatureInvalidException.php';
-  include_once '../libs/JWT.php';
+  include_once '../../config/core.php';
+  include_once '../../libs/BeforeValidException.php';
+  include_once '../../libs/ExpiredException.php';
+  include_once '../../libs/SignatureInvalidException.php';
+  include_once '../../libs/JWT.php';
   use \Firebase\JWT\JWT;
   //file_get_contents -> trae todo el contenido de la informacion de una ruta u objeto especifico en este caso del formulario que enviamos
   // se envia un objeto JSON para ser consultado y luego transformado en un array y codificado a un JSON
@@ -39,5 +39,3 @@
     http_response_code(401);
     echo json_encode(array("message" => "Access denied."));
   }
-
-?>
