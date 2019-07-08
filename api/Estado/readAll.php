@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/unidad_medida.php';
+  include_once '../objects/estado.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $unidadMedida = new UnidadMedida($db);
-  $stmt = $unidadMedida->readAll();
+  $Estado = new estados($db);
+  $stmt = $Estado->readAll();
   $num = $stmt->rowCount();
 
   if ($num > 0) {
@@ -20,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdUnidadMedida" => $IdUnidadMedida,
-        "Siglas" => $Siglas,
+        "IdEstado" => $IdEstado,
+        "Descripcion" => $Descripcion,
         "Nombre" => $Nombre,
-        "Estado" => $Estado,
-        "FechaCreacion" => $FechaCreacion
+        "IdEstadoAnterior" => $IdEstadoAnterior,
+        "IdEstadoSiguiente" => $IdEstadoSiguiente,
+        //"FechaCreacion" => $FechaCreacion
       );
       array_push($products_arr, $product_item);
     }

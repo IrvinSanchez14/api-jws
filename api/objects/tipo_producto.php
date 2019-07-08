@@ -1,11 +1,11 @@
 <?php
-class UnidadMedida
+class TipoProducto
 {
   private $conn;
-  private $table_name = "unidad_medida";
+  private $table_name = "tipo_producto";
 
-  public $IdUnidadMedida;
-  public $Siglas;
+  public $IdTipoProducto;
+  public $Descripcion;
   public $Nombre;
   public $Estado;
   public $FechaCreacion;
@@ -18,7 +18,7 @@ class UnidadMedida
   function readAll()
   {
     $query = "SELECT 
-                  um.IdUnidadMedida, um.Siglas, um.Nombre, um.Estado, um.FechaCreacion
+                  um.IdTipoProducto, um.Descripcion, um.Nombre, um.Estado, um.FechaCreacion
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
@@ -31,20 +31,20 @@ class UnidadMedida
   function create(){
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdUnidadMedida = :IdUnidadMedida,
-                Siglas = :Siglas,
+                IdTipoProducto = :IdTipoProducto,
+                Descripcion = :Descripcion,
                 Nombre = :Nombre,
                 Estado = :Estado,
                 FechaCreacion = :FechaCreacion";
     $stmt = $this->conn->prepare($query);
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
-    $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
+    $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
+    $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
 
-    $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
-    $stmt->bindParam(':Siglas', $this->Siglas);
+    $stmt->bindParam(':IdTipoProducto', $this->IdTipoProducto);
+    $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
@@ -60,24 +60,24 @@ class UnidadMedida
                 " . $this->table_name . "
               SET
                 Nombre=:Nombre,
-                Siglas=:Siglas,
+                Descripcion=:Descripcion,
                 Estado=:Estado,
                 FechaCreacion=:FechaCreacion
               WHERE
-                IdUnidadMedida=:IdUnidadMedida";
+                IdTipoProducto=:IdTipoProducto";
     $stmt = $this->conn->prepare($query);
 
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
-    $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
+    $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
+    $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
-    $stmt->bindParam(':Siglas', $this->Siglas);
+    $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
-    $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
+    $stmt->bindParam(':IdTipoProducto', $this->IdTipoProducto);
 
     if ($stmt->execute()) {
       return true;
@@ -87,12 +87,12 @@ class UnidadMedida
   }
   function delete()
   {
-    $query = "DELETE FROM " . $this->table_name . " WHERE IdUnidadMedida = ?";
+    $query = "DELETE FROM " . $this->table_name . " WHERE IdTipoProducto = ?";
     $stmt = $this->conn->prepare($query);
 
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
+    $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
 
-    $stmt->bindParam(1, $this->IdUnidadMedida);
+    $stmt->bindParam(1, $this->IdTipoProducto);
 
     if ($stmt->execute()) {
       return true;
@@ -107,14 +107,14 @@ class UnidadMedida
               SET
                 Estado=:Estado
               WHERE
-                IdUnidadMedida=:IdUnidadMedida";
+                IdTipoProducto=:IdTipoProducto";
     $stmt = $this->conn->prepare($query);
 
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
+    $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
 
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
+    $stmt->bindParam(':IdTipoProducto', $this->IdTipoProducto);
 
     if ($stmt->execute()) {
       return true;
