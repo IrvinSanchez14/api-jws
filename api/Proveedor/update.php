@@ -12,23 +12,23 @@ include_once '../objects/proveedor.php';
 
 $database = new Database();
 $db = $database->getConnection();
-$proveedores = new proveedores($db);
+$proveedor = new Proveedor($db);
 $data = json_decode(file_get_contents("php://input"));
 
-$proveedores->IdProveedor = $data->IdProveedor;
-$proveedores->Nombre = $data->Nombre;
-$proveedores->Direccion = $data->Direccion;
-$proveedores->Telefono = $data->Telefono;
-$proveedores->Razo_Social = $data->Razo_Social;
-$proveedores->Tipo = $data->Tipo;
-$proveedores->Nombre_Contacto = $data->Nombre_Contacto;
-$proveedores->Email = $data->Email;
-$proveedores->DUI = $data->DUI;
-$proveedores->NIT = $data->NIT;
-$proveedores->NRC = $data->NRC;
-$proveedores->Estado = $data->Estado;
+$proveedor->IdProveedor = $data->IdProveedor;
+$proveedor->Nombre = $data->Nombre;
+$proveedor->Direccion = $data->Direccion;
+$proveedor->Telefono = $data->Telefono;
+$proveedor->Razo_Social = $data->Razo_Social;
+$proveedor->Tipo = $data->Tipo;
+$proveedor->Nombre_Contacto = $data->Nombre_Contacto;
+$proveedor->Email = $data->Email;
+$proveedor->DUI = $data->DUI;
+$proveedor->NIT = $data->NIT;
+$proveedor->NRC = $data->NRC;
+$proveedor->Estado = $data->Estado;
 
-if ($proveedores->update()) {
+if ($proveedor->update()) {
     http_response_code(200);
     echo json_encode(
       array("message" => "Datos actualizados exitosamente en Proveedores.")

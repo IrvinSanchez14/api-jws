@@ -12,10 +12,10 @@ include_once '../objects/proveedor.php';
 
 $database = new Database();
 $db = $database->getConnection();
-$proveedores = new proveedores($db);
+$IdProveedor = new Proveedor($db);
 $data = json_decode(file_get_contents("php://input"));
 
-$proveedores->IdProveedor = $data->IdProveedor;
+$IdProveedor->IdProveedor = $data->IdProveedor;
 
   if ($IdProveedor->delete()) {
     http_response_code(200);

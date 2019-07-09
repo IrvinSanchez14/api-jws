@@ -12,28 +12,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
     $database = new Database();
     $db = $database->getConnection();
-    $proveedores = new proveedores($db);
+    $proveedor = new Proveedor($db);
     $data = json_decode(file_get_contents("php://input"));
+
 
     if (empty($data->IdProveedor)) {
         echo json_encode(
           array("message" => "EMPTY")
         );
       } else {
-        $proveedores->IdProveedor = $data->IdProveedor;
-        $proveedores->Nombre = $data->Nombre;
-        $proveedores->Direccion = $data->Direccion;
-        $proveedores->Telefono = $data->Telefono;
-        $proveedores->Razo_Social = $data->Razo_Social;
-        $proveedores->Tipo = $data->Tipo;
-        $proveedores->Nombre_Contacto = $data->Nombre_Contacto;
-        $proveedores->Email = $data->Email;
-        $proveedores->DUI = $data->DUI;
-        $proveedores->NIT = $data->NIT;
-        $proveedores->NRC = $data->NRC;
-        $proveedores->Estado = "0";
+        $proveedor->IdProveedor = $data->IdProveedor;
+        $proveedor->Nombre = $data->Nombre;
+        $proveedor->Direccion = $data->Direccion;
+        $proveedor->Telefono = $data->Telefono;
+        $proveedor->Razo_Social = $data->Razo_Social;
+        $proveedor->Tipo = $data->Tipo;
+        $proveedor->Nombre_Contacto = $data->Nombre_Contacto;
+        $proveedor->Email = $data->Email;
+        $proveedor->DUI = $data->DUI;
+        $proveedor->NIT = $data->NIT;
+        $proveedor->NRC = $data->NRC;
+        $proveedor->Estado = "0";
 
-        if ($proveedores->create()) {
+        if ($proveedor->create()) {
           http_response_code(200);
           echo json_encode(
             array("message" => "Datos creados exitosamente en Proveedores.")
