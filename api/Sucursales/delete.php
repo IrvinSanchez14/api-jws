@@ -17,10 +17,10 @@ $data = json_decode(file_get_contents("php://input"));
 
 $sucursales->IdSucursal = $data->IdSucursal;
 
-  if ($IdSucursal->delete()) {
+  if ($sucursales->delete()) {
     http_response_code(200);
     echo json_encode(
-      array("message" => "Datos guardados exitosamente en tipoUSuario.")
+      array("message" => "Datos guardados exitosamente en Sucursales.")
     );
   } else {
     http_response_code(404);
@@ -30,3 +30,4 @@ $sucursales->IdSucursal = $data->IdSucursal;
   }
 } else {
   http_response_code(404);
+}

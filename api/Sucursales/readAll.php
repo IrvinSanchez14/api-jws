@@ -1,5 +1,4 @@
-<?php
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
+<?php if ($_SERVER['REQUEST_METHOD'] == "GET") {
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
   header("Access-Control-Allow-Methods: GET");
@@ -42,3 +41,4 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 } else {
   http_response_code(404);
 }
+?>

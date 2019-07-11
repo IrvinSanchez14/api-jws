@@ -10,6 +10,8 @@ class Sucursales
   public $Direccion;
   public $Telefono;
   public $Estado;
+  public $IdEncargado;
+  public $FechaCreacion;
 
   public function __construct($db)
   {
@@ -19,7 +21,8 @@ class Sucursales
   function readAll()
   {
     $query = "SELECT 
-                su.IdSucursal, su.IdEmpresa, su.Nombre, su.Direccion, su.Telefono, su.IdEncargado, su.Estado, su.FechaCreacion 
+                su.IdSucursal, su.IdEmpresa, su.Nombre, su.Direccion, su.Telefono,
+                 su.IdEncargado, su.Estado, su.FechaCreacion 
                 FROM
                   " . $this->table_name . " su
                 ORDER BY
@@ -47,7 +50,7 @@ class Sucursales
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
 
-    $stmt->bindParam(':IdSucursal', $this->IdTipoUsuario);
+    $stmt->bindParam(':IdSucursal', $this->IdSucursal);
     $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
