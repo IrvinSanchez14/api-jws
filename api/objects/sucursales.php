@@ -61,7 +61,6 @@ class Sucursales
       return true;
     }
     return false;
-
   }
 
   function update()
