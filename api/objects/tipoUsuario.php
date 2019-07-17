@@ -56,17 +56,14 @@ class tipos_usuario
     6- ejecutamos $stmt y si todo nos funciona bien nos devolvera true de lo contario no entra en el proceso y nos devolvera false*/
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdTipoUsuario = :IdTipoUsuario,
                 Nombre = :Nombre,
                 Descripcion = :Descripcion,
                 Estado = :Estado";
     $stmt = $this->conn->prepare($query);
-    $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
 
-    $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Estado', $this->Estado);
