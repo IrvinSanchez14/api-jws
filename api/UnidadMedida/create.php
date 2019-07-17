@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $db = $database->getConnection();
   $UnidadMedida = new UnidadMedida($db);
   $data = json_decode(file_get_contents("php://input"));
-  
+
   if (empty($data->IdUnidadMedida)) {
     echo json_encode(
       array("message" => "EMPTY")
@@ -28,9 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
     if ($UnidadMedida->create()) {
       http_response_code(200);
-      echo json_encode(
-        array("message" => "Datos guardados exitosamente en Unidad de Medida.")
-      );
+      $last_id = $db->lastInsertId();
+      echo json_encode(array("last ID" => $last_id));
     } else {
       http_response_code(404);
       echo json_encode(

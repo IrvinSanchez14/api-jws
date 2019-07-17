@@ -40,12 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
   3- igualamos esto a la $data que hemos descompuesto y lo separamos por el nombre que le ayamos colocado a nuestro campo en el formulario
   ATENCION!!! -- para un mejor desarrollo en la aplicacion tanto del lado de la API como del lado del cliente llamar a nuestras variables y campos del formulario igual a los de la base de datos para no perder la logica al momento de su traslado a la base
   4- se crea un IF donde le colocamos la funcion create() la cual esta en nuestra clase y si devuelve un valor true ejecuta que el usuario es creado si no un error tendremos en el aplicativo */
-  if (empty($data->IdTipoUsuario)) {
+  if (empty($data->Nombre)) {
     echo json_encode(
       array("message" => "EMPTY")
     );
   } else {
-    $tipoUsuario->IdTipoUsuario = $data->IdTipoUsuario;
     $tipoUsuario->Nombre = $data->Nombre;
     $tipoUsuario->Descripcion = $data->Descripcion;
     $tipoUsuario->Estado = "0";

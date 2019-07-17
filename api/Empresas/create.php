@@ -20,7 +20,6 @@
     $empresa = new Empresas($db);
     $data = json_decode(file_get_contents("php://input"));
 
-    echo json_encode($data);
 
     $empresa->IdEmpresa = $data->IdEmpresa;
     $empresa->Nombre = $data->Nombre;
@@ -30,9 +29,11 @@
     $empresa->Correo = $data->Correo;
     $empresa->Estado = $data->Estado;
 
+
     if ($empresa->create()) {
       http_response_code(200);
-      echo json_encode(array("message" => "Empresa was created."));
+      $last_id = $db->lastInsertId();
+      echo json_encode(array("last ID" => $last_id));
     } else {
       http_response_code(400);
       echo json_encode(array("message" => "Unable to create Empresa."));
