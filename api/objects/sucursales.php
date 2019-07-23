@@ -36,21 +36,18 @@ class Sucursales
   {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-               IdSucursal = :IdSucursal,
                IdEmpresa = :IdEmpresa,
                Nombre = :Nombre,
                Direccion = :Direccion,
                Telefono = :Telefono,
                Estado = :Estado";
     $stmt = $this->conn->prepare($query);
-    $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
     $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
 
-    $stmt->bindParam(':IdSucursal', $this->IdSucursal);
     $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
@@ -68,23 +65,20 @@ class Sucursales
     $query = "UPDATE
                 " . $this->table_name . "
               SET
-                IdEmpresa=:IdEmpresa,
                 Nombre=:Nombre,
                 Direccion=:Direccion,
                 Telefono=:Telefono,
                 Estado=:Estado
               WHERE
               IdSucursal=:IdSucursal";
-    $stmt = $this->conn->prepare($query);
 
-    $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
+    $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
 
-    $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);

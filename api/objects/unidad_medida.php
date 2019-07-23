@@ -28,26 +28,24 @@ class UnidadMedida
     return $stmt;
   }
 
-  function create(){
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . "
               SET
                 IdUnidadMedida = :IdUnidadMedida,
                 Siglas = :Siglas,
                 Nombre = :Nombre,
-                Estado = :Estado,
-                FechaCreacion = :FechaCreacion";
+                Estado = :Estado";
     $stmt = $this->conn->prepare($query);
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
     $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
 
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Siglas', $this->Siglas);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
 
     if ($stmt->execute()) {
       return true;
@@ -55,14 +53,14 @@ class UnidadMedida
     return false;
   }
 
-  function update(){
+  function update()
+  {
     $query = "UPDATE
                 " . $this->table_name . "
               SET
                 Nombre=:Nombre,
                 Siglas=:Siglas,
-                Estado=:Estado,
-                FechaCreacion=:FechaCreacion
+                Estado=:Estado
               WHERE
                 IdUnidadMedida=:IdUnidadMedida";
     $stmt = $this->conn->prepare($query);
@@ -70,13 +68,11 @@ class UnidadMedida
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Siglas', $this->Siglas);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
 
     if ($stmt->execute()) {

@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 
   $empresa->IdEmpresa = $data->IdEmpresa;
 
-  echo json_encode($data);
 
   if ($data->Estado == "false") {
     $state = 1;
@@ -32,13 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   }
   $empresa->Estado = $state;
 
-  echo json_encode($state);
 
   if ($empresa->changeState()) {
     http_response_code(200);
     //$last_id = $db->lastInsertId();
     echo json_encode(
-      array("message" => "Datos guardados exitosamente en tipoUSuario.")
+      array("message" => "Datos guardados exitosamente en Empresa.")
     );
   } else {
     http_response_code(400);
