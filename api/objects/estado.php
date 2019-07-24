@@ -3,13 +3,13 @@ class estados
 {
   private $conn;
   private $table_name = "estados";
-/**
- * IdEstado
- * Nombre
- * Descripcion
- * IdEstadoAnterior
- * IdEstadoSiguiente
- */
+  /**
+   * IdEstado
+   * Nombre
+   * Descripcion
+   * IdEstadoAnterior
+   * IdEstadoSiguiente
+   */
   public $IdEstado;
   public $Descripcion;
   public $Nombre;
@@ -34,22 +34,20 @@ class estados
     return $stmt;
   }
 
-  function create(){
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdEstado = :IdEstado,
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
                 IdEstadoAnterior = :IdEstadoAnterior,
                 IdEstadoSiguiente = :IdEstadoSiguiente";
     $stmt = $this->conn->prepare($query);
-    $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->IdEstadoAnterior = htmlspecialchars(strip_tags($this->IdEstadoAnterior));
     $this->IdEstadoSiguiente = htmlspecialchars(strip_tags($this->IdEstadoSiguiente));
 
-    $stmt->bindParam(':IdEstado', $this->IdEstado);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':IdEstadoAnterior', $this->IdEstadoAnterior);
@@ -61,7 +59,8 @@ class estados
     return false;
   }
 
-  function update(){
+  function update()
+  {
     $query = "UPDATE
                 " . $this->table_name . "
               SET

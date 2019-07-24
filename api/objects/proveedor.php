@@ -39,7 +39,6 @@ class Proveedor
   {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdProveedor = :IdProveedor,
                 Nombre = :Nombre,
                 Direccion = :Direccion,
                 Telefono = :Telefono,
@@ -52,7 +51,6 @@ class Proveedor
                 NRC = :NRC,
                 Estado = :Estado";
     $stmt = $this->conn->prepare($query);
-    $this->IdProveedor = htmlspecialchars(strip_tags($this->IdProveedor));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
@@ -64,8 +62,7 @@ class Proveedor
     $this->NIT = htmlspecialchars(strip_tags($this->NIT));
     $this->NRC = htmlspecialchars(strip_tags($this->NRC));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    
-    $stmt->bindParam(':IdProveedor', $this->IdProveedor);
+
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
@@ -135,7 +132,6 @@ class Proveedor
     } else {
       return false;
     }
-
   }
 
   function delete()
@@ -174,5 +170,5 @@ class Proveedor
     } else {
       return false;
     }
- }
+  }
 }

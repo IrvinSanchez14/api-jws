@@ -28,26 +28,21 @@ class TipoProducto
     return $stmt;
   }
 
-  function create(){
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdTipoProducto = :IdTipoProducto,
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
-                Estado = :Estado,
-                FechaCreacion = :FechaCreacion";
+                Estado = :Estado";
     $stmt = $this->conn->prepare($query);
-    $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
 
-    $stmt->bindParam(':IdTipoProducto', $this->IdTipoProducto);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
 
     if ($stmt->execute()) {
       return true;
@@ -55,7 +50,8 @@ class TipoProducto
     return false;
   }
 
-  function update(){
+  function update()
+  {
     $query = "UPDATE
                 " . $this->table_name . "
               SET

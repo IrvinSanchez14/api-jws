@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
   $tipoUsuario->Nombre = $data->Nombre;
   $tipoUsuario->Descripcion = $data->Descripcion;
-  $tipoUsuario->Estado = $data->Estado;
 
   if ($tipoUsuario->update()) {
     http_response_code(200);
