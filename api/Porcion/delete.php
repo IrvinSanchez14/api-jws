@@ -8,18 +8,18 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE" || $_SERVER['REQUEST_METHOD'] == "OPT
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/unidad_medida.php';
+  include_once '../objects/Porcion.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $UnidadMedida = new UnidadMedida($db);
+  $Porcion = new Porcion($db);
   $data = json_decode(file_get_contents("php://input"));
-  $UnidadMedida->IdUnidadMedida = $data->IdUnidadMedida;
+  $Porcion->IdPorcion = $data->IdPorcion;
 
-  if ($UnidadMedida->delete()) {
+  if ($Porcion->delete()) {
     http_response_code(200);
     echo json_encode(
-      array("message" => "Datos guardados exitosamente en UnidadMedida.")
+      array("message" => "Datos guardados exitosamente en Porcion.")
     );
   } else {
     http_response_code(404);
