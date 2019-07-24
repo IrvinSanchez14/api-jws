@@ -16,6 +16,7 @@ class tipos_usuario
   public $Nombre;
   public $Descripcion;
   public $Estado;
+  public $estadoTexto;
 
   public function __construct($db)
   {
@@ -32,11 +33,9 @@ class tipos_usuario
       - se hace el llamado a la conexion y se prepara el query a ejecutar
     5- se ejecuta toda la parte SQL y se retorna la misma variable $stmt */
     $query = "SELECT 
-                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, tu.Estado
+                  tu.IdTipoUsuario, tu.Nombre, tu.Descripcion, if(tu.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
                 FROM
                   " . $this->table_name . " tu
-                WHERE 
-                  tu.Estado = 0
                 ORDER BY
                   tu.FechaActualizacion DESC";
     $stmt = $this->conn->prepare($query);
@@ -88,20 +87,17 @@ class tipos_usuario
                 " . $this->table_name . "
               SET
                 Nombre=:Nombre,
-                Descripcion=:Descripcion,
-                Estado=:Estado
+                Descripcion=:Descripcion
               WHERE
                 IdTipoUsuario=:IdTipoUsuario";
     $stmt = $this->conn->prepare($query);
 
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
-    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
 
     if ($stmt->execute()) {

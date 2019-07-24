@@ -14,15 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $db = $database->getConnection();
   $Permiso = new Permiso($db);
   $data = json_decode(file_get_contents("php://input"));
-  
-  if (empty($data->IdPermiso)) {
+
+  if (empty($data->Nombre)) {
     echo json_encode(
       array("message" => "EMPTY")
     );
   } else {
-    $Permiso->IdPermiso = $data->IdPermiso;
     $Permiso->Nombre = $data->Nombre;
-    $Permiso->FechaCreacion = $data->FechaCreacion;
     $Permiso->Descripcion = $data->Descripcion;
     $Permiso->Estado = "0";
 

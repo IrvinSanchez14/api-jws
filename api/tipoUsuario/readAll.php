@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
         "IdTipoUsuario" => $IdTipoUsuario,
         "Nombre" => $Nombre,
         "Descripcion" => $Descripcion,
-        "Estado" => $Estado
+        "Estado" => $estadoTexto
       );
       array_push($products_arr, $product_item);
     }
