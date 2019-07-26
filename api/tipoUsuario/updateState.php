@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $state = 0;
 
   $tipoUsuario->IdTipoUsuario = $data->IdTipoUsuario;
+  $tipoUsuario->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($data->Estado == "false") {
     $state = 1;
