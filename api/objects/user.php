@@ -9,6 +9,9 @@ class User
   public $IdTipoUsuario;
   public $Email;
   public $Passwd;
+  public $IdPermiso;
+  public $Estado;
+
   public function __construct($db)
   {
     $this->conn = $db;
@@ -61,6 +64,20 @@ class User
       return true;
     }
     return false;
+  }
+
+  function permisosUsuarios()
+  {
+    $query = "SELECT t2.IdPermiso, t2.Nombre, t2.Estado FROM  permisos_usuarios t1
+                LEFT JOIN permisos t2 ON t1.IdPermiso=t2.IdPermiso
+                LEFT JOIN usuarios t3 ON t1.Idusuario=t3.IdUsuario
+                WHERE t3.IdUsuario= ?";
+
+    $stmt = $this->conn->prepare($query);
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
+    $stmt->bindParam(1, $this->IdUsuario);
+    $stmt->execute();
+    return $stmt;
   }
 
   public function update()
