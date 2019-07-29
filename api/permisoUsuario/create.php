@@ -12,37 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   echo "You dont have the correct method";
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
-  include_once '../../config/database.php';
-  include_once '../objects/permisos.php';
 
+  include_once '../../config/database.php';
+  include_once '../objects/permisoUsuario.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $Permiso = new Permiso($db);
+  $user = new PermisoUsuario($db);
   $data = json_decode(file_get_contents("php://input"));
 
-  if (empty($data->Nombre)) {
-    echo json_encode(
-      array("message" => "EMPTY")
-    );
-  } else {
-    echo json_encode($Permiso);
-    $Permiso->Nombre = $data->Nombre;
-    $Permiso->Descripcion = $data->Descripcion;
-    $Permiso->Estado = "0";
-    $Permiso->UsuarioCreador = $data->UsuarioCreador;
+  echo json_encode($data);
 
-    if ($Permiso->create()) {
-      http_response_code(200);
-      echo json_encode(
-        array("message" => "Datos guardados exitosamente en Permiso.")
-      );
-    } else {
-      http_response_code(404);
-      echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
-      );
-    }
+  $user->IdPermiso = $data->IdPermiso;
+  $user->IdUsuario = $data->IdUsuario;
+  $user->UsuarioCreador = $data->UsuarioCreador;
+
+  if ($user->createPermisosUsuario()) {
+    http_response_code(200);
+    echo json_encode(array("message" => "User was created."));
+  } else {
+    http_response_code(400);
+    echo json_encode(array("message" => "Unable to create user."));
   }
 } else {
   http_response_code(404);

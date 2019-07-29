@@ -4,6 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: *");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Request-Headers: *");
 
 if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   http_response_code(200);
@@ -13,36 +14,32 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/permisos.php';
-
-
+  include_once '../objects/permisoUsuario.php';
   $database = new Database();
   $db = $database->getConnection();
-  $Permiso = new Permiso($db);
+  $user = new PermisoUsuario($db);
   $data = json_decode(file_get_contents("php://input"));
+  $user->IdUsuario = $data->IdUsuario;
+  $stmt = $user->readPermisosUsuarios();
 
-  if (empty($data->Nombre)) {
-    echo json_encode(
-      array("message" => "EMPTY")
-    );
-  } else {
-    echo json_encode($Permiso);
-    $Permiso->Nombre = $data->Nombre;
-    $Permiso->Descripcion = $data->Descripcion;
-    $Permiso->Estado = "0";
-    $Permiso->UsuarioCreador = $data->UsuarioCreador;
-
-    if ($Permiso->create()) {
-      http_response_code(200);
-      echo json_encode(
-        array("message" => "Datos guardados exitosamente en Permiso.")
+  if ($stmt) {
+    $products_arr = array();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      extract($row);
+      $product_item = array(
+        "IdPermisosusuario" => $IdPermisosusuario,
+        "IdPermiso" => $IdPermiso,
+        "Nombre" => $Nombre,
       );
-    } else {
-      http_response_code(404);
-      echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
-      );
+      array_push($products_arr, $product_item);
     }
+    http_response_code(200);
+    echo json_encode($products_arr);
+  } else {
+    http_response_code(404);
+    echo json_encode(
+      array("message" => "No se encontraron datos.")
+    );
   }
 } else {
   http_response_code(404);

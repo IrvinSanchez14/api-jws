@@ -46,7 +46,7 @@ class User
 
   function emailExists()
   {
-    $query = "SELECT IdUsuario, Nombre, Alias, Passwd
+    $query = "SELECT IdUsuario, Nombre, Alias, Passwd,IdTipoUsuario
               FROM " . $this->table_name . "
               WHERE Email = ?
               LIMIT 0,1";
@@ -61,6 +61,7 @@ class User
       $this->Nombre = $row['Nombre'];
       $this->Alias = $row['Alias'];
       $this->Passwd = $row['Passwd'];
+      $this->IdTipoUsuario = $row['IdTipoUsuario'];
       return true;
     }
     return false;
