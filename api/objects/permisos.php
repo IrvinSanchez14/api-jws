@@ -34,15 +34,18 @@ class Permiso
               SET
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
-                Estado = :Estado";
+                Estado = :Estado,
+                UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -58,7 +61,8 @@ class Permiso
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
                 Estado=:Estado,
-                FechaCreacion=:FechaCreacion
+                FechaCreacion=:FechaCreacion,
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdPermiso=:IdPermiso";
     $stmt = $this->conn->prepare($query);
@@ -68,12 +72,14 @@ class Permiso
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
     $this->IdPermiso = htmlspecialchars(strip_tags($this->IdPermiso));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
     $stmt->bindParam(':IdPermiso', $this->IdPermiso);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

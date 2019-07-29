@@ -33,29 +33,30 @@ class Empresas
   {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdEmpresa = :IdEmpresa,
                 Nombre = :Nombre,
                 Razon_Social = :Razon_Social,
                 Direccion = :Direccion,
                 Telefono = :Telefono,
                 Correo= :Correo,
-                Estado = :Estado";
+                Estado = :Estado,
+                UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
-    $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
+  
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Razon_Social = htmlspecialchars(strip_tags($this->Razon_Social));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Correo = htmlspecialchars(strip_tags($this->Correo));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
-    $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Razon_Social', $this->Razon_Social);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Correo', $this->Correo);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -73,7 +74,9 @@ class Empresas
                 Direccion=:Direccion,
                 Telefono=:Telefono,
                 Correo=:Correo,
-                Estado=:Estado
+                Estado=:Estado,
+                UsuarioActualiza=:UsuarioActualiza
+
               WHERE
                 IdEmpresa=:IdEmpresa";
     $stmt = $this->conn->prepare($query);
@@ -85,6 +88,7 @@ class Empresas
     $this->Correo = htmlspecialchars(strip_tags($this->Correo));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Razon_Social', $this->Razon_Social);
@@ -93,6 +97,7 @@ class Empresas
     $stmt->bindParam(':Correo', $this->Correo);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

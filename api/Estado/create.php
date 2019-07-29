@@ -35,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     $Estado->Descripcion = $data->Descripcion;
     $Estado->IdEstadoAnterior = $data->IdEstadoAnterior;
     $Estado->IdEstadoSiguiente = $data->IdEstadoSiguiente;
+    $Estado->UsuarioCreador = $data->UsuarioCreador;
+
 
     if ($Estado->create()) {
       http_response_code(200);

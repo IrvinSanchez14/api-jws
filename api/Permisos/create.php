@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
     $Permiso->Nombre = $data->Nombre;
     $Permiso->Descripcion = $data->Descripcion;
     $Permiso->Estado = "0";
+    $Permiso->UsuarioCreador = $data->UsuarioCreador;
+
 
     if ($Permiso->create()) {
       http_response_code(200);

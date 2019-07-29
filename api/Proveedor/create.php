@@ -37,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     $proveedor->NIT = $data->NIT;
     $proveedor->NRC = $data->NRC;
     $proveedor->Estado = "0";
+    
+    $proveedor->UsuarioCreador = $data->UsuarioCreador;
 
     if ($proveedor->create()) {
       http_response_code(200);

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE" || $_SERVER['REQUEST_METHOD'] == "OPT
   if ($UnidadMedida->delete()) {
     http_response_code(200);
     echo json_encode(
-      array("message" => "Datos guardados exitosamente en UmidadMedida.")
+      array("message" => "Datos guardados exitosamente en UnidadMedida.")
     );
   } else {
     http_response_code(404);

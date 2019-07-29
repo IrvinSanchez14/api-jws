@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   } else {
     $UnidadMedida->Nombre = $data->Nombre;
     $UnidadMedida->Siglas = $data->Siglas;
+    $UnidadMedida->UsuarioCreador = $data->UsuarioCreador;
     $UnidadMedida->Estado = "0";
 
     if ($UnidadMedida->create()) {

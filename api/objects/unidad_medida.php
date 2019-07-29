@@ -9,6 +9,8 @@ class UnidadMedida
   public $Nombre;
   public $Estado;
   public $FechaCreacion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -35,17 +37,22 @@ class UnidadMedida
                 IdUnidadMedida = :IdUnidadMedida,
                 Siglas = :Siglas,
                 Nombre = :Nombre,
-                Estado = :Estado";
+                Estado = :Estado,
+                UsuarioCreador=:UsuarioCreador";
+
     $stmt = $this->conn->prepare($query);
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
     $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+ 
 
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Siglas', $this->Siglas);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -60,7 +67,9 @@ class UnidadMedida
               SET
                 Nombre=:Nombre,
                 Siglas=:Siglas,
-                Estado=:Estado
+                Estado=:Estado,
+                UsuarioActualiza=:UsuarioActualiza
+
               WHERE
                 IdUnidadMedida=:IdUnidadMedida";
     $stmt = $this->conn->prepare($query);
@@ -69,11 +78,13 @@ class UnidadMedida
     $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
-
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    
+    $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Siglas', $this->Siglas);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

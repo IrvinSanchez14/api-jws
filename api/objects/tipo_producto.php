@@ -9,6 +9,8 @@ class TipoProducto
   public $Nombre;
   public $Estado;
   public $FechaCreacion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -34,15 +36,22 @@ class TipoProducto
               SET
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
-                Estado = :Estado";
+                Estado = :Estado,
+                UsuarioCreador=:UsuarioCreador";
+
     $stmt = $this->conn->prepare($query);
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+
 
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Estado', $this->Estado);
+    
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
+
 
     if ($stmt->execute()) {
       return true;
@@ -58,7 +67,7 @@ class TipoProducto
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
                 Estado=:Estado,
-                FechaCreacion=:FechaCreacion
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdTipoProducto=:IdTipoProducto";
     $stmt = $this->conn->prepare($query);
@@ -68,12 +77,14 @@ class TipoProducto
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
     $this->IdTipoProducto = htmlspecialchars(strip_tags($this->IdTipoProducto));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
     $stmt->bindParam(':IdTipoProducto', $this->IdTipoProducto);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;
