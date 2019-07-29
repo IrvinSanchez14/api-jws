@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
         "user" => array(
           "IdUsuario" => $user->IdUsuario,
           "Nombre" => $user->Nombre,
+          "IdTipoUsuario" => $user->IdTipoUsuario,
         )
       )
     );

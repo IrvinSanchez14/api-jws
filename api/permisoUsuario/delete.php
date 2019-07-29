@@ -5,44 +5,32 @@ header("Access-Control-Allow-Methods: *");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+
 if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   http_response_code(200);
 } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
   http_response_code(200);
   echo "You dont have the correct method";
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/permisos.php';
-
+  include_once '../objects/permisoUsuario.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $Permiso = new Permiso($db);
+  $Estado = new PermisoUsuario($db);
   $data = json_decode(file_get_contents("php://input"));
+  $Estado->IdPermisosusuario = $data->IdPermisosusuario;
 
-  if (empty($data->Nombre)) {
+  if ($Estado->delete()) {
+    http_response_code(200);
     echo json_encode(
-      array("message" => "EMPTY")
+      array("message" => "Datos guardados exitosamente en Estado.")
     );
   } else {
-    echo json_encode($Permiso);
-    $Permiso->Nombre = $data->Nombre;
-    $Permiso->Descripcion = $data->Descripcion;
-    $Permiso->Estado = "0";
-    $Permiso->UsuarioCreador = $data->UsuarioCreador;
-
-    if ($Permiso->create()) {
-      http_response_code(200);
-      echo json_encode(
-        array("message" => "Datos guardados exitosamente en Permiso.")
-      );
-    } else {
-      http_response_code(404);
-      echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
-      );
-    }
+    http_response_code(404);
+    echo json_encode(
+      array("message" => "No se guardaron correctamente los datos.")
+    );
   }
 } else {
   http_response_code(404);

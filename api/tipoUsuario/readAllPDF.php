@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
   // set auto page breaks
   $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-  
+
 
   // set image scale factor
   $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   // set some language-dependent strings (optional)
   if (@file_exists(dirname(_FILE_) . '/lang/spa.php')) {
     require_once(dirname(_FILE_) . '/lang/spa.php');
-    
+
     $pdf->setLanguageArray($l);
   }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
   //echo $html ="<style>td{align: center;}</style>";
 
-   if ($num > 0) {
+  if ($num > 0) {
     $html = '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Descripción</th></tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     }
     $html .= "</table>";
 
-     // Print text using writeHTMLCell()
+    // Print text using writeHTMLCell()
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
     // ---------------------------------------------------------
