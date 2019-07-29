@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/El_Salvador');
 if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: text/html; charset=UTF-8");
@@ -15,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
   // set document information
   $pdf->SetCreator(PDF_CREATOR);
-  $pdf->SetAuthor('1');
-  $pdf->SetTitle('2');
+  $pdf->SetAuthor('Raul');
+  $pdf->SetTitle('TipoUsuario');
   $pdf->SetSubject('3');
   $pdf->SetKeywords('4');
 
   // set default header data
-  $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
+  $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE , PDF_HEADER_STRING .'       Raul',PDF_HEADER_Usuario, array(0, 64, 255), array(0, 64, 128));
   $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
 
   // set header and footer fonts
