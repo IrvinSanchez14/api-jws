@@ -9,6 +9,8 @@ class Porcion
   public $IdUnidadMedida;
   public $Estado;
   public $FechaCreacion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -28,23 +30,29 @@ class Porcion
     return $stmt;
   }
 
-  function create(){
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdPorcion = :IdPorcion,
-                Cantidad = :Cantidad,
                 IdUnidadMedida = :IdUnidadMedida,
-                Estado = :Estado";
-    $stmt = $this->conn->prepare($query);
-    $this->IdPorcion = htmlspecialchars(strip_tags($this->IdPorcion));
-    $this->Cantidad = htmlspecialchars(strip_tags($this->Cantidad));
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+                Cantidad=:Cantidad,
+                UsuarioCreador=:UsuarioCreador,
+                Estado=:Estado
+                IdPorcion=:IdPorcion";
 
-    $stmt->bindParam(':IdPorcion', $this->IdPorcion);
-    $stmt->bindParam(':Cantidad', $this->Cantidad);
+    $stmt = $this->conn->prepare($query);
+    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
+    $this->Cantidad = htmlspecialchars(strip_tags($this->Cantidad));
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    
+    $this->IdPorcion = htmlspecialchars(strip_tags($this->IdPorcion));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+ 
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
+    $stmt->bindParam(':Cantidad', $this->Cantidad);
+    $stmt->bindParam(':Cantidad', $this->IdPorcion);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -58,7 +66,8 @@ class Porcion
               SET
                 IdUnidadMedida=:IdUnidadMedida,
                 Cantidad=:Cantidad,
-                Estado=:Estado
+                Estado=:Estado,
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdPorcion=:IdPorcion";
     $stmt = $this->conn->prepare($query);
@@ -66,12 +75,15 @@ class Porcion
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
     $this->Cantidad = htmlspecialchars(strip_tags($this->Cantidad));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
     $this->IdPorcion = htmlspecialchars(strip_tags($this->IdPorcion));
+
 
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Cantidad', $this->Cantidad);
+    $stmt->bindParam(':IdPorcion', $this->IdPorcion);    
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':IdPorcion', $this->IdPorcion);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

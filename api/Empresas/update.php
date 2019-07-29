@@ -28,15 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $empresa->Telefono = $data->Telefono;
   $empresa->Correo = $data->Correo;
   $empresa->Estado = $data->Estado;
+  $empresa->UsuarioActualiza = $data->UsuarioActualiza;
+
 
 
   if ($empresa->update()) {
     http_response_code(200);
-    $last_id = $db->lastInsertId();
-    echo json_encode(array("last ID" => $last_id));
+    echo json_encode(
+      array("message" => "Datos guardados exitosamente en Empresa.")
+    );
   } else {
-    http_response_code(400);
-    echo json_encode(array("message" => "Unable to create Empresa."));
+    http_response_code(404);
+    echo json_encode(
+      array("message" => "No se guardaron correctamente los datos.")
+    );
   }
 } else {
   http_response_code(404);

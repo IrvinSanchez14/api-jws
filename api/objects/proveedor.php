@@ -16,6 +16,9 @@ class Proveedor
   public $NIT;
   public $NRC;
   public $Estado;
+  
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -49,7 +52,8 @@ class Proveedor
                 DUI = :DUI,
                 NIT = :NIT,
                 NRC = :NRC,
-                Estado = :Estado";
+                Estado = :Estado,
+                UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
@@ -62,6 +66,8 @@ class Proveedor
     $this->NIT = htmlspecialchars(strip_tags($this->NIT));
     $this->NRC = htmlspecialchars(strip_tags($this->NRC));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+ 
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
@@ -74,6 +80,7 @@ class Proveedor
     $stmt->bindParam(':NIT', $this->NIT);
     $stmt->bindParam(':NRC', $this->NRC);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -96,7 +103,9 @@ class Proveedor
                 DUI=:DUI,
                 NIT=:NIT,
                 NRC=:NRC,
-                Estado=:Estado
+                Estado=:Estado,
+                UsuarioActualiza=:UsuarioActualiza
+
                 WHERE
                 IdProveedor=:IdProveedor";
     $stmt = $this->conn->prepare($query);
@@ -113,7 +122,8 @@ class Proveedor
     $this->NRC = htmlspecialchars(strip_tags($this->NRC));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdProveedor = htmlspecialchars(strip_tags($this->IdProveedor));
-
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
@@ -126,6 +136,7 @@ class Proveedor
     $stmt->bindParam(':NRC', $this->NRC);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdProveedor', $this->IdProveedor);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

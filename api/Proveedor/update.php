@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $proveedor->NIT = $data->NIT;
   $proveedor->NRC = $data->NRC;
   $proveedor->Estado = $data->Estado;
+  $proveedor->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($proveedor->update()) {
     http_response_code(200);

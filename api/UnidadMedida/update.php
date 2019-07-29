@@ -20,9 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $db = $database->getConnection();
   $UnidadMedida = new UnidadMedida($db);
   $data = json_decode(file_get_contents("php://input"));
+  
   $UnidadMedida->IdUnidadMedida = $data->IdUnidadMedida;
   $UnidadMedida->Nombre = $data->Nombre;
   $UnidadMedida->Siglas = $data->Siglas;
+  $UnidadMedida->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($UnidadMedida->update()) {
     http_response_code(200);

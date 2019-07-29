@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Porcion->Cantidad = $data->Cantidad;
   $Porcion->IdUnidadMedida = $data->IdUnidadMedida;
   $Porcion->Estado = $data->Estado;
-  $Porcion->FechaCreacion = $data->FechaCreacion;
+  $Porcion->UsuarioActualiza = $data->UsuarioActualiza;
+
 
   if ($Porcion->update()) {
     echo json_encode($data);

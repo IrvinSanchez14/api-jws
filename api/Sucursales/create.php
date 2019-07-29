@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     $sucursales->Nombre = $data->Nombre;
     $sucursales->Direccion = $data->Direccion;
     $sucursales->Telefono = $data->Telefono;
+    $sucursales->UsuarioCreador = $data->UsuarioCreador;
     $sucursales->Estado = "0";
 
     if ($sucursales->create()) {

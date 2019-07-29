@@ -14,15 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $db = $database->getConnection();
   $Producto = new Producto($db);
   $data = json_decode(file_get_contents("php://input"));
-  
-  if (empty($data->IdProducto)) {
+
+  if (empty($data->Nombre)) {
     echo json_encode(
       array("message" => "EMPTY")
     );
   } else {
-    $Producto->IdProducto = $data->IdProducto;
     $Producto->Nombre = $data->Nombre;
     $Producto->Descripcion = $data->Descripcion;
+    $Producto->UsuarioCreador = $data->UsuarioCreador;
+
+
     
     if ($Producto->create()) {
       http_response_code(200);

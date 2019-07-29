@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $sucursales->Direccion = $data->Direccion;
   $sucursales->Telefono = $data->Telefono;
   $sucursales->Estado = $data->Estado;
+  $sucursales->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($sucursales->update()) {
     http_response_code(200);

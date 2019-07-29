@@ -49,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
     $tipoUsuario->Descripcion = $data->Descripcion;
     $tipoUsuario->Estado = "0";
     $tipoUsuario->UsuarioCreador = $data->UsuarioCreador;
-
     if ($tipoUsuario->create()) {
       http_response_code(200);
       echo json_encode(

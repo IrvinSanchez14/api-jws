@@ -12,6 +12,8 @@ class Sucursales
   public $Estado;
   public $IdEncargado;
   public $FechaCreacion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -40,19 +42,22 @@ class Sucursales
                Nombre = :Nombre,
                Direccion = :Direccion,
                Telefono = :Telefono,
-               Estado = :Estado";
+               Estado = :Estado,
+               UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+ 
     $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -68,7 +73,8 @@ class Sucursales
                 Nombre=:Nombre,
                 Direccion=:Direccion,
                 Telefono=:Telefono,
-                Estado=:Estado
+                Estado=:Estado,
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
               IdSucursal=:IdSucursal";
 
@@ -78,12 +84,14 @@ class Sucursales
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
-
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdSucursal', $this->IdSucursal);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

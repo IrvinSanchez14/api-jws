@@ -41,17 +41,20 @@ class estados
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
                 IdEstadoAnterior = :IdEstadoAnterior,
-                IdEstadoSiguiente = :IdEstadoSiguiente";
+                IdEstadoSiguiente = :IdEstadoSiguiente,
+                UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->IdEstadoAnterior = htmlspecialchars(strip_tags($this->IdEstadoAnterior));
     $this->IdEstadoSiguiente = htmlspecialchars(strip_tags($this->IdEstadoSiguiente));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':IdEstadoAnterior', $this->IdEstadoAnterior);
     $stmt->bindParam(':IdEstadoSiguiente', $this->IdEstadoSiguiente);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -67,7 +70,8 @@ class estados
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
                 IdEstadoAnterior=:IdEstadoAnterior,
-                IdEstadoSiguiente=:IdEstadoSiguiente
+                IdEstadoSiguiente=:IdEstadoSiguiente,
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdEstado=:IdEstado";
     $stmt = $this->conn->prepare($query);
@@ -77,12 +81,14 @@ class estados
     $this->IdEstadoAnterior = htmlspecialchars(strip_tags($this->IdEstadoAnterior));
     $this->IdEstadoSiguiente = htmlspecialchars(strip_tags($this->IdEstadoSiguiente));
     $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':IdEstado', $this->IdEstado);
     $stmt->bindParam(':IdEstadoSiguiente', $this->IdEstadoSiguiente);
     $stmt->bindParam(':IdEstadoAnterior', $this->IdEstadoAnterior);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

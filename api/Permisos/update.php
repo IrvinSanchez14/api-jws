@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Permiso->Descripcion = $data->Descripcion;
   $Permiso->Estado = $data->Estado;
   $Permiso->FechaCreacion = $data->FechaCreacion;
+  $Permiso->UsuarioActualiza = $data->UsuarioActualiza;
+
 
   if ($Permiso->update()) {
     echo json_encode($data);

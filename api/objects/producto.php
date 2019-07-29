@@ -11,6 +11,8 @@ Descripcion
   public $IdProducto;
   public $Nombre;
   public $Descripcion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -30,20 +32,23 @@ Descripcion
     return $stmt;
   }
 
-  function create(){
+  function create()
+  {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdProducto = :IdProducto,
+
                 Nombre = :Nombre,
-                Descripcion = :Descripcion";
+                Descripcion = :Descripcion,
+                UsuarioCreador=:UsuarioCreador";
+
     $stmt = $this->conn->prepare($query);
-    $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
-
-    $stmt->bindParam(':IdProducto', $this->IdProducto);
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+ 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
       return true;
@@ -51,12 +56,14 @@ Descripcion
     return false;
   }
 
+
   function update(){
     $query = "UPDATE
                 " . $this->table_name . "
               SET
                 Nombre=:Nombre,
-                Descripcion=:Descripcion
+                Descripcion=:Descripcion,
+                UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdProducto=:IdProducto";
     $stmt = $this->conn->prepare($query);
@@ -64,10 +71,12 @@ Descripcion
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':IdProducto', $this->IdProducto);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

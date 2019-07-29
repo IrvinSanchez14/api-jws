@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $TipoProducto->Nombre = $data->Nombre;
   $TipoProducto->Descripcion = $data->Descripcion;
   $TipoProducto->Estado = $data->Estado;
-  $TipoProducto->FechaCreacion = $data->FechaCreacion;
+  $TipoProducto->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($TipoProducto->update()) {
     echo json_encode($data);

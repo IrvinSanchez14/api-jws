@@ -19,27 +19,31 @@
     $db = $database->getConnection();
     $empresa = new Empresas($db);
     $data = json_decode(file_get_contents("php://input"));
-
-
-    $empresa->IdEmpresa = $data->IdEmpresa;
+    if (empty($data->Nombre)) {
+      echo json_encode(
+        array("message" => "EMPTY")
+      );
+    } else {
     $empresa->Nombre = $data->Nombre;
     $empresa->Razon_Social = $data->Razon_Social;
     $empresa->Direccion = $data->Direccion;
     $empresa->Telefono = $data->Telefono;
-    $empresa->Correo = $data->Correo;
-    $empresa->Estado = $data->Estado;
+    $empresa->Correo = $data->Correo;    
+    $empresa->Estado = "0";
+    $empresa->UsuarioCreador = $data->UsuarioCreador;
+
 
 
     if ($empresa->create()) {
       http_response_code(200);
       $last_id = $db->lastInsertId();
-      echo json_encode(array("last ID" => $last_id));
+      echo json_encode(array("message" => $last_id));
     } else {
-      http_response_code(400);
-      echo json_encode(array("message" => "Unable to create Empresa."));
+      http_response_code(404);
+      echo json_encode(
+        array("message" => "No se guardaron correctamente los datos.")
+      );
     }
-  } else {
-    http_response_code(404);
   }
-
-  ?>
+} else {
+  http_response_code(404);}

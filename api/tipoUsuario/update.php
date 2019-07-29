@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $data = json_decode(file_get_contents("php://input"));
 
   $tipoUsuario->IdTipoUsuario = $data->IdTipoUsuario;
-
   $tipoUsuario->Nombre = $data->Nombre;
   $tipoUsuario->Descripcion = $data->Descripcion;
   $tipoUsuario->UsuarioActualiza = $data->UsuarioActualiza;

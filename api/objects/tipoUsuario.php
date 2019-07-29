@@ -10,6 +10,7 @@ class tipos_usuario
   public $Estado;
   public $estadoTexto;
   public $UsuarioCreador;
+  public $UsuarioActualiza;
 
   public function __construct($db)
   {
@@ -37,6 +38,7 @@ class tipos_usuario
                 Descripcion = :Descripcion,
                 Estado = :Estado,
                 UsuarioCreador = :UsuarioCreador";
+
     $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
@@ -69,12 +71,11 @@ class tipos_usuario
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
-    $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
-    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;

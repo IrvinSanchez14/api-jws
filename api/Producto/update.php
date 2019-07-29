@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Producto->IdProducto = $data->IdProducto;
   $Producto->Nombre = $data->Nombre;
   $Producto->Descripcion = $data->Descripcion;
+  $Producto->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($Producto->update()) {
     echo json_encode($data);

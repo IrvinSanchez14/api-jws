@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     $TipoProducto->Nombre = $data->Nombre;
     $TipoProducto->Descripcion = $data->Descripcion;
     $TipoProducto->Estado = "0";
+    $TipoProducto->UsuarioCreador = $data->UsuarioCreador;
 
     if ($TipoProducto->create()) {
       http_response_code(200);
