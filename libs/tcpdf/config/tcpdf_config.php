@@ -36,6 +36,7 @@ $time = time();
 
 
 define ('PDF_HEADER_STRING', "La Pizzeria");
+define ('PDF_HEADER_Usuario', "");
 
 /**
  * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].
