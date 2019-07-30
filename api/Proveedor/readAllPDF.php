@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/tipoUsuario.php';
+  include_once '../objects/proveedor.php';
   require_once('../../libs/tcpdf/tcpdf.php');
 
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   // set document information
   $pdf->SetCreator(PDF_CREATOR);
   $pdf->SetAuthor('Raul');
-  $pdf->SetTitle('TipoUsuario');
+  $pdf->SetTitle('Proveedores');
   $pdf->SetSubject('3');
   $pdf->SetKeywords('4');
 
@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
   // set some language-dependent strings (optional)
-  if (@file_exists(dirname(_FILE_) . '/lang/spa.php')) {
-    require_once(dirname(_FILE_) . '/lang/spa.php');
+  if (@file_exists(dirname(_FILE_) . 'examples/lang/spa.php')) {
+    require_once(dirname(_FILE_) . 'examples/lang/spa.php');
 
     $pdf->setLanguageArray($l);
   }
@@ -64,27 +64,42 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
   // Add a page
   // This method has several options, check the source code documentation for more information.
-  $pdf->AddPage();
+  $pdf->AddPage('L', 'A4');
+  $pdf->Cell(0, 0, 'PROVEEDORES', 1, 1, 'C');
 
   // set text shadow effect
   $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
-  $pdf->Write(0, 'TIPO USUARIO', '', 0, 'L', true, 0, false, false, 0);
   $pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
   $database = new Database();
   $db = $database->getConnection();
-  $tipoUsuario = new tipos_usuario($db);
-  $stmt = $tipoUsuario->readAll();
+  $Proveedor = new Proveedor($db);
+  $stmt = $Proveedor->readAll();
   $num = $stmt->rowCount();
 
   //echo $html ="<style>td{align: center;}</style>";
 
   if ($num > 0) {
-    $html = '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Descripción</th></tr>';
+    $html = '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Descripción</th><th align="center">Telefono</th><th align="center">Razón Social</th><th align="center">Contacto</th><th align="center">Correo</th><th align="center">NRC</th></tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
-      $html .= '<tr><td align="center">' . $IdTipoUsuario . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Descripcion . '</td></tr>';
+      $html .= '<tr><td align="center">' . $Nombre . '</td><td align="center">' . $Direccion . '</td><td align="center">' . $Telefono . '</td><td align="center">' . $Razo_Social . '</td><td align="center">' . $Nombre_Contacto . '</td><td align="center">' . $Email . '</td><td align="center">' . $NRC . '</td></tr>';
     }
+/*
+ public $IdProveedor;
+  public $Nombre;
+  public $Direccion;
+  public $Telefono;
+  public $Razo_Social;
+  public $Tipo;
+  public $Nombre_Contacto;
+  public $Email;
+  public $DUI;
+  public $NIT;
+  public $NRC;
+  public $Estado;
+*/
+
     $html .= "</table>";
 
     // Print text using writeHTMLCell()
@@ -94,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
     // Close and output PDF document
     // This method has several options, check the source code documentation for more information.
-    $pdf->Output('TipoUsuario.pdf', 'I');
+    $pdf->Output('Proveedores.pdf', 'I');
 
 
     http_response_code(200);

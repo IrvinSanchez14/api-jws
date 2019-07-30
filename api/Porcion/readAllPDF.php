@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/tipoUsuario.php';
+  include_once '../objects/porcion.php';
   require_once('../../libs/tcpdf/tcpdf.php');
 
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   // set document information
   $pdf->SetCreator(PDF_CREATOR);
   $pdf->SetAuthor('Raul');
-  $pdf->SetTitle('TipoUsuario');
+  $pdf->SetTitle('Porciones');
   $pdf->SetSubject('3');
   $pdf->SetKeywords('4');
 
@@ -69,23 +69,33 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   // set text shadow effect
   $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
-  $pdf->Write(0, 'TIPO USUARIO', '', 0, 'L', true, 0, false, false, 0);
+  $pdf->Write(0, 'PORCIONES', '', 0, 'L', true, 0, false, false, 0);
   $pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
   $database = new Database();
   $db = $database->getConnection();
-  $tipoUsuario = new tipos_usuario($db);
-  $stmt = $tipoUsuario->readAll();
+  $Porcion = new Porcion($db);
+  $stmt = $Porcion->readAll();
   $num = $stmt->rowCount();
 
   //echo $html ="<style>td{align: center;}</style>";
 
   if ($num > 0) {
-    $html = '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Descripción</th></tr>';
+    $html = '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Cantidad</th><th align="center">Unidad de Medida</th></tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
-      $html .= '<tr><td align="center">' . $IdTipoUsuario . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Descripcion . '</td></tr>';
+      $html .= '<tr><td align="center">' . $IdPorcion. '</td><td align="center">' . $Cantidad . '</td><td align="center">' . $IdUnidadMedida . '</td></tr>';
     }
     $html .= "</table>";
+
+  /*
+  public $IdPorcion;
+  public $Cantidad;
+  public $IdUnidadMedida;
+  public $Estado;
+  public $FechaCreacion;
+  public $UsuarioCreador;
+  public $UsuarioActualiza;
+   */
 
     // Print text using writeHTMLCell()
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
@@ -94,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
     // Close and output PDF document
     // This method has several options, check the source code documentation for more information.
-    $pdf->Output('TipoUsuario.pdf', 'I');
+    $pdf->Output('Porcion.pdf', 'I');
 
 
     http_response_code(200);
