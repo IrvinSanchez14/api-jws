@@ -25,19 +25,58 @@ class User
                   Email = :Email,
                   Alias = :Alias,
                   IdTipoUsuario = :IdTipoUsuario,
-                  Passwd = :Passwd";
+                  Passwd = :Passwd,
+                  Estado = :Estado";
     $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Email = htmlspecialchars(strip_tags($this->Email));
     $this->Alias = htmlspecialchars(strip_tags($this->Alias));
     $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
     $this->Passwd = htmlspecialchars(strip_tags($this->Passwd));
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Email', $this->Email);
     $stmt->bindParam(':Alias', $this->Alias);
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+    $stmt->bindParam(':Estado', $this->Estado);
+
     $password_hash = password_hash($this->Passwd, PASSWORD_BCRYPT);
     $stmt->bindParam(':Passwd', $password_hash);
+    if ($stmt->execute()) {
+      return true;
+    }
+    return false;
+  }
+
+
+  function update()
+  {
+    $query = "UPDATE " . $this->table_name . "
+              SET
+                  Nombre = :Nombre,
+                  Email = :Email,
+                  Alias = :Alias,
+                  IdTipoUsuario = :IdTipoUsuario,
+                  UsuarioActualiza=:UsuarioActualiza
+              WHERE
+                  IdUsuario=:IdUsuario";
+    $stmt = $this->conn->prepare($query);
+    $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
+    $this->Email = htmlspecialchars(strip_tags($this->Email));
+    $this->Alias = htmlspecialchars(strip_tags($this->Alias));
+    $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
+
+
+    $stmt->bindParam(':Nombre', $this->Nombre);
+    $stmt->bindParam(':Email', $this->Email);
+    $stmt->bindParam(':Alias', $this->Alias);
+    $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
+
     if ($stmt->execute()) {
       return true;
     }
@@ -81,33 +120,17 @@ class User
     return $stmt;
   }
 
-  public function update()
+  function verUsuarios()
   {
-    $password_set = !empty($this->password) ? ", password = :password" : "";
-    $query = "UPDATE " . $this->table_name . "
-              SET
-                  firstname = :firstname,
-                  lastname = :lastname,
-                  email = :email
-                  {$password_set}
-              WHERE id = :id";
+    $query = "SELECT 
+                u.IdUsuario, u.Nombre AS Nombre, u.Email, u.Alias, tu.Nombre AS IdTipoUsuario,if(u.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, u.FechaCreacion FROM usuarios u
+              LEFT JOIN 
+                tipos_usuario tu ON u.IdTipoUsuario=tu.IdTipoUsuario
+              ORDER BY
+                u.FechaCreacion DESC";
     $stmt = $this->conn->prepare($query);
-    $this->firstname = htmlspecialchars(strip_tags($this->firstname));
-    $this->lastname = htmlspecialchars(strip_tags($this->lastname));
-    $this->email = htmlspecialchars(strip_tags($this->email));
-    $stmt->bindParam(':firstname', $this->firstname);
-    $stmt->bindParam(':lastname', $this->lastname);
-    $stmt->bindParam(':email', $this->email);
-    if (!empty($this->password)) {
-      $this->password = htmlspecialchars(strip_tags($this->password));
-      $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
-      $stmt->bindParam(':password', $password_hash);
-    }
-    $stmt->bindParam(':id', $this->id);
-    if ($stmt->execute()) {
-      return true;
-    }
-    return false;
+    $stmt->execute();
+    return $stmt;
   }
 
   function generateToken()//funcion para generar el token
