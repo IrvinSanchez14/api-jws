@@ -1,4 +1,3 @@
-
 <?php /* -- Funcionamiento del llamado a la API readALL --
 1- colocamos un IF para identificar que tipo de metodo esperamos al momento de llamar a la API
   --- Tipos de Metodos ---

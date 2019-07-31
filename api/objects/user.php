@@ -109,4 +109,26 @@ class User
     }
     return false;
   }
+
+  function generateToken()//funcion para generar el token
+	{
+		$gen = md5(uniqid(mt_rand(), false));//mt_rand nos genera un valor dependiendo la hora y fecha del sistema, uniqid genera un identificador y luego lo pasa a md5
+		return $gen;
+	}
+
+  function generaTokenPass($user_id, $token)//esta funcion genera un token al solicitar cambio de password
+	{	
+		//se llama la funcion que genera los token pero luego hace un update 
+		
+    $query = "UPDATE usuarios SET PasswdTmp=?, password_request=1 WHERE IdUsuario = ?";//este query coloca el token generado en la BD ademas de hacer el update al campo password_request
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $token);
+    $stmt->bindParam(2, $user_id);
+    if ($stmt->execute()) {
+      return true;
+    }
+    return false;
+	}
+
+
 }
