@@ -25,19 +25,58 @@ class User
                   Email = :Email,
                   Alias = :Alias,
                   IdTipoUsuario = :IdTipoUsuario,
-                  Passwd = :Passwd";
+                  Passwd = :Passwd,
+                  Estado = :Estado";
     $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Email = htmlspecialchars(strip_tags($this->Email));
     $this->Alias = htmlspecialchars(strip_tags($this->Alias));
     $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
     $this->Passwd = htmlspecialchars(strip_tags($this->Passwd));
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Email', $this->Email);
     $stmt->bindParam(':Alias', $this->Alias);
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+    $stmt->bindParam(':Estado', $this->Estado);
+
     $password_hash = password_hash($this->Passwd, PASSWORD_BCRYPT);
     $stmt->bindParam(':Passwd', $password_hash);
+    if ($stmt->execute()) {
+      return true;
+    }
+    return false;
+  }
+
+
+  function update()
+  {
+    $query = "UPDATE " . $this->table_name . "
+              SET
+                  Nombre = :Nombre,
+                  Email = :Email,
+                  Alias = :Alias,
+                  IdTipoUsuario = :IdTipoUsuario,
+                  UsuarioActualiza=:UsuarioActualiza
+              WHERE
+                  IdUsuario=:IdUsuario";
+    $stmt = $this->conn->prepare($query);
+    $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
+    $this->Email = htmlspecialchars(strip_tags($this->Email));
+    $this->Alias = htmlspecialchars(strip_tags($this->Alias));
+    $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
+
+
+    $stmt->bindParam(':Nombre', $this->Nombre);
+    $stmt->bindParam(':Email', $this->Email);
+    $stmt->bindParam(':Alias', $this->Alias);
+    $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
+
     if ($stmt->execute()) {
       return true;
     }
@@ -81,46 +120,30 @@ class User
     return $stmt;
   }
 
-  public function update()
+  function verUsuarios()
   {
-    $password_set = !empty($this->password) ? ", password = :password" : "";
-    $query = "UPDATE " . $this->table_name . "
-              SET
-                  firstname = :firstname,
-                  lastname = :lastname,
-                  email = :email
-                  {$password_set}
-              WHERE id = :id";
+    $query = "SELECT 
+                u.IdUsuario, u.Nombre AS Nombre, u.Email, u.Alias, tu.Nombre AS IdTipoUsuario,if(u.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, u.FechaCreacion FROM usuarios u
+              LEFT JOIN 
+                tipos_usuario tu ON u.IdTipoUsuario=tu.IdTipoUsuario
+              ORDER BY
+                u.FechaCreacion DESC";
     $stmt = $this->conn->prepare($query);
-    $this->firstname = htmlspecialchars(strip_tags($this->firstname));
-    $this->lastname = htmlspecialchars(strip_tags($this->lastname));
-    $this->email = htmlspecialchars(strip_tags($this->email));
-    $stmt->bindParam(':firstname', $this->firstname);
-    $stmt->bindParam(':lastname', $this->lastname);
-    $stmt->bindParam(':email', $this->email);
-    if (!empty($this->password)) {
-      $this->password = htmlspecialchars(strip_tags($this->password));
-      $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
-      $stmt->bindParam(':password', $password_hash);
-    }
-    $stmt->bindParam(':id', $this->id);
-    if ($stmt->execute()) {
-      return true;
-    }
-    return false;
+    $stmt->execute();
+    return $stmt;
   }
 
-  function generateToken()//funcion para generar el token
-	{
-		$gen = md5(uniqid(mt_rand(), false));//mt_rand nos genera un valor dependiendo la hora y fecha del sistema, uniqid genera un identificador y luego lo pasa a md5
-		return $gen;
-	}
+  function generateToken() //funcion para generar el token
+  {
+    $gen = md5(uniqid(mt_rand(), false)); //mt_rand nos genera un valor dependiendo la hora y fecha del sistema, uniqid genera un identificador y luego lo pasa a md5
+    return $gen;
+  }
 
-  function generaTokenPass($user_id, $token)//esta funcion genera un token al solicitar cambio de password
-	{	
-		//se llama la funcion que genera los token pero luego hace un update 
-		
-    $query = "UPDATE usuarios SET PasswdTmp=?, password_request=1 WHERE IdUsuario = ?";//este query coloca el token generado en la BD ademas de hacer el update al campo password_request
+  function generaTokenPass($user_id, $token) //esta funcion genera un token al solicitar cambio de password
+  {
+    //se llama la funcion que genera los token pero luego hace un update 
+
+    $query = "UPDATE usuarios SET PasswdTmp=?, password_request=1 WHERE IdUsuario = ?"; //este query coloca el token generado en la BD ademas de hacer el update al campo password_request
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $token);
     $stmt->bindParam(2, $user_id);
@@ -128,7 +151,89 @@ class User
       return true;
     }
     return false;
-	}
+  }
 
+  function enviarEmail($email, $nombre, $asunto, $cuerpo)
+  { //funcion de enviar email, recibe el email, el nombre, asunto y cuerpo
 
+    require_once '../../login/PHPMailer/PHPMailerAutoload.php'; //lebreria phpmailer se usa para el funcionamiento del envio de correo
+
+    $mail = new PHPMailer();
+    $mail->isSMTP(); // protocolo de transferencia de correo
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'ssl'; //habilita la encriptacion SSL
+    $mail->Host = 'smtp.gmail.com'; // Servidor GMAIL
+    $mail->Port = 465; //puerto
+
+    $mail->Username = 'lapizzeriapassrecovery@gmail.com'; //correo emisor
+    $mail->Password = 'lapizzeria2019'; //contraseña del correo del emisor
+
+    $mail->setFrom('lapizzeriapassrecovery@gmail.com', 'La Pizzeria'); //se establece quien envia el correo
+    $mail->addAddress($email, $nombre); //email y nombre del receptor guardados en sus respectivas variables
+
+    $mail->Subject = $asunto; //se configura cual es el asunto del correo
+    $mail->Body    = $cuerpo; //se configura cual es el cuerpo del correo
+    $mail->IsHTML(true);
+
+    if ($mail->send())
+      return true;
+    else
+      return false;
+  }
+
+  function verificaTokenPass($user_id, $token)
+  { //esta funcion es para verificar que el ID y el token sean de un registro valido en la BD
+    //ademas verifica si el usuario a solicitado el cambio de password 
+
+    $query = "SELECT IdUsuario FROM usuarios WHERE IdUsuario = ? AND PasswdTmp = ? AND password_request = 1 LIMIT 1";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $user_id);
+    $stmt->bindParam(2, $token);
+    $stmt->execute();
+    $num = $stmt->rowCount();
+
+    if ($num > 0) {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->IdUsuario = $row['IdUsuario'];
+      if ($this->IdUsuario = $row['IdUsuario']) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  function validaPassword($var1, $var2) //funcion para validar el password y la confirmacion de pasword sean iguales
+  {
+    if (strcmp($var1, $var2) !== 0) { //strcmp hace una comparacion de datos string
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function hashPassword($password) //funcion para "encriptar contraseña"
+  {
+    $hash = password_hash($password, PASSWORD_DEFAULT); //password_hash($password, PASSWORD_DEFAULT) nos da el hash del password almacenado en la variable $password
+    return $hash;
+  }
+
+  function cambiaPassword($password, $user_id, $token)
+  { //esta funcion hace el update de la nueva password y de los otros campos
+
+    //la query actualiza la contraseña y cambia el campo password_request a 0 y el token_password lo limpia
+    $query = "UPDATE usuarios SET Passwd = ?, PasswdTmp='', password_request=0 WHERE IdUsuario = ? AND PasswdTmp = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $password);
+    $stmt->bindParam(2, $user_id);
+    $stmt->bindParam(3, $token);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

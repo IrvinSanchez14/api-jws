@@ -14,7 +14,7 @@ class Database
   private $host = "127.0.0.1";
   private $db_name = "tesis";
   private $username = "root";
-  private $password = "12345678";
+  private $password = "";
   public $conn;
   public function getConnection()
   {
