@@ -22,10 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
   } else {
     $Producto->Nombre = $data->Nombre;
     $Producto->Descripcion = $data->Descripcion;
+    $Producto->IdTipoProducto = $data->tipoProducto;
+    $Producto->IdUnidadMedida = $data->Siglas;
+    $Producto->IdProveedor = $data->Proveedor;
     $Producto->UsuarioCreador = $data->UsuarioCreador;
 
 
-    
+
     if ($Producto->create()) {
       http_response_code(200);
       echo json_encode(

@@ -1,8 +1,8 @@
 <?php
-class Porcion
+class lista_producto_porcion
 {
   private $conn;
-  private $table_name = "porciones";
+  private $table_name = "lista_producto_porcion";
 
   public $IdPorcion;
   public $Cantidad;
@@ -20,13 +20,17 @@ class Porcion
   function readAll()
   {
     $query = "SELECT 
-                po.IdPorcion,po.Cantidad, um.Nombre AS UnidadMedida,  if(po.Estado = 0, 'Disponible','Inactivo')AS estadoTexto 
+                lpp.IdListaPP, pr.Nombre AS NombreProducto, CONCAT(po.Cantidad,' ',um.Siglas) AS Porcion, po.IdPorcion, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
               FROM 
-                porciones po 
+                lista_producto_porcion lpp
+              LEFT JOIN 
+                productos pr ON lpp.IdProducto=pr.IdProducto 
+              LEFT JOIN 
+                porciones po ON lpp.IdPorcion=po.IdPorcion
               LEFT JOIN 
                 unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
-              ORDER by 
-                po.FechaCreacion DESC";
+              ORDER BY 
+                lpp.FechaCreacion DESC ";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt;
@@ -36,17 +40,20 @@ class Porcion
   {
     $query = "INSERT INTO " . $this->table_name . "
               SET
-                IdUnidadMedida = :UnidadMedida,
-                Cantidad=:Cantidad,
+                IdProducto = :NombreProducto,
+                IdPorcion=:Porcion,
+                Estado=:Estado,
                 UsuarioCreador=:UsuarioCreador";
 
     $stmt = $this->conn->prepare($query);
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
-    $this->Cantidad = htmlspecialchars(strip_tags($this->Cantidad));
+    $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
+    $this->IdPorcion = htmlspecialchars(strip_tags($this->IdPorcion));
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
-    $stmt->bindParam(':UnidadMedida', $this->IdUnidadMedida);
-    $stmt->bindParam(':Cantidad', $this->Cantidad);
+    $stmt->bindParam(':NombreProducto', $this->IdProducto);
+    $stmt->bindParam(':Porcion', $this->IdPorcion);
+    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
@@ -60,22 +67,21 @@ class Porcion
     $query = "UPDATE
                 " . $this->table_name . "
               SET
-                IdUnidadMedida=:UnidadMedida,
-                Cantidad=:Cantidad,
+                IdProducto = :NombreProducto,
+                IdPorcion=:Porcion,
                 UsuarioActualiza=:UsuarioActualiza
               WHERE
-                IdPorcion=:IdPorcion";
+                IdListaPP=:IdListaPP";
     $stmt = $this->conn->prepare($query);
 
-    $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
-    $this->Cantidad = htmlspecialchars(strip_tags($this->Cantidad));
-    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
     $this->IdPorcion = htmlspecialchars(strip_tags($this->IdPorcion));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+    $this->IdListaPP = htmlspecialchars(strip_tags($this->IdListaPP));
 
-
-    $stmt->bindParam(':UnidadMedida', $this->IdUnidadMedida);
-    $stmt->bindParam(':Cantidad', $this->Cantidad);
-    $stmt->bindParam(':IdPorcion', $this->IdPorcion);
+    $stmt->bindParam(':NombreProducto', $this->IdProducto);
+    $stmt->bindParam(':Porcion', $this->IdPorcion);
+    $stmt->bindParam(':IdListaPP', $this->IdListaPP);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {

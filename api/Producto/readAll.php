@@ -27,8 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       extract($row);
       $product_item = array(
         "IdProducto" => $IdProducto,
-        "Descripcion" => $Descripcion,
         "Nombre" => $Nombre,
+        "Descripcion" => $Descripcion,
+        "tipoProducto" => $tipoProducto,
+        "Siglas" => $Siglas,
+        "Proveedor" => $Proveedor,
       );
       array_push($products_arr, $product_item);
     }
