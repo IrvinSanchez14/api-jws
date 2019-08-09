@@ -8,19 +8,19 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/porcion.php';
+  include_once '../objects/lista_producto_porcion.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $Porcion = new Porcion($db);
+  $lista = new lista_producto_porcion($db);
   $data = json_decode(file_get_contents("php://input"));
-  $Porcion->IdPorcion = $data->IdPorcion;
-  $Porcion->Cantidad = $data->Cantidad;
-  $Porcion->IdUnidadMedida = $data->UnidadMedida;
-  $Porcion->UsuarioActualiza = $data->UsuarioActualiza;
+  $lista->IdProducto = $data->NombreProducto;
+  $lista->IdPorcion = $data->Porcion;
+  $lista->IdListaPP = $data->IdListaPP;
+  $lista->UsuarioActualiza = $data->UsuarioActualiza;
 
 
-  if ($Porcion->update()) {
+  if ($lista->update()) {
     echo json_encode($data);
     http_response_code(200);
     echo json_encode(

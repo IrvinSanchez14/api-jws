@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/porcion.php';
+  include_once '../objects/lista_producto_porcion.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $Porcion = new Porcion($db);
-  $stmt = $Porcion->readAll();
+  $lista = new lista_producto_porcion($db);
+  $stmt = $lista->readAll();
   $num = $stmt->rowCount();
 
   if ($num > 0) {
@@ -20,9 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
+        "IdListaPP" => $IdListaPP,
+        "NombreProducto" => $NombreProducto,
+        "Porcion" => $Porcion,
         "IdPorcion" => $IdPorcion,
-        "Cantidad" => $Cantidad,
-        "UnidadMedida" => $UnidadMedida,
         "estadoTexto" => $estadoTexto
       );
       array_push($products_arr, $product_item);

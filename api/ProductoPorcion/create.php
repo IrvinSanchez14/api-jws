@@ -13,25 +13,25 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/porcion.php';
+  include_once '../objects/lista_producto_porcion.php';
 
 
   $database = new Database();
   $db = $database->getConnection();
-  $Porcion = new Porcion($db);
+  $lista = new lista_producto_porcion($db);
   $data = json_decode(file_get_contents("php://input"));
 
-  if (empty($data->Cantidad)) {
+  if (empty($data->NombreProducto)) {
     echo json_encode(
       array("message" => "EMPTY")
     );
   } else {
-    $Porcion->IdUnidadMedida = $data->UnidadMedida;
-    $Porcion->Cantidad = $data->Cantidad;
-    $Porcion->Estado = "0";
-    $Porcion->UsuarioCreador = $data->UsuarioCreador;
+    $lista->IdProducto = $data->NombreProducto;
+    $lista->IdPorcion = $data->Porcion;
+    $lista->Estado = "0";
+    $lista->UsuarioCreador = $data->UsuarioCreador;
 
-    if ($Porcion->create()) {
+    if ($lista->create()) {
       http_response_code(200);
       $last_id = $db->lastInsertId();
       echo json_encode(array("message" => $last_id));

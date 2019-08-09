@@ -1,5 +1,5 @@
 
-<?php 
+<?php
 if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
   include_once '../../config/database.php';
   include_once '../objects/producto.php';
- 
+
   $database = new Database();
   $db = $database->getConnection();
   $Producto = new Producto($db);
@@ -17,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Producto->IdProducto = $data->IdProducto;
   $Producto->Nombre = $data->Nombre;
   $Producto->Descripcion = $data->Descripcion;
+  $Producto->IdTipoProducto = $data->tipoProducto;
+  $Producto->IdUnidadMedida = $data->Siglas;
+  $Producto->IdProveedor = $data->Proveedor;
   $Producto->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($Producto->update()) {
