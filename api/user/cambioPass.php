@@ -13,39 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/lista_existente.php';
-
+  include_once '../objects/user.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $lista = new lista_existente($db);
+  $user = new User($db);
   $data = json_decode(file_get_contents("php://input"));
-
-  if (empty($data->Sucursal)) {
-    echo json_encode(
-      array("message" => "EMPTY")
-    );
-  } else {
-    $lista->IdSucursal = $data->Sucursal;
-    $lista->IdEstado = 1;
-    $lista->UsuarioCreador = $data->UsuarioCreador;
-
-
-    if ($lista->create()) {
-      $last_id = $db->lastInsertId();
-      if ($last_id > 0) {
-        if ($lista->createDetalle($last_id, $data->lista)) {
-          http_response_code(200);
-          echo json_encode(
-            array("message" => "Datos guardados exitosamente")
-          );
-        }
-      }
-    } else {
-      http_response_code(404);
-      echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
-      );
+  if ($user->validaPassword($data->pass1, $data->pass2)) {
+    if ($user->renuevaPassword($data->pass1, $data->id)) {
+      echo json_encode(array("message" => "hola irvin"));
     }
   }
 } else {

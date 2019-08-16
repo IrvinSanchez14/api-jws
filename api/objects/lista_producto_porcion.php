@@ -36,6 +36,51 @@ class lista_producto_porcion
     return $stmt;
   }
 
+  function leerProductos()
+  {
+    $query = "SELECT 
+                lpp.IdListaPP, pr.Nombre AS NombreProducto,pr.IdProducto, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
+              FROM 
+                lista_producto_porcion lpp
+              LEFT JOIN 
+                productos pr ON lpp.IdProducto=pr.IdProducto 
+              LEFT JOIN 
+                porciones po ON lpp.IdPorcion=po.IdPorcion
+              LEFT JOIN 
+                unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
+              GROUP BY 
+                pr.IdProducto
+              ORDER BY 
+                lpp.FechaCreacion DESC";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt;
+  }
+
+  function leerPorcionProducto()
+  {
+    $query = "SELECT 
+                lpp.IdListaPP, pr.Nombre AS NombreProducto, CONCAT(po.Cantidad,' ',um.Siglas) AS Porcion, po.IdPorcion, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
+              FROM 
+                lista_producto_porcion lpp
+              LEFT JOIN 
+                productos pr ON lpp.IdProducto=pr.IdProducto 
+              LEFT JOIN 
+                porciones po ON lpp.IdPorcion=po.IdPorcion
+              LEFT JOIN 
+                unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
+              WHERE
+                pr.IdProducto = ?
+              ORDER BY 
+                lpp.FechaCreacion DESC";
+    $stmt = $this->conn->prepare($query);
+    $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
+    $stmt->bindParam(1, $this->IdProducto);
+    $stmt->execute();
+    return $stmt;
+  }
+
   function create()
   {
     $query = "INSERT INTO " . $this->table_name . "

@@ -48,20 +48,37 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     http_response_code(200);
     $JWT = new JWT();
     $jwt = $JWT->encode($token, $key);
-    echo json_encode(
-      array(
-        "message" => "Successful login.",
-        "jwt" => $jwt,
-        "user" => array(
+
+    if ($user->activacion == '1') {
+      http_response_code(200);
+      echo json_encode(
+        array(
+          "error" => "Tu cuenta no a sido activada.",
+          "activacion" => $user->activacion,
           "IdUsuario" => $user->IdUsuario,
-          "Nombre" => $user->Nombre,
-          "IdTipoUsuario" => $user->IdTipoUsuario,
         )
-      )
-    );
+      );
+    } else {
+
+      echo json_encode(
+        array(
+          "message" => "Successful login.",
+          "jwt" => $jwt,
+          "activacion" => $user->activacion,
+          "user" => array(
+            "IdUsuario" => $user->IdUsuario,
+            "Nombre" => $user->Nombre,
+            "IdTipoUsuario" => $user->IdTipoUsuario,
+          )
+        )
+      );
+    }
   } else {
-    http_response_code(401);
-    echo json_encode(array("message" => "Login failed."));
+    http_response_code(200);
+    echo json_encode(array(
+      "message" => "Login failed.",
+      "error" => "Usuario y contraseña erronea",
+    ));
   }
 } else {
   http_response_code(404);

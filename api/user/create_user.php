@@ -20,17 +20,33 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $db = $database->getConnection();
   $user = new User($db);
   $data = json_decode(file_get_contents("php://input"));
+  $passRandom = $user->randomPassword();
 
   $user->Nombre = $data->Nombre;
   $user->Email = $data->Email;
   $user->Alias = $data->Alias;
   $user->IdTipoUsuario = $data->IdTipoUsuario;
-  $user->Passwd = $data->Passwd;
+  $user->Passwd = $passRandom;
   $user->Estado = "0";
+  $user->activacion = "1";
 
   if ($user->create()) {
     http_response_code(200);
-    echo json_encode(array("message" => "User was created."));
+    $asunto = 'Creaction de Cuenta - Sistema La Pizzeria';
+    $cuerpo = "Hola $data->Nombre: <br /><br />Tu cuenta en el sistema de La Pizzeria a sido creado correctamente.<br /> Tu contraseña temporal es " . $passRandom . ".<br />
+    ATENCION!! al momento de ingresar al sistema con tu usuario y contraseña temporal se te solicitara cambiar la contraseña por motivos de personalizar tu usuario.";
+
+    if ($user->enviarEmail($data->Email, $data->Nombre, $asunto, $cuerpo)) {
+      echo json_encode(
+        array(
+          "message" => "User Was Created"
+        )
+      );
+    } else {
+      echo json_encode(
+        array("ErrorSMTP" => "Problema al momento de enviar el EMAIL")
+      );
+    }
   } else {
     http_response_code(400);
     echo json_encode(array("message" => "Unable to create user."));
