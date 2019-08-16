@@ -11,6 +11,7 @@ class User
   public $Passwd;
   public $IdPermiso;
   public $Estado;
+  public $activacion;
 
   public function __construct($db)
   {
@@ -26,7 +27,8 @@ class User
                   Alias = :Alias,
                   IdTipoUsuario = :IdTipoUsuario,
                   Passwd = :Passwd,
-                  Estado = :Estado";
+                  Estado = :Estado,
+                  activacion= :activacion";
     $stmt = $this->conn->prepare($query);
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Email = htmlspecialchars(strip_tags($this->Email));
@@ -34,12 +36,14 @@ class User
     $this->IdTipoUsuario = htmlspecialchars(strip_tags($this->IdTipoUsuario));
     $this->Passwd = htmlspecialchars(strip_tags($this->Passwd));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->activacion = htmlspecialchars(strip_tags($this->activacion));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Email', $this->Email);
     $stmt->bindParam(':Alias', $this->Alias);
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
     $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':activacion', $this->activacion);
 
     $password_hash = password_hash($this->Passwd, PASSWORD_BCRYPT);
     $stmt->bindParam(':Passwd', $password_hash);
@@ -85,7 +89,7 @@ class User
 
   function emailExists()
   {
-    $query = "SELECT IdUsuario, Nombre, Alias, Passwd,IdTipoUsuario
+    $query = "SELECT IdUsuario, Nombre, Alias, Passwd, IdTipoUsuario, activacion
               FROM " . $this->table_name . "
               WHERE Email = ?
               LIMIT 0,1";
@@ -101,6 +105,7 @@ class User
       $this->Alias = $row['Alias'];
       $this->Passwd = $row['Passwd'];
       $this->IdTipoUsuario = $row['IdTipoUsuario'];
+      $this->activacion = $row['activacion'];
       return true;
     }
     return false;
@@ -137,6 +142,18 @@ class User
   {
     $gen = md5(uniqid(mt_rand(), false)); //mt_rand nos genera un valor dependiendo la hora y fecha del sistema, uniqid genera un identificador y luego lo pasa a md5
     return $gen;
+  }
+
+  function randomPassword()
+  {
+    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 6; $i++) {
+      $n = rand(0, $alphaLength);
+      $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
   }
 
   function generaTokenPass($user_id, $token) //esta funcion genera un token al solicitar cambio de password
@@ -229,6 +246,23 @@ class User
     $stmt->bindParam(1, $password);
     $stmt->bindParam(2, $user_id);
     $stmt->bindParam(3, $token);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  function renuevaPassword($password, $user_id)
+  { //esta funcion hace el update de la nueva password y de los otros campos
+
+    //la query actualiza la contraseña y cambia el campo password_request a 0 y el token_password lo limpia
+    $query = "UPDATE usuarios SET Passwd = ?,  activacion=0 WHERE IdUsuario = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(2, $user_id);
+
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    $stmt->bindParam('1', $password_hash);
 
     if ($stmt->execute()) {
       return true;

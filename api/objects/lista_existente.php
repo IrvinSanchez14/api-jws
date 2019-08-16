@@ -24,18 +24,15 @@ class lista_existente
     $query = "INSERT INTO lista_existente
               SET
                 IdSucursal = :Sucursal,
-                FechaPedido=:Fecha,
                 IdEstado=:Estado,
                 UsuarioCreador=:UsuarioCreador";
 
     $stmt = $this->conn->prepare($query);
     $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
-    $this->FechaPedido = htmlspecialchars(strip_tags($this->FechaPedido));
     $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
     $stmt->bindParam(':Sucursal', $this->IdSucursal);
-    $stmt->bindParam(':Fecha', $this->FechaPedido);
     $stmt->bindParam(':Estado', $this->IdEstado);
     $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
