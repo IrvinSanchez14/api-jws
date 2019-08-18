@@ -42,6 +42,48 @@ class lista_existente
     return false;
   }
 
+  
+  function ListaExistente()
+  {
+    $query = "SELECT le.IdListaExistene, su.Nombre as Sucursal, us.Nombre AS Nombre_Usuario, es.Nombre AS Estado, le.FechaCreacion from lista_existente le
+    LEFT JOIN sucursales su ON le.IdSucursal=su.IdSucursal
+    LEFT JOIN usuarios us ON le.UsuarioCreador= us.IdUsuario
+    LEFT JOIN estados es ON le.IdEstado = es.IdEstado
+    WHERE DATE (le.FechaCreacion)= ?";
+
+    $stmt = $this->conn->prepare($query);
+    $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
+    $stmt->bindParam(1, $this->FechaCreacion);
+    $stmt->execute();
+    $num = $stmt->rowCount();
+    if ($num > 0) {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->IdListaExistene = $row['IdListaExistene'];
+      $this->Sucursal = $row['Sucursal'];
+      $this->Nombre_Usuario = $row['Nombre_Usuario'];
+      $this->Estado = $row['Estado'];
+      $this->FechaCreacion = $row['FechaCreacion'];
+      return true;
+    }
+    return false;
+  }
+
+  function ListaDetalle()
+  {
+    $query = "SELECT pr.Nombre AS Producto, ld.Cantidad, CONCAT( po.Cantidad,' ',um.Siglas) AS Porcion FROM lista_existente_detalle ld
+    LEFT JOIN productos pr ON ld.IdProducto=pr.IdProducto
+    LEFT JOIN porciones po ON ld.IdPorcion=po.IdPorcion
+    LEFT JOIN lista_existente le ON ld.IdListaExistene=le.IdListaExistene
+    LEFT JOIN unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
+    WHERE le.IdListaExistene = ?";
+
+    $stmt = $this->conn->prepare($query);
+    $this->IdListaExistene = htmlspecialchars(strip_tags($this->IdListaExistene));
+    $stmt->bindParam(1, $this->IdListaExistene);
+    $stmt->execute();
+    return $stmt;
+  }
+
   function createDetalle($id, $array)
   {
     $query = "INSERT INTO lista_existente_detalle
