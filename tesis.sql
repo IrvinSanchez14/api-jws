@@ -137,7 +137,6 @@ INSERT INTO `estados` (`IdEstado`, `Nombre`, `Descripcion`, `IdEstadoAnterior`, 
 CREATE TABLE IF NOT EXISTS `lista_existente` (
   `IdListaExistene` int(11) NOT NULL AUTO_INCREMENT,
   `IdSucursal` int(11) NOT NULL,
-  `FechaPedido` datetime NOT NULL,
   `IdEstado` int(11) NOT NULL,
   `FechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UsuarioCreador` int(11) NOT NULL,
@@ -149,18 +148,14 @@ CREATE TABLE IF NOT EXISTS `lista_existente` (
   KEY `FK3_usuario2` (`UsuarioCreador`),
   CONSTRAINT `FK2_estado2` FOREIGN KEY (`IdEstado`) REFERENCES `estados` (`IdEstado`) ON UPDATE CASCADE,
   CONSTRAINT `FK3_usuario2` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla tesis.lista_existente: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla tesis.lista_existente: ~2 rows (aproximadamente)
 DELETE FROM `lista_existente`;
 /*!40000 ALTER TABLE `lista_existente` DISABLE KEYS */;
-INSERT INTO `lista_existente` (`IdListaExistene`, `IdSucursal`, `FechaPedido`, `IdEstado`, `FechaCreacion`, `UsuarioCreador`, `FechaActualizacion`, `UsuarioActualiza`) VALUES
-	(1, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:11:41', 1, '0000-00-00 00:00:00', 0),
-	(2, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:26:30', 1, '0000-00-00 00:00:00', 0),
-	(3, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:27:48', 1, '0000-00-00 00:00:00', 0),
-	(4, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:30:36', 1, '0000-00-00 00:00:00', 0),
-	(5, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:56:52', 1, '0000-00-00 00:00:00', 0),
-	(6, 1, '2019-08-07 16:17:02', 1, '2019-08-07 17:58:01', 1, '0000-00-00 00:00:00', 0);
+INSERT INTO `lista_existente` (`IdListaExistene`, `IdSucursal`, `IdEstado`, `FechaCreacion`, `UsuarioCreador`, `FechaActualizacion`, `UsuarioActualiza`) VALUES
+	(1, 1, 1, '2019-08-15 15:15:07', 1, '0000-00-00 00:00:00', 0),
+	(2, 1, 1, '2019-08-15 15:41:53', 18, '0000-00-00 00:00:00', 0);
 /*!40000 ALTER TABLE `lista_existente` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.lista_existente_detalle
@@ -171,30 +166,18 @@ CREATE TABLE IF NOT EXISTS `lista_existente_detalle` (
   `IdPorcion` int(11) DEFAULT NULL,
   `Cantidad` int(11) DEFAULT NULL,
   PRIMARY KEY (`IdLista`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla tesis.lista_existente_detalle: ~18 rows (aproximadamente)
+-- Volcando datos para la tabla tesis.lista_existente_detalle: ~6 rows (aproximadamente)
 DELETE FROM `lista_existente_detalle`;
 /*!40000 ALTER TABLE `lista_existente_detalle` DISABLE KEYS */;
 INSERT INTO `lista_existente_detalle` (`IdLista`, `IdListaExistene`, `IdProducto`, `IdPorcion`, `Cantidad`) VALUES
-	(1, 1, 1, 1, 4),
-	(2, 1, 2, 2, 40),
-	(3, 1, 5, 6, 100),
-	(4, 2, 1, 1, 4),
-	(5, 2, 2, 2, 40),
-	(6, 2, 5, 6, 100),
-	(7, 3, 1, 1, 4),
-	(8, 3, 2, 2, 40),
-	(9, 3, 5, 6, 100),
-	(10, 4, 1, 1, 4),
-	(11, 4, 2, 2, 40),
-	(12, 4, 5, 6, 100),
-	(13, 5, 1, 1, 4),
-	(14, 5, 2, 2, 40),
-	(15, 5, 5, 6, 100),
-	(16, 6, 1, 1, 4),
-	(17, 6, 2, 2, 40),
-	(18, 6, 5, 6, 100);
+	(1, 1, 32, 4, 13),
+	(2, 1, 8, 11, 45),
+	(3, 1, 12, 10, 12),
+	(4, 1, 22, 7, 36),
+	(5, 2, 32, 4, 12),
+	(6, 2, 28, 13, 1);
 /*!40000 ALTER TABLE `lista_existente_detalle` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.lista_producto_porcion
@@ -216,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `lista_producto_porcion` (
   CONSTRAINT `FK2_produccion` FOREIGN KEY (`IdPorcion`) REFERENCES `porciones` (`IdPorcion`) ON UPDATE CASCADE,
   CONSTRAINT `FK3_usuario` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE,
   CONSTRAINT `FK4_userff` FOREIGN KEY (`UsuarioActualiza`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla tesis.lista_producto_porcion: ~37 rows (aproximadamente)
 DELETE FROM `lista_producto_porcion`;
@@ -261,7 +244,9 @@ INSERT INTO `lista_producto_porcion` (`IdListaPP`, `IdProducto`, `IdPorcion`, `E
 	(37, 27, 13, 0, '2019-08-05 11:21:01', 1, '2019-08-05 11:21:01', NULL),
 	(38, 28, 13, 0, '2019-08-05 11:21:11', 1, '2019-08-05 11:21:11', NULL),
 	(39, 29, 13, 0, '2019-08-05 11:21:20', 1, '2019-08-05 11:21:20', NULL),
-	(40, 30, 7, 0, '2019-08-05 11:21:57', 1, '2019-08-05 11:21:57', NULL);
+	(40, 30, 7, 0, '2019-08-05 11:21:57', 1, '2019-08-05 11:21:57', NULL),
+	(41, 30, 6, 0, '2019-08-09 18:25:23', 1, '2019-08-09 18:25:23', NULL),
+	(42, 32, 4, 0, '2019-08-09 18:28:04', 1, '2019-08-09 18:28:04', NULL);
 /*!40000 ALTER TABLE `lista_producto_porcion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.materia_prima
@@ -354,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   KEY `UsuarioActualiza` (`UsuarioActualiza`),
   CONSTRAINT `permisos_ibfk_1` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`),
   CONSTRAINT `permisos_ibfk_2` FOREIGN KEY (`UsuarioActualiza`) REFERENCES `usuarios` (`IdUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla tesis.permisos: ~13 rows (aproximadamente)
 DELETE FROM `permisos`;
@@ -372,7 +357,8 @@ INSERT INTO `permisos` (`IdPermiso`, `Nombre`, `Descripcion`, `Estado`, `FechaCr
 	(10, 'VER_TABLA_PERMISOUSUARIO', 'ver tabla permisos usuarios', 0, '2019-07-28 18:21:33', 1, '2019-07-28 18:22:00', NULL),
 	(11, 'hola', 'hola', 0, '2019-07-29 17:06:47', 1, '2019-07-29 17:06:47', NULL),
 	(12, 'adios', 'adios', 0, '2019-07-29 17:07:13', 1, '2019-07-29 17:07:13', NULL),
-	(13, 'VER_TABLA_USUARIOS', 'ver tabla usuarios con todos sus datos', 0, '2019-07-30 11:33:54', 1, '2019-07-30 11:33:54', NULL);
+	(13, 'VER_TABLA_USUARIOS', 'ver tabla usuarios con todos sus datos', 0, '2019-07-30 11:33:54', 1, '2019-07-30 11:33:54', NULL),
+	(14, 'PERMISO_VER_COMPONENT_LISTA_EXISTENTE', 'ver lista de existente que es creada en cada sucursal', 0, '2019-08-15 15:27:44', 1, '2019-08-15 15:27:44', NULL);
 /*!40000 ALTER TABLE `permisos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.permisos_usuarios
@@ -393,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `permisos_usuarios` (
   CONSTRAINT `FK4_user22` FOREIGN KEY (`Idusuario`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE,
   CONSTRAINT `permisos_usuarios_ibfk_1` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`),
   CONSTRAINT `permisos_usuarios_ibfk_2` FOREIGN KEY (`UsuarioActualiza`) REFERENCES `usuarios` (`IdUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla tesis.permisos_usuarios: ~18 rows (aproximadamente)
 DELETE FROM `permisos_usuarios`;
@@ -416,7 +402,10 @@ INSERT INTO `permisos_usuarios` (`IdPermisosusuario`, `IdPermiso`, `IdUsuario`, 
 	(36, 7, 1, '2019-08-03 19:45:42', 1, '2019-08-03 19:45:42', NULL),
 	(37, 6, 1, '2019-08-03 19:45:45', 1, '2019-08-03 19:45:45', NULL),
 	(38, 4, 1, '2019-08-03 19:45:47', 1, '2019-08-03 19:45:47', NULL),
-	(39, 3, 1, '2019-08-03 19:45:49', 1, '2019-08-03 19:45:49', NULL);
+	(39, 3, 1, '2019-08-03 19:45:49', 1, '2019-08-03 19:45:49', NULL),
+	(40, 9, 16, '2019-08-09 18:19:19', 1, '2019-08-09 18:19:19', NULL),
+	(41, 14, 18, '2019-08-15 15:28:11', 1, '2019-08-15 15:28:11', NULL),
+	(42, 14, 1, '2019-08-15 15:28:22', 1, '2019-08-15 15:28:22', NULL);
 /*!40000 ALTER TABLE `permisos_usuarios` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.porciones
@@ -503,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`IdTipoProducto`) REFERENCES `tipo_producto` (`IdTipoProducto`),
   CONSTRAINT `productos_ibfk_4` FOREIGN KEY (`IdUnidadMedida`) REFERENCES `unidad_medida` (`IdUnidadMedida`),
   CONSTRAINT `productos_ibfk_5` FOREIGN KEY (`IdProveedor`) REFERENCES `proveedores` (`IdProveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla tesis.productos: ~29 rows (aproximadamente)
 DELETE FROM `productos`;
@@ -538,7 +527,8 @@ INSERT INTO `productos` (`IdProducto`, `Nombre`, `Descripcion`, `IdTipoProducto`
 	(27, 'Caja de pizza', 'envio de pedidos', 7, 2, 3, NULL, '2019-08-04 10:54:11', 1, '2019-08-04 10:54:11', NULL),
 	(28, 'Dulces', 'los que se dan al momento de llevar la cuenta', 7, 2, 3, NULL, '2019-08-04 10:54:36', 1, '2019-08-04 10:54:36', NULL),
 	(29, 'Comandas', 'para anotar el pedido', 7, 2, 3, NULL, '2019-08-04 10:54:54', 1, '2019-08-04 10:54:54', NULL),
-	(30, 'Papaya', 'fruta fresca', 6, 2, 3, NULL, '2019-08-05 11:21:44', 1, '2019-08-05 11:21:44', NULL);
+	(30, 'Papaya', 'fruta fresca', 6, 2, 3, NULL, '2019-08-05 11:21:44', 1, '2019-08-05 11:21:44', NULL),
+	(32, 'producto prueba', 'prueba', 6, 1, 3, NULL, '2019-08-09 18:26:50', 1, '2019-08-09 18:26:50', NULL);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.proveedores
@@ -601,9 +591,9 @@ CREATE TABLE IF NOT EXISTS `sucursales` (
 DELETE FROM `sucursales`;
 /*!40000 ALTER TABLE `sucursales` DISABLE KEYS */;
 INSERT INTO `sucursales` (`IdSucursal`, `IdEmpresa`, `Nombre`, `Direccion`, `Telefono`, `IdEncargado`, `Estado`, `FechaCreacion`, `UsuarioCreador`, `FechaActualizacion`, `UsuarioActualiza`) VALUES
-	(1, 0, 'LP Volcan', 'calle al boqueron', '22436017', 1, 0, '2019-05-31 15:52:56', 1, '2019-05-31 15:53:00', NULL),
+	(1, 0, 'LP Volcan', 'calle al boqueron', '22436017', 1, 0, '2019-05-31 15:52:56', 1, '2019-08-15 16:02:38', 1),
 	(2, 0, 'Lp Castanos', 'plaza castanos', '22436017', 3, 0, '2019-07-10 20:33:07', NULL, '2019-07-10 20:33:09', NULL),
-	(3, 0, 'seeesss', 'sxczxc', 's', NULL, 0, '2019-07-22 17:33:20', NULL, '2019-07-22 18:05:18', NULL),
+	(3, 0, 'Centro de Produccion', 'Santa Elena', '22222222', NULL, 0, '2019-07-22 17:33:20', NULL, '2019-08-15 16:03:25', 1),
 	(4, 0, 'Vamos', 'Pa', '789623', NULL, 1, '2019-07-22 18:04:58', NULL, '2019-07-22 18:05:14', NULL);
 /*!40000 ALTER TABLE `sucursales` ENABLE KEYS */;
 
@@ -622,45 +612,15 @@ CREATE TABLE IF NOT EXISTS `tipos_usuario` (
   KEY `FK2_uss2` (`UsuarioActualiza`),
   CONSTRAINT `FK1_uss1` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE,
   CONSTRAINT `FK2_uss2` FOREIGN KEY (`UsuarioActualiza`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla tesis.tipos_usuario: ~33 rows (aproximadamente)
+-- Volcando datos para la tabla tesis.tipos_usuario: ~3 rows (aproximadamente)
 DELETE FROM `tipos_usuario`;
 /*!40000 ALTER TABLE `tipos_usuario` DISABLE KEYS */;
 INSERT INTO `tipos_usuario` (`IdTipoUsuario`, `Nombre`, `Descripcion`, `Estado`, `FechaCreacion`, `UsuarioCreador`, `FechaActualizacion`, `UsuarioActualiza`) VALUES
-	(1, 'Administrador', '', 0, '2019-07-25 11:05:42', 1, '2019-07-30 18:50:42', 1),
-	(2, 'coshii', 'gracias por el cafechito', 1, '2019-07-25 21:00:20', 3, '2019-08-05 10:50:12', 3),
-	(3, 'comida', 'es muy rica ', 0, '2019-07-25 21:01:05', 3, '2019-07-26 18:08:54', 3),
-	(4, 'test', 'test', 0, '2019-07-26 18:08:22', 3, '2019-07-26 18:08:22', NULL),
-	(5, 'profe pineda crack', 'profe', 0, '2019-07-26 18:21:32', 3, '2019-07-26 18:23:09', 12),
-	(6, 'hey', 'hey', 0, '2019-07-26 18:28:13', 12, '2019-07-26 18:28:13', NULL),
-	(7, 'prueba', 'prueba', 0, '2019-07-26 18:28:39', 12, '2019-07-27 14:15:55', 3),
-	(8, 'asaaaaaasdas', 'asas', 0, '2019-07-27 14:19:30', 3, '2019-07-27 14:39:20', 3),
-	(9, 'a', 'a', 0, '2019-07-27 14:32:28', 3, '2019-07-27 14:32:28', NULL),
-	(10, 'q', '1', 0, '2019-07-27 14:34:55', 3, '2019-07-27 14:34:55', NULL),
-	(11, 'Irvin', '', 0, '2019-07-27 14:39:27', 3, '2019-07-30 18:03:24', 1),
-	(12, 'hey', 'he2', 0, '2019-07-27 14:39:45', 3, '2019-07-27 14:39:45', NULL),
-	(13, 'aaaa', 'a', 0, '2019-07-27 14:40:30', 3, '2019-07-27 14:40:55', 3),
-	(14, 'Irvin', '', 0, '2019-07-27 14:41:07', 3, '2019-07-30 18:03:01', 1),
-	(15, 'Raul', '', 0, '2019-07-27 14:41:56', 3, '2019-07-30 18:10:36', 1),
-	(16, 'aaaa', 'a', 0, '2019-07-27 14:42:36', 3, '2019-07-27 14:42:47', 3),
-	(17, 'as', 'as', 0, '2019-07-27 14:43:11', 3, '2019-07-27 14:43:11', NULL),
-	(18, 'as', 'as', 0, '2019-07-27 14:43:29', 3, '2019-07-27 14:43:29', NULL),
-	(19, 'a', 'a', 0, '2019-07-27 14:51:56', 3, '2019-07-27 14:51:56', NULL),
-	(20, 'v', 'v', 0, '2019-07-27 14:54:11', 3, '2019-07-27 14:54:11', NULL),
-	(21, 'a', 'a', 0, '2019-07-27 14:56:59', 3, '2019-07-27 14:56:59', NULL),
-	(22, 'a', 'a', 0, '2019-07-27 15:00:50', 3, '2019-07-27 15:00:50', NULL),
-	(23, 'aasd', 'assssd', 0, '2019-07-27 16:06:10', 3, '2019-07-27 16:06:10', NULL),
-	(24, 'asdsd', 'asdsd', 0, '2019-07-27 16:06:57', 3, '2019-07-27 16:08:19', 3),
-	(25, 'aasdasd', 'sasd', 0, '2019-07-27 16:07:04', 3, '2019-07-27 16:08:13', 3),
-	(26, 'asdgg', 'gggg', 0, '2019-07-27 16:08:26', 3, '2019-07-27 16:08:26', NULL),
-	(27, 'adsadasddvsdvs', 'sdfsdcsdf', 0, '2019-07-27 16:10:02', 3, '2019-07-27 16:10:02', NULL),
-	(28, 'a', 'a', 0, '2019-07-27 16:11:03', 3, '2019-07-27 16:11:03', NULL),
-	(29, 'qq', 'qq', 0, '2019-07-27 16:13:05', 3, '2019-07-27 16:13:05', NULL),
-	(30, 'ww', 'ww', 0, '2019-07-27 16:13:53', 3, '2019-07-27 16:13:53', NULL),
-	(31, 'como', 'dice', 0, '2019-07-27 16:23:22', 3, '2019-07-27 16:23:22', NULL),
-	(32, 'a', 'a', 0, '2019-07-28 11:12:05', 3, '2019-07-28 11:12:05', NULL),
-	(33, 'help', 'help', 0, '2019-07-29 19:15:46', 1, '2019-07-29 19:15:46', NULL);
+	(1, 'Administrador', 'yes', 0, '2019-07-25 11:05:42', 1, '2019-08-15 16:05:06', 1),
+	(2, 'Gerente', 'gerente de sucursal', 0, '2019-08-15 16:05:24', 1, '2019-08-15 16:50:27', NULL),
+	(3, 'Supervisor', 'Supervisor de sucursal', 0, '2019-08-15 16:05:36', 1, '2019-08-15 16:50:29', NULL);
 /*!40000 ALTER TABLE `tipos_usuario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla tesis.tipo_producto
@@ -739,21 +699,50 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `FechaActualizacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UsuarioActualiza` int(11) DEFAULT NULL,
   `password_request` int(11) DEFAULT NULL,
+  `activacion` int(11) DEFAULT '0',
   PRIMARY KEY (`IdUsuario`),
   KEY `IdTipoUsuario` (`IdTipoUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla tesis.usuarios: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla tesis.usuarios: ~7 rows (aproximadamente)
 DELETE FROM `usuarios`;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` (`IdUsuario`, `Nombre`, `Email`, `Passwd`, `PasswdTmp`, `Alias`, `IdTipoUsuario`, `Estado`, `FechaCreacion`, `FechaActualizacion`, `UsuarioActualiza`, `password_request`) VALUES
-	(1, 'Irvin', 'irvnsanchez@gmail.com', '$2y$10$5aLRxe/2XPkGO5D/VLDFJuwJYbLMZtPbVs.6kGMR500ZyrNljH0wi', '5aaee83e36fd07532d69c9d6035f33c1', 'irvin', 1, 0, '2019-05-24 16:27:50', '2019-07-31 18:13:02', 1, 1),
-	(3, 'Alejandro', 'ale@ale.com', '$2y$10$zl/3cr3ekslKNB1yyUrD4.BWdQyeizWPVezv2Tt9sUoyB.Z9CXlTW', NULL, 'toyo', 1, 0, '2019-06-06 11:05:54', '2019-07-28 10:37:20', NULL, NULL),
-	(5, 'Raul', 'raul@ale.com', '$2y$10$Dox.nha0m7PjXRbb9.1ws.ANa4QhUR5erBmKjSOYCoeIN1aKXDJ9.', NULL, 'raus', 2, 0, '2019-06-06 16:35:50', '2019-07-30 18:31:14', NULL, NULL),
-	(12, 'irvin', 'i@i.com', '$2y$10$FGgErlcWjpbnKiU0AymnFuoljuq3wc180zv1hC7D.Fdgi13qPfdSG', NULL, 'marmota', 5, 0, '2019-07-05 18:10:33', '2019-07-30 18:31:17', NULL, NULL),
-	(13, 'Raul', 'raul.sosa@outlook.com', '$2y$10$zl/3cr3ekslKNB1yyUrD4.BWdQyeizWPVezv2Tt9sUoyB.Z9CXlTW', NULL, 'raul', 3, 0, '2019-07-06 16:04:48', '2019-07-30 17:39:37', NULL, NULL),
-	(15, 'Test 3', 'test@test.com', '$2y$10$N.xQ3XYv4fbaY8RL7VTfquKQZQ1TrMrdR4TUbENG/1boku2FoGy7K', NULL, 'test', 1, 0, '2019-07-30 18:30:48', '2019-07-30 18:51:16', 1, NULL);
+INSERT INTO `usuarios` (`IdUsuario`, `Nombre`, `Email`, `Passwd`, `PasswdTmp`, `Alias`, `IdTipoUsuario`, `Estado`, `FechaCreacion`, `FechaActualizacion`, `UsuarioActualiza`, `password_request`, `activacion`) VALUES
+	(1, 'Irvin', 'irvnsanchez@gmail.com', '$2y$10$GMIK3IomndXBB7DDzyyVMupVW53Mlyq5VPmrR6za2JQ.nAeq4e9ua', '', 'irvin', 1, 0, '2019-05-24 16:27:50', '2019-08-09 19:07:08', 1, 0, 0),
+	(3, 'Alejandro', 'ale@ale.com', '$2y$10$zl/3cr3ekslKNB1yyUrD4.BWdQyeizWPVezv2Tt9sUoyB.Z9CXlTW', NULL, 'toyo', 1, 0, '2019-06-06 11:05:54', '2019-07-28 10:37:20', NULL, NULL, 0),
+	(5, 'Raul', 'raul@ale.com', '$2y$10$Dox.nha0m7PjXRbb9.1ws.ANa4QhUR5erBmKjSOYCoeIN1aKXDJ9.', NULL, 'raus', 2, 0, '2019-06-06 16:35:50', '2019-07-30 18:31:14', NULL, NULL, 0),
+	(12, 'irvin', 'i@i.com', '$2y$10$FGgErlcWjpbnKiU0AymnFuoljuq3wc180zv1hC7D.Fdgi13qPfdSG', NULL, 'marmota', 5, 0, '2019-07-05 18:10:33', '2019-07-30 18:31:17', NULL, NULL, 0),
+	(13, 'Raul', 'raul.sosa@outlook.com', '$2y$10$zl/3cr3ekslKNB1yyUrD4.BWdQyeizWPVezv2Tt9sUoyB.Z9CXlTW', NULL, 'raul', 3, 0, '2019-07-06 16:04:48', '2019-07-30 17:39:37', NULL, NULL, 0),
+	(15, 'Test 3', 'test@test.com', '$2y$10$N.xQ3XYv4fbaY8RL7VTfquKQZQ1TrMrdR4TUbENG/1boku2FoGy7K', NULL, 'test', 1, 0, '2019-07-30 18:30:48', '2019-07-30 18:51:16', 1, NULL, 0),
+	(16, 'Jorge', 'jorgepinedaue', '$2y$10$iKm71KnCZdo4Z0Lic3yvJ.DG/v2dhtD1yQNe9Dvkpi6j.UxpFY91q', '24224e98e4cbd9be6fe78c8dc019babd', 'profe', 1, 0, '2019-08-09 18:15:18', '2019-08-16 18:18:08', NULL, 1, 0),
+	(18, 'marmota', 'isanchez@applaudostudios.com', '$2y$10$DpfgP684DpOj/zt//25iH.if1qOg5Qvk5zHbC/yw0tedR/x21lPWy', NULL, 'marmota1', 1, 0, '2019-08-10 22:42:28', '2019-08-13 18:03:22', NULL, NULL, 0),
+	(19, 'Profe', 'jorgepinedauees@gmail.com', '$2y$10$N8wEginzICXtDF7e2m.YC.Ty/q4jzmHb/kjqk2kjFA3ovsTnwvWZO', NULL, 'el profe', 1, 0, '2019-08-16 18:19:00', '2019-08-16 18:21:41', NULL, NULL, 0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+
+-- Volcando estructura para tabla tesis.usuario_sucursal
+CREATE TABLE IF NOT EXISTS `usuario_sucursal` (
+  `IdUserSuc` int(11) NOT NULL AUTO_INCREMENT,
+  `IdSucursal` int(11) DEFAULT NULL,
+  `IdUsuario` int(11) DEFAULT NULL,
+  `FechaCreacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UsuarioCreador` int(11) DEFAULT NULL,
+  `FechaActualizacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UsuarioActualiza` int(11) DEFAULT NULL,
+  PRIMARY KEY (`IdUserSuc`),
+  KEY `FK1_sucursal11` (`IdSucursal`),
+  KEY `FK2_usuario23` (`IdUsuario`),
+  KEY `FK3_usuario24` (`UsuarioCreador`),
+  KEY `FK4_usuario25` (`UsuarioActualiza`),
+  CONSTRAINT `FK1_sucursal11` FOREIGN KEY (`IdSucursal`) REFERENCES `sucursales` (`IdSucursal`) ON UPDATE CASCADE,
+  CONSTRAINT `FK2_usuario23` FOREIGN KEY (`IdUsuario`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE,
+  CONSTRAINT `FK3_usuario24` FOREIGN KEY (`UsuarioCreador`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE,
+  CONSTRAINT `FK4_usuario25` FOREIGN KEY (`UsuarioActualiza`) REFERENCES `usuarios` (`IdUsuario`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla tesis.usuario_sucursal: ~0 rows (aproximadamente)
+DELETE FROM `usuario_sucursal`;
+/*!40000 ALTER TABLE `usuario_sucursal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario_sucursal` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

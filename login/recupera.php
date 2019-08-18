@@ -27,7 +27,7 @@ if (!empty($_POST)) //aqui se valida si se envio el post
 
 		$token = generaTokenPass($user_id); //genero un token para enviar mediante el correo electronico por medio de la funcion generaTokenPass
 		//se procede a creal la URL al igual como se hizo cuando se registra un usuario
-		$url = /*$_SERVER["http://localhost:8080"].*/ 'http://localhost/tesis/api-jws/login/cambia_pass.php?user_id=' . $user_id . '&token=' . $token; //la url redirecciona a cambia_pass.php + el id del usuario y el token generado
+		$url = 'http://localhost:8080/tesis/api-jws/login/cambia_pass.php?user_id=' . $user_id . '&token=' . $token; //la url redirecciona a cambia_pass.php + el id del usuario y el token generado
 
 		$asunto = 'Recuperar Password - Sistema de Usuarios';
 		$cuerpo = "Hola $nombre: <br /><br />Se ha solicitado un reinicio de contrase&ntilde;a. <br/><br/>Para restaurar la contrase&ntilde;a, hacer clic en el siquiente link: <a href='$url'>Cambiar Password</a>";
