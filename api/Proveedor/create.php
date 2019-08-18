@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+    $proveedor->NombrePR = $data->Nombre;
+    $proveedor->NRCpr = $data->NRC;
+
+    if(!$proveedor->validateNprov()){
     $proveedor->Nombre = $data->Nombre;
     $proveedor->Direccion = $data->Direccion;
     $proveedor->Telefono = $data->Telefono;
@@ -43,12 +47,28 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($proveedor->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos creados exitosamente en Proveedores.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en Proveedores."
+          )
       );
-    } else {
-      http_response_code(404);
+    } else{
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
+      );
+    }
+  } 
+  else {
+      http_response_code(200);
+      echo json_encode(
+        array(
+          "flag" => 2,
+          "message" => "Nombre o NRC ya existen en la base de datos."
+          )
       );
     }
   }

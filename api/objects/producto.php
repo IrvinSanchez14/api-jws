@@ -123,4 +123,27 @@ Descripcion
     }
     return false;
   }
+  function validatename()
+  {
+    $query = "SELECT 
+                IdProducto, Nombre 
+              FROM 
+                " . $this->table_name . "
+              WHERE 
+                Nombre = ? ";
+
+    $stmt = $this->conn->prepare($query);
+    $this->NombreP = htmlspecialchars(strip_tags($this->NombreP));
+    $stmt->bindParam(1, $this->NombreP);
+    $stmt->execute();
+    $num = $stmt->rowCount();
+    if ($num > 0 ){
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->IdProducto = $row['IdProducto'];
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+    return false;
+
+  }
 }

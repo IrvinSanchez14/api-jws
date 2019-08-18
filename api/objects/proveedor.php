@@ -182,4 +182,28 @@ class Proveedor
       return false;
     }
   }
+  function validateNprov()
+  {
+    $query = "SELECT 
+                Nombre, NRC 
+              FROM 
+                " .$this->table_name . "
+              WHERE 
+                 Nombre = ? AND NRC = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombrePR = htmlspecialchars(strip_tags($this->NombrePR));
+    $this->NRCpr = htmlspecialchars(strip_tags($this->NRCpr));
+    $stmt->bindParam(1, $this->NombrePR);
+    $stmt->bindParam(2, $this->NRCpr);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      $this->NRC = $row['NRC'];
+      return true;
+    }
+    return false;
+  }
 }
