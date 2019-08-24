@@ -26,6 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+    $TipoProducto->NombreTP = $data->Nombre;
+
+    if(!$TipoProducto->validateNtipo()){
     $TipoProducto->Nombre = $data->Nombre;
     $TipoProducto->Descripcion = $data->Descripcion;
     $TipoProducto->Estado = "0";
@@ -34,12 +37,28 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($TipoProducto->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos guardados exitosamente en Tipo Producto.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en Tipo Producto."
+          )
       );
     } else {
-      http_response_code(404);
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 0,
+          "message" => "No se guardaron correctamente los datos."
+           )
+      );
+    }
+  }
+  else {
+    http_response_code(200);
+      echo json_encode(
+        array(
+          "flag" => 2,
+          "message" => "El nombre del tipo de producto ya existe en la base de datos."
+          )
       );
     }
   }

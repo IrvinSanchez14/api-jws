@@ -111,6 +111,28 @@ class estados
     return false;
   }
 
+  function validateNestado()
+  {
+    $query = "SELECT 
+                IdEstado, Nombre
+              FROM 
+                " .$this->table_name . "
+              WHERE 
+                  Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombreES = htmlspecialchars(strip_tags($this->NombreES));
+    $stmt->bindParam(1, $this->NombreES);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+      return false;
+  }
+
   /*function changeState()
   {
     $query = "UPDATE

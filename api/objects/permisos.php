@@ -125,4 +125,26 @@ class Permiso
       return false;
     }
   }
+
+  function validateNpermisos()
+  {
+    $query = "SELECT
+                  IdPermiso, Nombre
+              FROM
+                " .$this->table_name . "
+                WHERE
+                Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombrePE = htmlspecialchars(strip_tags($this->NombrePE));
+    $stmt->bindParam(1, $this->NombrePE);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+      {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->Nombre = $row['Nombre'];
+        return true;
+      }
+        return false;
+  }
 }

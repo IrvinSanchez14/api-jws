@@ -24,6 +24,9 @@
         array("message" => "EMPTY")
       );
     } else {
+    $empresa->NombreEM = $data->Nombre;
+
+    if(!$empresa->validateNempresa()){
     $empresa->Nombre = $data->Nombre;
     $empresa->Razon_Social = $data->Razon_Social;
     $empresa->Direccion = $data->Direccion;
@@ -32,18 +35,35 @@
     $empresa->Estado = "0";
     $empresa->UsuarioCreador = $data->UsuarioCreador;
 
-
-
     if ($empresa->create()) {
       http_response_code(200);
       $last_id = $db->lastInsertId();
-      echo json_encode(array("message" => $last_id));
-    } else {
-      http_response_code(404);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+        "flag" => 0,
+        "message" => $last_id
+      )
+    );
+    } else {
+      http_response_code(200);
+      echo json_encode(
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
       );
     }
   }
+  else {
+    http_response_code(200);
+    echo json_encode(
+      array(
+        "flag" => 2,
+        "message" => "Nombre de la empresa ya existe en la base de datos."
+        )
+    );
+   }
+ } 
 } else {
-  http_response_code(404);}
+  http_response_code(404);
+}

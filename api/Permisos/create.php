@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+
+    $Permiso->NombrePE = $data->Nombre;
+
+    if(!$Permiso->validateNpermisos()){
     echo json_encode($Permiso);
     $Permiso->Nombre = $data->Nombre;
     $Permiso->Descripcion = $data->Descripcion;
@@ -35,15 +39,30 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($Permiso->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos guardados exitosamente en Permiso.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en Permiso."
+          )
       );
     } else {
-      http_response_code(404);
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos.")
       );
     }
   }
+  else {
+    http_response_code(200);
+    echo json_encode(
+      array(
+        "flag" => 2,
+        "message" => "El nombre del permiso ya existe en la base de datos."
+        )
+    );
+   }
+ }
 } else {
   http_response_code(404);
 }

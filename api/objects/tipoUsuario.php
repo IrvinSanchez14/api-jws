@@ -124,4 +124,25 @@ class tipos_usuario
       return false;
     }
   }
+  function validateNusuario()
+  {
+    $query = "SELECT 
+                  IdTipoUsuario, Nombre 
+                  FROM 
+                    " .$this->table_name . "
+                    WHERE 
+                    Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombreTU = htmlspecialchars(strip_tags($this->NombreTU));
+    $stmt->bindParam(1, $this->NombreTU);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+    return false;
+  }
 }

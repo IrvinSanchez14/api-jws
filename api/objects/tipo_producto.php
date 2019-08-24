@@ -125,4 +125,25 @@ class TipoProducto
       return false;
     }
   }
-}
+  function validateNtipo()
+  {
+    $query = "SELECT 
+                IdTipoProducto, Nombre 
+                FROM 
+                  " . $this->table_name . "
+                WHERE 
+                 Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombreTP = htmlspecialchars(strip_tags($this->NombreTP));
+    $stmt->bindParam(1, $this->NombreTP);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+      return false;
+    }
+  }

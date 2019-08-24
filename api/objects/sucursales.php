@@ -137,4 +137,26 @@ class Sucursales
       return false;
     }
   }
+
+  function validateNSucu()
+  {
+    $query = "SELECT 
+                IdSucursal, Nombre 
+              FROM 
+                " .$this->table_name . "
+              WHERE 
+                 Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombreSU = htmlspecialchars(strip_tags($this->NombreSU));
+    $stmt->bindparam(1, $this->NombreSU);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+    return false;
+  }
 }

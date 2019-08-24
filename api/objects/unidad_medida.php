@@ -129,4 +129,29 @@ class UnidadMedida
       return false;
     }
   }
+
+  function evalNombreUM()
+    {
+      $query = "SELECT 
+                  Siglas, Nombre 
+                  FROM 
+                    " . $this->table_name . "
+                  WHERE
+                    Siglas = ? AND Nombre = ? ";
+      $stmt = $this->conn->prepare($query);
+      $this->SiglasUM = htmlspecialchars(strip_tags($this->SiglasUM));
+      $this->NombreUM = htmlspecialchars(strip_tags($this->NombreUM));
+      $stmt->bindparam(1, $this->SiglasUM);
+      $stmt->bindparam(2, $this->NombreUM);
+      $stmt->execute();
+      $num = $stmt->rowCount();
+      if($num > 0)
+      {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->Siglas = $row['Siglas'];
+        $this->Nombre = $row['Nombre'];
+        return true;
+      }
+      return false;
+    }
 }

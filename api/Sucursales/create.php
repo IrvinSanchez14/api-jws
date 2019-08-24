@@ -26,6 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+    $sucursales->NombreSU = $data->Nombre;
+
+    if(!$sucursales->validateNSucu()){
     $sucursales->IdEmpresa = "0";
     $sucursales->Nombre = $data->Nombre;
     $sucursales->Direccion = $data->Direccion;
@@ -36,15 +39,32 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($sucursales->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos creados exitosamente en Sucursales.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en Sucursale."
+          )
       );
-    } else {
-      http_response_code(404);
+    } else{
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
+      );
+    }
+  } 
+  else {
+      http_response_code(200);
+      echo json_encode(
+        array(
+          "flag" => 2,
+          "message" => "Nombre ya existe en la base de datos."
+          )
       );
     }
   }
 } else {
   http_response_code(404);
 }
+
