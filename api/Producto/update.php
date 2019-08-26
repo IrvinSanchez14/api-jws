@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Producto->IdProducto = $data->IdProducto;
   $Producto->Nombre = $data->Nombre;
   $Producto->Descripcion = $data->Descripcion;
-  $Producto->IdTipoProducto = $data->tipoProducto;
-  $Producto->IdUnidadMedida = $data->Siglas;
-  $Producto->IdProveedor = $data->Proveedor;
+  $Producto->IdTipoProducto = $data->IdTipoProducto;
+  $Producto->IdUnidadMedida = $data->IdUnidadMedida;
+  $Producto->IdProveedor = $data->IdProveedor;
   $Producto->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($Producto->update()) {

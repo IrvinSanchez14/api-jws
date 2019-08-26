@@ -19,7 +19,7 @@ class Empresas
   function readAll()
   {
     $query = "SELECT 
-                  em.IdEmpresa, em.Nombre, em.Razon_Social,em.Direccion, em.Telefono, em.Correo, em.Estado, em.FechaCreacion
+                  em.IdEmpresa, em.Nombre, em.Razon_Social,em.Direccion, em.Telefono, em.Correo, if(em.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, em.FechaCreacion
                 FROM
                   " . $this->table_name . " em
                 ORDER BY
@@ -41,7 +41,7 @@ class Empresas
                 Estado = :Estado,
                 UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
-  
+
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Razon_Social = htmlspecialchars(strip_tags($this->Razon_Social));
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));

@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
         "Direccion" => $Direccion,
         "Telefono" => $Telefono,
         "Correo" => $Correo,
-        "Estado" => $Estado,
+        "Estado" => $estadoTexto,
         "FechaCreacion" => $FechaCreacion
       );
       array_push($products_arr, $product_item);

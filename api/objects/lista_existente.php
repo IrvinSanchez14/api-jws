@@ -42,7 +42,7 @@ class lista_existente
     return false;
   }
 
-  
+
   function ListaExistente()
   {
     $query = "SELECT le.IdListaExistene, su.Nombre as Sucursal, us.Nombre AS Nombre_Usuario, es.Nombre AS Estado, le.FechaCreacion from lista_existente le
@@ -80,6 +80,15 @@ class lista_existente
     $stmt = $this->conn->prepare($query);
     $this->IdListaExistene = htmlspecialchars(strip_tags($this->IdListaExistene));
     $stmt->bindParam(1, $this->IdListaExistene);
+  }
+
+  function verAdministradores()
+  {
+    $query = "SELECT 
+                IdUsuario, Email FROM usuarios
+              WHERE 
+                IdTipoUsuario = 1";
+    $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt;
   }

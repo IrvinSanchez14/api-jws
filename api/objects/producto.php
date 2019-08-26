@@ -22,7 +22,7 @@ Descripcion
   function readAll()
   {
     $query = "SELECT 
-                um.IdProducto, um.Nombre, um.Descripcion,tp.Nombre AS tipoProducto, un.Siglas, p.Nombre AS Proveedor, um.FechaCreacion
+                um.IdProducto, um.Nombre, um.Descripcion,tp.Nombre AS tipoProducto, un.Siglas, p.Nombre AS Proveedor, um.FechaCreacion, if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, tp.IdTipoProducto, un.IdUnidadMedida, p.IdProveedor
               FROM
                 productos um
               LEFT JOIN 
@@ -137,13 +137,35 @@ Descripcion
     $stmt->bindParam(1, $this->NombreP);
     $stmt->execute();
     $num = $stmt->rowCount();
-    if ($num > 0 ){
+    if ($num > 0) {
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $this->IdProducto = $row['IdProducto'];
       $this->Nombre = $row['Nombre'];
       return true;
     }
     return false;
+  }
 
+  function changeState()
+  {
+    $query = "UPDATE
+                " . $this->table_name . "
+              SET
+                Estado=:Estado
+              WHERE
+                IdProducto=:IdProducto";
+    $stmt = $this->conn->prepare($query);
+
+    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->IdProducto = htmlspecialchars(strip_tags($this->IdProducto));
+
+    $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':IdProducto', $this->IdProducto);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

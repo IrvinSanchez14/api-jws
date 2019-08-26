@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
-    $Porcion->IdUnidadMedida = $data->UnidadMedida;
+    $Porcion->IdUnidadMedida = $data->IdUnidadMedida;
     $Porcion->Cantidad = $data->Cantidad;
     $Porcion->Estado = "0";
     $Porcion->UsuarioCreador = $data->UsuarioCreador;

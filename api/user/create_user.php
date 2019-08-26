@@ -29,23 +29,28 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $user->Passwd = $passRandom;
   $user->Estado = "0";
   $user->activacion = "1";
+  $user->IdSucursal = $data->IdSucursal;
+  $user->UsuarioCreador = $data->UsuarioCreador;
 
   if ($user->create()) {
     http_response_code(200);
-    $asunto = 'Creaction de Cuenta - Sistema La Pizzeria';
-    $cuerpo = "Hola $data->Nombre: <br /><br />Tu cuenta en el sistema de La Pizzeria a sido creado correctamente.<br /> Tu contraseña temporal es " . $passRandom . ".<br />
+    $last_id = $db->lastInsertId();
+    $user->IdUsuario = $last_id;
+    if ($user->createUsuerSucursal()) {
+      $asunto = 'Creaction de Cuenta - Sistema La Pizzeria';
+      $cuerpo = "Hola $data->Nombre: <br /><br />Tu cuenta en el sistema de La Pizzeria a sido creado correctamente.<br /> Tu contraseña temporal es " . $passRandom . ".<br />
     ATENCION!! al momento de ingresar al sistema con tu usuario y contraseña temporal se te solicitara cambiar la contraseña por motivos de personalizar tu usuario.";
-
-    if ($user->enviarEmail($data->Email, $data->Nombre, $asunto, $cuerpo)) {
-      echo json_encode(
-        array(
-          "message" => "User Was Created"
-        )
-      );
-    } else {
-      echo json_encode(
-        array("ErrorSMTP" => "Problema al momento de enviar el EMAIL")
-      );
+      if ($user->enviarEmail($data->Email, $data->Nombre, $asunto, $cuerpo)) {
+        echo json_encode(
+          array(
+            "message" => "User Was Created"
+          )
+        );
+      } else {
+        echo json_encode(
+          array("ErrorSMTP" => "Problema al momento de enviar el EMAIL")
+        );
+      }
     }
   } else {
     http_response_code(400);

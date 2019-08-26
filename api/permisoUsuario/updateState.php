@@ -7,16 +7,16 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/permisos.php';
+  include_once '../objects/permisoUsuario.php';
 
 
   $database = new Database();
   $db = $database->getConnection();
-  $Permisos = new Permiso($db);
+  $Permisos = new PermisoUsuario($db);
   $data = json_decode(file_get_contents("php://input"));
   $state = 0;
 
-  $Permisos->IdPermiso = $data->IdPermiso;
+  $Permisos->IdUsuario = $data->IdUsuario;
 
   if ($data->Estado == "false") {
     $state = 1;

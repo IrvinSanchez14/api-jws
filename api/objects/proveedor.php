@@ -16,7 +16,7 @@ class Proveedor
   public $NIT;
   public $NRC;
   public $Estado;
-  
+
   public $UsuarioCreador;
   public $UsuarioActualiza;
 
@@ -28,7 +28,7 @@ class Proveedor
   function readAll()
   {
     $query = "SELECT 
-                  pr.IdProveedor, pr.Nombre, pr.Direccion, pr.Telefono, pr.Razo_Social, pr.Tipo, pr.Nombre_Contacto, pr.Email, pr.DUI, pr.NIT, pr.NRC, pr.Estado, pr.FechaCreacion
+                  pr.IdProveedor, pr.Nombre, pr.Direccion, pr.Telefono, pr.Razo_Social, pr.Tipo, pr.Nombre_Contacto, pr.Email, pr.DUI, pr.NIT, pr.NRC, if(pr.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, pr.FechaCreacion
                 FROM
                   " . $this->table_name . " pr
                 ORDER BY
@@ -67,7 +67,7 @@ class Proveedor
     $this->NRC = htmlspecialchars(strip_tags($this->NRC));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
- 
+
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
@@ -123,7 +123,7 @@ class Proveedor
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdProveedor = htmlspecialchars(strip_tags($this->IdProveedor));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
-    
+
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
