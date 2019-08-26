@@ -127,4 +127,25 @@ class Empresas
       return false;
     }
   }
+  function validateNempresa()
+  {
+    $query = "SELECT 
+                IdEmpresa, Nombre
+              FROM
+                " .$this->table_name . "
+              WHERE
+                  Nombre = ? ";
+    $stmt = $this->conn->prepare($query);
+    $this->NombreEM = htmlspecialchars(strip_tags($this->NombreEM));
+    $stmt->bindParam(1, $this->NombreEM);
+    $stmt->execute();
+    $num =$stmt->rowCount();
+    if($num > 0)
+    {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+      return false;
+  }
 }

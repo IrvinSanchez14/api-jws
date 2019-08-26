@@ -44,7 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
     echo json_encode(
       array("message" => "EMPTY")
     );
+    
   } else {
+    $tipoUsuario->NombreTU = $data->Nombre;
+    
+    if(!$tipoUsuario->validateNusuario()){
     $tipoUsuario->Nombre = $data->Nombre;
     $tipoUsuario->Descripcion = $data->Descripcion;
     $tipoUsuario->Estado = "0";
@@ -52,14 +56,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $_SERVER['REQUEST_METHOD'] == "OPTIO
     if ($tipoUsuario->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos guardados exitosamente en tipoUSuario.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en tipoUSuario."
+          )
       );
     } else {
-      http_response_code(404);
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
       );
     }
+  }
+  else {
+    http_response_code(200);
+    echo json_encode(
+      array(
+        "flag" => 2,
+        "message" => "Nombre ya existe en la base de datos."
+        )
+     );
+   }
   }
 } else {
   http_response_code(404);

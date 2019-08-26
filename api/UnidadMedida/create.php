@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+    $UnidadMedida->SiglasUM = $data->Siglas;
+    $UnidadMedida->NombreUM = $data->Nombre;
+
+    if(!$UnidadMedida->evalNombreUM()){
     $UnidadMedida->Nombre = $data->Nombre;
     $UnidadMedida->Siglas = $data->Siglas;
     $UnidadMedida->UsuarioCreador = $data->UsuarioCreador;
@@ -34,14 +38,32 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($UnidadMedida->create()) {
       http_response_code(200);
       $last_id = $db->lastInsertId();
-      echo json_encode(array("message" => $last_id));
-    } else {
-      http_response_code(404);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 0,
+          "message" => $last_id
+        )
+      );
+    } else {
+      http_response_code(200);
+      echo json_encode(
+        array(
+          "flag"=> 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
       );
     }
   }
+  else {
+    http_response_code(200);
+      echo json_encode(
+        array(
+          "flag" => 2,
+          "message" => "Siglas o unidad de medida ya existen en la base de datos."
+          )
+      );
+   }
+ } 
 } else {
   http_response_code(404);
 }

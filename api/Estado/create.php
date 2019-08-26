@@ -31,6 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       array("message" => "EMPTY")
     );
   } else {
+    $Estado->NombreES = $data->Nombre;
+
+    if(!$Estado->validateNestado()){
     $Estado->Nombre = $data->Nombre;
     $Estado->Descripcion = $data->Descripcion;
     $Estado->IdEstadoAnterior = $data->IdEstadoAnterior;
@@ -41,15 +44,31 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($Estado->create()) {
       http_response_code(200);
       echo json_encode(
-        array("message" => "Datos guardados exitosamente en Estado.")
+        array(
+          "flag" => 0,
+          "message" => "Datos guardados exitosamente en Estado."
+          )
       );
     } else {
-      http_response_code(404);
+      http_response_code(200);
       echo json_encode(
-        array("message" => "No se guardaron correctamente los datos.")
+        array(
+          "flag" => 1,
+          "message" => "No se guardaron correctamente los datos."
+          )
       );
     }
   }
+  else {
+    http_response_code(200);
+    echo json_encode(
+      array(
+        "flag" => 2,
+        "message" => "Nombre de estado ya existe en la base de datos."
+        )
+    );
+  }
+ }
 } else {
   http_response_code(404);
 }
