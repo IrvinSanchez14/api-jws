@@ -48,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
         echo json_encode(
           array(
             "flag" => 1,
-            "Error" => "Problema al momento de enviar el Email, por favor intentelo mas tarde")
+            "Error" => "Problema al momento de enviar el Email, por favor intentelo mas tarde"
+          )
         );
       }
     } else {
@@ -56,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       echo json_encode(
         array(
           "flag" => 2,
-          "Error" => "Email no existe en la base de datos")
+          "Error" => "Email no existe en la base de datos"
+        )
       );
     }
   }

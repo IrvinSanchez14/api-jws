@@ -19,7 +19,7 @@ class Permiso
   function readAll()
   {
     $query = "SELECT 
-                  um.IdPermiso, um.Descripcion, um.Nombre, um.Estado, um.FechaCreacion
+                  um.IdPermiso, um.Descripcion, um.Nombre,if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, um.FechaCreacion
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
@@ -114,7 +114,7 @@ class Permiso
     $stmt = $this->conn->prepare($query);
 
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->IdPermiso = htmlspecialchars(strip_tags($this->IdTipoProducto));
+    $this->IdPermiso = htmlspecialchars(strip_tags($this->IdPermiso));
 
     $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdPermiso', $this->IdPermiso);

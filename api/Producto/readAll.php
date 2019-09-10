@@ -32,6 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
         "tipoProducto" => $tipoProducto,
         "Siglas" => $Siglas,
         "Proveedor" => $Proveedor,
+        "Estado" => $estadoTexto,
+        "IdTipoProducto" => $IdTipoProducto,
+        "IdUnidadMedida" => $IdUnidadMedida,
+        "IdProveedor" => $IdProveedor
       );
       array_push($products_arr, $product_item);
     }

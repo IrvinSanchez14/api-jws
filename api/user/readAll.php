@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
         "Email" => $Email,
         "Alias" => $Alias,
         "IdTipoUsuario" => $IdTipoUsuario,
+        "Sucursal" => $Sucursal,
         "estadoTexto" => $estadoTexto,
         "FechaCreacion" => $FechaCreacion
       );

@@ -16,18 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $data = json_decode(file_get_contents("php://input"));
   $Porcion->IdPorcion = $data->IdPorcion;
   $Porcion->Cantidad = $data->Cantidad;
-  $Porcion->IdUnidadMedida = $data->UnidadMedida;
+  $Porcion->IdUnidadMedida = $data->IdUnidadMedida;
   $Porcion->UsuarioActualiza = $data->UsuarioActualiza;
 
 
   if ($Porcion->update()) {
-    echo json_encode($data);
     http_response_code(200);
     echo json_encode(
       array("message" => "Datos guardados exitosamente en Porcion.")
     );
   } else {
-    http_response_code(404);
+    http_response_code(200);
     echo json_encode(
       array("message" => "No se guardaron correctamente los datos.")
     );

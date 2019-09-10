@@ -153,14 +153,14 @@ class PermisoUsuario
               SET
                 Estado=:Estado
               WHERE
-                IdPermiso=:IdPermiso";
+                IdUsuario=:IdUsuario";
     $stmt = $this->conn->prepare($query);
 
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->IdPermiso = htmlspecialchars(strip_tags($this->IdTipoProducto));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
 
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':IdPermiso', $this->IdPermiso);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
 
     if ($stmt->execute()) {
       return true;

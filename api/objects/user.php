@@ -47,6 +47,7 @@ class User
 
     $password_hash = password_hash($this->Passwd, PASSWORD_BCRYPT);
     $stmt->bindParam(':Passwd', $password_hash);
+
     if ($stmt->execute()) {
       return true;
     }
@@ -125,12 +126,43 @@ class User
     return $stmt;
   }
 
+
+
+  function createUsuerSucursal()
+  {
+    $query = "INSERT INTO usuario_sucursal
+    SET
+        IdSucursal = :IdSucursal,
+        IdUsuario = :IdUsuario,
+        UsuarioCreador = :UsuarioCreador";
+    $stmt = $this->conn->prepare($query);
+    $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
+    $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
+
+    $stmt->bindParam(':IdSucursal', $this->IdSucursal);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
+    $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+    return false;
+  }
+
   function verUsuarios()
   {
     $query = "SELECT 
-                u.IdUsuario, u.Nombre AS Nombre, u.Email, u.Alias, tu.Nombre AS IdTipoUsuario,if(u.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, u.FechaCreacion FROM usuarios u
+                u.IdUsuario, u.Nombre AS Nombre, u.Email, u.Alias, tu.Nombre AS IdTipoUsuario,if(u.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, u.FechaCreacion,
+                if(us.IdSucursal != 0, t1.Nombre, 'Sin asignacion de sucursal')AS Sucursal
+              FROM 
+                usuarios u
               LEFT JOIN 
                 tipos_usuario tu ON u.IdTipoUsuario=tu.IdTipoUsuario
+              LEFT JOIN 
+                usuario_sucursal us ON u.IdUsuario = us.IdUsuario
+              LEFT JOIN 
+                sucursales t1 ON us.IdSucursal=t1.IdSucursal
               ORDER BY
                 u.FechaCreacion DESC";
     $stmt = $this->conn->prepare($query);

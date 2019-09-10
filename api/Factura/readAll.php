@@ -7,12 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/porcion.php';
+  include_once '../objects/factura.php';
 
   $database = new Database();
   $db = $database->getConnection();
-  $Porcion = new Porcion($db);
-  $stmt = $Porcion->readAll();
+  $factura = new Factura($db);
+  $stmt = $factura->readLotes();
   $num = $stmt->rowCount();
 
   if ($num > 0) {
@@ -20,11 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdPorcion" => $IdPorcion,
-        "Cantidad" => $Cantidad,
-        "UnidadMedida" => $UnidadMedida,
-        "Estado" => $estadoTexto,
-        "IdUnidadMedida" => $IdUnidadMedida,
+        "IdCP" => $IdCP,
+        "IdEstado" => $IdEstado,
+        "NombreEstado" => $NombreEstado,
+        "Lote" => $Lote,
+        "NoFactura" => $NoFactura,
+        "IdProveedor" => $IdProveedor,
+        "NombreProveedor" => $NombreProveedor,
+        "FechaCreacion" => $FechaCreacion
       );
       array_push($products_arr, $product_item);
     }

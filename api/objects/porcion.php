@@ -20,7 +20,7 @@ class Porcion
   function readAll()
   {
     $query = "SELECT 
-                po.IdPorcion,po.Cantidad, um.Nombre AS UnidadMedida,  if(po.Estado = 0, 'Disponible','Inactivo')AS estadoTexto 
+                po.IdPorcion,po.Cantidad, um.Nombre AS UnidadMedida,  if(po.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, um.IdUnidadMedida
               FROM 
                 porciones po 
               LEFT JOIN 

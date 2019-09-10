@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
         "IdPermiso" => $IdPermiso,
         "Descripcion" => $Descripcion,
         "Nombre" => $Nombre,
-        "Estado" => $Estado,
+        "Estado" => $estadoTexto,
         "FechaCreacion" => $FechaCreacion
       );
       array_push($products_arr, $product_item);
