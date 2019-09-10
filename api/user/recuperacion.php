@@ -30,27 +30,33 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       http_response_code(200);
       $token = $user->generateToken();
       $user->generaTokenPass($user->IdUsuario, $token);
-      $url = 'http://localhost/tesis/api-jws/login/cambia_pass.php?user_id=' . $user->IdUsuario . '&token=' . $token;
+      $url = 'http://localhost:8080/tesis/api-jws/login/cambia_pass.php?user_id=' . $user->IdUsuario . '&token=' . $token;
       $asunto = 'Recuperar Password - Sistema de Usuarios';
       $cuerpo = "Hola $user->Nombre: <br /><br />Se ha solicitado un reinicio de contrase&ntilde;a. <br/><br/>Para restaurar la contrase&ntilde;a, hacer clic en el siquiente link: <a href='$url'>Cambiar Password</a>";
 
       if ($user->enviarEmail($data->Email, $user->Nombre, $asunto, $cuerpo)) {
         echo json_encode(
           array(
-            "message" => "recuperacion",
+            "flag" => 0,
+            "message" => "Correo enviado exitosamente.",
             "url" => $url,
           ),
           JSON_UNESCAPED_SLASHES
         );
       } else {
+        http_response_code(400);
         echo json_encode(
-          array("ErrorSMTP" => "Problema al momento de enviar el EMAIL")
+          array(
+            "flag" => 1,
+            "Error" => "Problema al momento de enviar el Email, por favor intentelo mas tarde")
         );
       }
     } else {
-      http_response_code(404);
+      http_response_code(400);
       echo json_encode(
-        array("Error" => "Email no existe en la base de datos")
+        array(
+          "flag" => 2,
+          "Error" => "Email no existe en la base de datos")
       );
     }
   }
