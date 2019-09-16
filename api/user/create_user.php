@@ -36,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     http_response_code(200);
     $last_id = $db->lastInsertId();
     $user->IdUsuario = $last_id;
-    if ($user->createUsuerSucursal()) {
+    echo json_encode($last_id);
+    if ($user->createUsuerSucursal($last_id)) {
       $asunto = 'Creaction de Cuenta - Sistema La Pizzeria';
+      echo json_encode($asunto);
       $cuerpo = "Hola $data->Nombre: <br /><br />Tu cuenta en el sistema de La Pizzeria a sido creado correctamente.<br /> Tu contraseña temporal es " . $passRandom . ".<br />
     ATENCION!! al momento de ingresar al sistema con tu usuario y contraseña temporal se te solicitara cambiar la contraseña por motivos de personalizar tu usuario.";
       if ($user->enviarEmail($data->Email, $data->Nombre, $asunto, $cuerpo)) {
