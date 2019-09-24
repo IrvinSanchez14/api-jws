@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdEmpresa" => $IdEmpresa,
+        "IdEmpresa" => (int) $IdEmpresa,
         "Nombre" => $Nombre,
         "Razon_Social" => $Razon_Social,
         "Direccion" => $Direccion,
