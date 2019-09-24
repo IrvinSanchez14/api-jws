@@ -23,7 +23,7 @@ class Permiso
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
-                  um.FechaCreacion DESC";
+                  um.FechaActualizacion DESC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt;
@@ -62,7 +62,6 @@ class Permiso
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
                 Estado=:Estado,
-                FechaCreacion=:FechaCreacion,
                 UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdPermiso=:IdPermiso";
@@ -71,14 +70,12 @@ class Permiso
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
-    $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
     $this->IdPermiso = htmlspecialchars(strip_tags($this->IdPermiso));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Estado', $this->Estado);
-    $stmt->bindParam(':FechaCreacion', $this->FechaCreacion);
     $stmt->bindParam(':IdPermiso', $this->IdPermiso);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
@@ -131,20 +128,19 @@ class Permiso
     $query = "SELECT
                   IdPermiso, Nombre
               FROM
-                " .$this->table_name . "
+                " . $this->table_name . "
                 WHERE
                 Nombre = ? ";
     $stmt = $this->conn->prepare($query);
     $this->NombrePE = htmlspecialchars(strip_tags($this->NombrePE));
     $stmt->bindParam(1, $this->NombrePE);
     $stmt->execute();
-    $num =$stmt->rowCount();
-    if($num > 0)
-      {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->Nombre = $row['Nombre'];
-        return true;
-      }
-        return false;
+    $num = $stmt->rowCount();
+    if ($num > 0) {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Nombre = $row['Nombre'];
+      return true;
+    }
+    return false;
   }
 }

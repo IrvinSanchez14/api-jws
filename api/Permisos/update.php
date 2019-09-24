@@ -1,5 +1,5 @@
 
-<?php 
+<?php
 if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
   include_once '../../config/database.php';
   include_once '../objects/permisos.php';
- 
+
   $database = new Database();
   $db = $database->getConnection();
   $Permiso = new Permiso($db);
@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Permiso->Nombre = $data->Nombre;
   $Permiso->Descripcion = $data->Descripcion;
   $Permiso->Estado = $data->Estado;
-  $Permiso->FechaCreacion = $data->FechaCreacion;
   $Permiso->UsuarioActualiza = $data->UsuarioActualiza;
 
 
