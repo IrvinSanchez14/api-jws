@@ -49,7 +49,8 @@ class lista_producto_porcion
               LEFT JOIN 
                 unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
               GROUP BY 
-                pr.IdProducto
+                pr.IdProducto,
+                lpp.IdListaPP
               ORDER BY 
                 lpp.FechaCreacion DESC";
 
