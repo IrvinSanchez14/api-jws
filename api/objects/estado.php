@@ -15,6 +15,7 @@ class estados
   public $Nombre;
   public $IdEstadoAnterior;
   public $IdEstadoSiguientes;
+  public $Disponible;
 
   public function __construct($db)
   {
@@ -24,7 +25,7 @@ class estados
   function readAll()
   {
     $query = "SELECT 
-                  um.IdEstado, um.Nombre, um.Descripcion, um.IdEstadoAnterior, um.IdEstadoSiguiente
+                  um.IdEstado, um.Nombre, um.Descripcion,um.FechaCreacion,if(um.Disponible = 0, 'Disponible','Inactivo')AS estadoTexto
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
@@ -40,20 +41,17 @@ class estados
               SET
                 Descripcion = :Descripcion,
                 Nombre = :Nombre,
-                IdEstadoAnterior = :IdEstadoAnterior,
-                IdEstadoSiguiente = :IdEstadoSiguiente,
+                Disponible = :Disponible,
                 UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
-    $this->IdEstadoAnterior = htmlspecialchars(strip_tags($this->IdEstadoAnterior));
-    $this->IdEstadoSiguiente = htmlspecialchars(strip_tags($this->IdEstadoSiguiente));
+    $this->Disponible = htmlspecialchars(strip_tags($this->Disponible));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':Nombre', $this->Nombre);
-    $stmt->bindParam(':IdEstadoAnterior', $this->IdEstadoAnterior);
-    $stmt->bindParam(':IdEstadoSiguiente', $this->IdEstadoSiguiente);
+    $stmt->bindParam(':Disponible', $this->Disponible);
     $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
@@ -69,8 +67,6 @@ class estados
               SET
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
-                IdEstadoAnterior=:IdEstadoAnterior,
-                IdEstadoSiguiente=:IdEstadoSiguiente,
                 UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdEstado=:IdEstado";
@@ -78,16 +74,12 @@ class estados
 
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
-    $this->IdEstadoAnterior = htmlspecialchars(strip_tags($this->IdEstadoAnterior));
-    $this->IdEstadoSiguiente = htmlspecialchars(strip_tags($this->IdEstadoSiguiente));
     $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
     $stmt->bindParam(':IdEstado', $this->IdEstado);
-    $stmt->bindParam(':IdEstadoSiguiente', $this->IdEstadoSiguiente);
-    $stmt->bindParam(':IdEstadoAnterior', $this->IdEstadoAnterior);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
@@ -116,37 +108,36 @@ class estados
     $query = "SELECT 
                 IdEstado, Nombre
               FROM 
-                " .$this->table_name . "
+                " . $this->table_name . "
               WHERE 
                   Nombre = ? ";
     $stmt = $this->conn->prepare($query);
     $this->NombreES = htmlspecialchars(strip_tags($this->NombreES));
     $stmt->bindParam(1, $this->NombreES);
     $stmt->execute();
-    $num =$stmt->rowCount();
-    if($num > 0)
-    {
+    $num = $stmt->rowCount();
+    if ($num > 0) {
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $this->Nombre = $row['Nombre'];
       return true;
     }
-      return false;
+    return false;
   }
 
-  /*function changeState()
+  function changeState()
   {
     $query = "UPDATE
                 " . $this->table_name . "
               SET
-                Estado=:Estado
+                Disponible=:Disponible
               WHERE
                 IdEstado=:IdEstado";
     $stmt = $this->conn->prepare($query);
 
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
+    $this->Disponible = htmlspecialchars(strip_tags($this->Disponible));
     $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
 
-    $stmt->bindParam(':Estado', $this->Estado);
+    $stmt->bindParam(':Disponible', $this->Disponible);
     $stmt->bindParam(':IdEstado', $this->IdEstado);
 
     if ($stmt->execute()) {
@@ -154,5 +145,5 @@ class estados
     } else {
       return false;
     }
-  }*/
+  }
 }
