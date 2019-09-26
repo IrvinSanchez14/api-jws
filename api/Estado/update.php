@@ -1,5 +1,5 @@
 
-<?php 
+<?php
 if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
 
   include_once '../../config/database.php';
   include_once '../objects/estado.php';
- 
+
   $database = new Database();
   $db = $database->getConnection();
   $Estado = new Estados($db);
@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Estado->IdEstado = $data->IdEstado;
   $Estado->Nombre = $data->Nombre;
   $Estado->Descripcion = $data->Descripcion;
-  $Estado->IdEstadoAnterior = $data->IdEstadoAnterior;
-  $Estado->IdEstadoSiguiente = $data->IdEstadoSiguiente;
   $Estado->UsuarioActualiza = $data->UsuarioActualiza;
 
 

@@ -20,12 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdEstado" => $IdEstado,
-        "Descripcion" => $Descripcion,
+        "IdEstado" => (int) $IdEstado,
         "Nombre" => $Nombre,
-        "IdEstadoAnterior" => $IdEstadoAnterior,
-        "IdEstadoSiguiente" => $IdEstadoSiguiente,
-        //"FechaCreacion" => $FechaCreacion
+        "Descripcion" => $Descripcion,
+        "Estado" => $estadoTexto,
+        "FechaCreacion" => $FechaCreacion,
       );
       array_push($products_arr, $product_item);
     }

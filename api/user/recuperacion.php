@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
       http_response_code(200);
       $token = $user->generateToken();
       $user->generaTokenPass($user->IdUsuario, $token);
-      $url = 'http://api-lapizzeria.restaurantesivar.com/logi/cambia_pass.php?user_id=' . $user->IdUsuario . '&token=' . $token;
+      $url = 'http://api-lapizzeria.restaurantesivar.com/login/cambia_pass.php?user_id=' . $user->IdUsuario . '&token=' . $token;
       $asunto = 'Recuperar Password - Sistema de Usuarios';
       $cuerpo = "Hola $user->Nombre: <br /><br />Se ha solicitado un reinicio de contrase&ntilde;a. <br/><br/>Para restaurar la contrase&ntilde;a, hacer clic en el siquiente link: <a href='$url'>Cambiar Password</a>";
 

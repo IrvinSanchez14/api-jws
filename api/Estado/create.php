@@ -32,43 +32,40 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     );
   } else {
     $Estado->NombreES = $data->Nombre;
-
-    if(!$Estado->validateNestado()){
-    $Estado->Nombre = $data->Nombre;
-    $Estado->Descripcion = $data->Descripcion;
-    $Estado->IdEstadoAnterior = $data->IdEstadoAnterior;
-    $Estado->IdEstadoSiguiente = $data->IdEstadoSiguiente;
-    $Estado->UsuarioCreador = $data->UsuarioCreador;
+    if (!$Estado->validateNestado()) {
+      $Estado->Nombre = $data->Nombre;
+      $Estado->Descripcion = $data->Descripcion;
+      $Estado->Disponible = "0";
+      $Estado->UsuarioCreador = $data->UsuarioCreador;
 
 
-    if ($Estado->create()) {
-      http_response_code(200);
-      echo json_encode(
-        array(
-          "flag" => 0,
-          "message" => "Datos guardados exitosamente en Estado."
+      if ($Estado->create()) {
+        http_response_code(200);
+        echo json_encode(
+          array(
+            "flag" => 0,
+            "message" => "Datos guardados exitosamente en Estado."
           )
-      );
+        );
+      } else {
+        http_response_code(200);
+        echo json_encode(
+          array(
+            "flag" => 1,
+            "message" => "No se guardaron correctamente los datos."
+          )
+        );
+      }
     } else {
       http_response_code(200);
       echo json_encode(
         array(
-          "flag" => 1,
-          "message" => "No se guardaron correctamente los datos."
-          )
+          "flag" => 2,
+          "message" => "Nombre de estado ya existe en la base de datos."
+        )
       );
     }
   }
-  else {
-    http_response_code(200);
-    echo json_encode(
-      array(
-        "flag" => 2,
-        "message" => "Nombre de estado ya existe en la base de datos."
-        )
-    );
-  }
- }
 } else {
   http_response_code(404);
 }
