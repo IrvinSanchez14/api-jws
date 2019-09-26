@@ -20,7 +20,7 @@ class PermisoUsuario
   function readUsuarios()
   {
     $query = "SELECT 
-                um.IdUsuario, um.Nombre AS NombreUsuario, tu.Nombre AS NombreTipo, if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
+                um.IdUsuario,um.Email, um.Nombre AS NombreUsuario, tu.Nombre AS NombreTipo, if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
               FROM
                 usuarios um
               LEFT JOIN 

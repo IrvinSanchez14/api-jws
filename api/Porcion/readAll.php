@@ -19,9 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     $products_arr = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
+      $cantidadReal = floatval($Cantidad);
       $product_item = array(
-        "IdPorcion" => $IdPorcion,
-        "Cantidad" => $Cantidad,
+        "IdPorcion" => (int) $IdPorcion,
+        "Cantidad" => number_format($cantidadReal, 2),
         "UnidadMedida" => $UnidadMedida,
         "Estado" => $estadoTexto,
         "IdUnidadMedida" => $IdUnidadMedida,

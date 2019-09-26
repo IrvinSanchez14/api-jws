@@ -20,7 +20,7 @@ if ($user->validaPassword($password, $con_password)) //aqui validamos que la nue
 
 	if ($user->cambiaPassword($pass_hash, $user_id, $token)) //aqui validamos que si todo salio correctamente nos muestre el mensaje que se modifico la contraseña
 	{
-		echo "Contrase&ntilde;a Modificada <br> <a href='index.php' >Iniciar Sesion</a>";
+		echo "Contrase&ntilde;a Modificada <br> <a href='http://lapizzeria.restaurantesivar.com/' >Iniciar Sesion</a>";
 	} else {
 
 		echo "Error al modificar contrase&ntilde;a";
