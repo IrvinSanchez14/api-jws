@@ -11,7 +11,7 @@
 class Database
 {
   private $version = "1.0.2";
-  private $host = "127.0.0.1";
+  private $host = "localhost";
   private $db_name = "tesis";
   private $username = "root";
   private $password = "";

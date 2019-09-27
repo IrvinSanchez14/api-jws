@@ -64,4 +64,4 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   }
 } else {
   http_response_code(404);
-}
+    }
