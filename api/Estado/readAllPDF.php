@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
   include_once '../../config/database.php';
-  include_once '../objects/unidad_medida.php';
+  include_once '../objects/estado.php';
   require_once('../../libs/tcpdf/tcpdf.php');
 
 
@@ -68,21 +68,21 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   // set text shadow effect
   $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
-  $pdf->Write(0, 'UNIDAD DE MEDIDA', '', 0, 'L', true, 0, false, false, 0);
+  $pdf->Write(0, 'Estados', '', 0, 'L', true, 0, false, false, 0);
   $pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
   $database = new Database();
   $db = $database->getConnection();
-  $UnidadMedida = new UnidadMedida($db);
-  $stmt = $UnidadMedida->readAll();
+  $estados = new estados($db);
+  $stmt = $estados->readAll();
   $num = $stmt->rowCount();
 
   //echo $html ="<style>td{align: center;}</style>";
 
    if ($num > 0) {
-    $html = '<table border="1"><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Siglas</th></tr>';
+    $html = '<table border="1"><tr style=" background-color: #4CAF50; color: white;"><th align="center">ID</th><th align="center">Nombre</th><th align="center">Descripción</th></tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
-      $html .= '<tr ><td align="center">' . $IdUnidadMedida . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Siglas . '</td></tr>';
+      $html .= '<tr ><td align="center">' . $IdEstado  . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Descripcion . '</td></tr>';
     }
     $html .= "</table>";
 
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
     // Close and output PDF document
     // This method has several options, check the source code documentation for more information.
-    $pdf->Output('UnidadMEdida.pdf', 'I');
+    $pdf->Output('Estados.pdf', 'I');
 
 
     http_response_code(200);
