@@ -29,46 +29,44 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     $proveedor->NombrePR = $data->Nombre;
     $proveedor->NRCpr = $data->NRC;
 
-    if(!$proveedor->validateNprov()){
-    $proveedor->Nombre = $data->Nombre;
-    $proveedor->Direccion = $data->Direccion;
-    $proveedor->Telefono = $data->Telefono;
-    $proveedor->Razo_Social = $data->Razo_Social;
-    $proveedor->Tipo = $data->Tipo;
-    $proveedor->Nombre_Contacto = $data->Nombre_Contacto;
-    $proveedor->Email = $data->Email;
-    $proveedor->DUI = $data->DUI;
-    $proveedor->NIT = $data->NIT;
-    $proveedor->NRC = $data->NRC;
-    $proveedor->Estado = "0";
-    
-    $proveedor->UsuarioCreador = $data->UsuarioCreador;
+    if (!$proveedor->validateNprov()) {
+      $proveedor->Nombre = $data->Nombre;
+      $proveedor->Direccion = $data->Direccion;
+      $proveedor->Telefono = $data->Telefono;
+      $proveedor->Razo_Social = $data->Razo_Social;
+      $proveedor->Nombre_Contacto = $data->Nombre_Contacto;
+      $proveedor->Email = $data->Email;
+      $proveedor->DUI = $data->DUI;
+      $proveedor->NIT = $data->NIT;
+      $proveedor->NRC = $data->NRC;
+      $proveedor->Estado = "0";
 
-    if ($proveedor->create()) {
-      http_response_code(200);
-      echo json_encode(
-        array(
-          "flag" => 0,
-          "message" => "Datos guardados exitosamente en Proveedores."
+      $proveedor->UsuarioCreador = $data->UsuarioCreador;
+
+      if ($proveedor->create()) {
+        http_response_code(200);
+        echo json_encode(
+          array(
+            "flag" => 0,
+            "message" => "Datos guardados exitosamente en Proveedores."
           )
-      );
-    } else{
-      http_response_code(200);
-      echo json_encode(
-        array(
-          "flag" => 1,
-          "message" => "No se guardaron correctamente los datos."
+        );
+      } else {
+        http_response_code(200);
+        echo json_encode(
+          array(
+            "flag" => 1,
+            "message" => "No se guardaron correctamente los datos."
           )
-      );
-    }
-  } 
-  else {
+        );
+      }
+    } else {
       http_response_code(200);
       echo json_encode(
         array(
           "flag" => 2,
           "message" => "Nombre o NRC ya existen en la base de datos."
-          )
+        )
       );
     }
   }

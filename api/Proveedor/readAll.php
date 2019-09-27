@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
         "Direccion" => $Direccion,
         "Telefono" => $Telefono,
         "Razo_Social" => $Razo_Social,
-        "Tipo" => $Tipo,
         "Nombre_Contacto" => $Nombre_Contacto,
         "Email" => $Email,
         "DUI" => $DUI,

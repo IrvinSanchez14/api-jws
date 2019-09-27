@@ -28,7 +28,7 @@ class Proveedor
   function readAll()
   {
     $query = "SELECT 
-                  pr.IdProveedor, pr.Nombre, pr.Direccion, pr.Telefono, pr.Razo_Social, pr.Tipo, pr.Nombre_Contacto, pr.Email, pr.DUI, pr.NIT, pr.NRC, if(pr.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, pr.FechaCreacion
+                  pr.IdProveedor, pr.Nombre, pr.Direccion, pr.Telefono, pr.Razo_Social, pr.Nombre_Contacto, pr.Email, pr.DUI, pr.NIT, pr.NRC, if(pr.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, pr.FechaCreacion
                 FROM
                   " . $this->table_name . " pr
                 ORDER BY
@@ -46,7 +46,6 @@ class Proveedor
                 Direccion = :Direccion,
                 Telefono = :Telefono,
                 Razo_Social = :Razo_Social,
-                Tipo = :Tipo,
                 Nombre_Contacto = :Nombre_Contacto,
                 Email = :Email,
                 DUI = :DUI,
@@ -59,7 +58,6 @@ class Proveedor
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Razo_Social = htmlspecialchars(strip_tags($this->Razo_Social));
-    $this->Tipo = htmlspecialchars(strip_tags($this->Tipo));
     $this->Nombre_Contacto = htmlspecialchars(strip_tags($this->Nombre_Contacto));
     $this->Email = htmlspecialchars(strip_tags($this->Email));
     $this->DUI = htmlspecialchars(strip_tags($this->DUI));
@@ -73,7 +71,6 @@ class Proveedor
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Razo_Social', $this->Razo_Social);
-    $stmt->bindParam(':Tipo', $this->Tipo);
     $stmt->bindParam(':Nombre_Contacto', $this->Nombre_Contacto);
     $stmt->bindParam(':Email', $this->Email);
     $stmt->bindParam(':DUI', $this->DUI);
@@ -97,7 +94,6 @@ class Proveedor
                 Direccion=:Direccion,
                 Telefono=:Telefono,
                 Razo_Social=:Razo_Social,
-                Tipo=:Tipo,
                 Nombre_Contacto=:Nombre_Contacto,
                 Email=:Email,
                 DUI=:DUI,
@@ -114,7 +110,6 @@ class Proveedor
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Razo_Social = htmlspecialchars(strip_tags($this->Razo_Social));
-    $this->Tipo = htmlspecialchars(strip_tags($this->Tipo));
     $this->Nombre_Contacto = htmlspecialchars(strip_tags($this->Nombre_Contacto));
     $this->Email = htmlspecialchars(strip_tags($this->Email));
     $this->DUI = htmlspecialchars(strip_tags($this->DUI));
@@ -128,7 +123,6 @@ class Proveedor
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Razo_Social', $this->Razo_Social);
-    $stmt->bindParam(':Tipo', $this->Tipo);
     $stmt->bindParam(':Nombre_Contacto', $this->Nombre_Contacto);
     $stmt->bindParam(':Email', $this->Email);
     $stmt->bindParam(':DUI', $this->DUI);
@@ -187,7 +181,7 @@ class Proveedor
     $query = "SELECT 
                 Nombre, NRC 
               FROM 
-                " .$this->table_name . "
+                " . $this->table_name . "
               WHERE 
                  Nombre = ? AND NRC = ? ";
     $stmt = $this->conn->prepare($query);
@@ -196,9 +190,8 @@ class Proveedor
     $stmt->bindParam(1, $this->NombrePR);
     $stmt->bindParam(2, $this->NRCpr);
     $stmt->execute();
-    $num =$stmt->rowCount();
-    if($num > 0)
-    {
+    $num = $stmt->rowCount();
+    if ($num > 0) {
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $this->Nombre = $row['Nombre'];
       $this->NRC = $row['NRC'];
