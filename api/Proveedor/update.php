@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $proveedor->Direccion = $data->Direccion;
   $proveedor->Telefono = $data->Telefono;
   $proveedor->Razo_Social = $data->Razo_Social;
-  $proveedor->Tipo = $data->Tipo;
   $proveedor->Nombre_Contacto = $data->Nombre_Contacto;
   $proveedor->Email = $data->Email;
   $proveedor->DUI = $data->DUI;

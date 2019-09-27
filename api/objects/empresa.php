@@ -74,7 +74,6 @@ class Empresas
                 Direccion=:Direccion,
                 Telefono=:Telefono,
                 Correo=:Correo,
-                Estado=:Estado,
                 UsuarioActualiza=:UsuarioActualiza
 
               WHERE
@@ -86,7 +85,6 @@ class Empresas
     $this->Direccion = htmlspecialchars(strip_tags($this->Direccion));
     $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
     $this->Correo = htmlspecialchars(strip_tags($this->Correo));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdEmpresa = htmlspecialchars(strip_tags($this->IdEmpresa));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
@@ -95,7 +93,6 @@ class Empresas
     $stmt->bindParam(':Direccion', $this->Direccion);
     $stmt->bindParam(':Telefono', $this->Telefono);
     $stmt->bindParam(':Correo', $this->Correo);
-    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdEmpresa', $this->IdEmpresa);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
@@ -132,20 +129,19 @@ class Empresas
     $query = "SELECT 
                 IdEmpresa, Nombre
               FROM
-                " .$this->table_name . "
+                " . $this->table_name . "
               WHERE
                   Nombre = ? ";
     $stmt = $this->conn->prepare($query);
     $this->NombreEM = htmlspecialchars(strip_tags($this->NombreEM));
     $stmt->bindParam(1, $this->NombreEM);
     $stmt->execute();
-    $num =$stmt->rowCount();
-    if($num > 0)
-    {
+    $num = $stmt->rowCount();
+    if ($num > 0) {
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $this->Nombre = $row['Nombre'];
       return true;
     }
-      return false;
+    return false;
   }
 }
