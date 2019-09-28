@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $Permiso->IdPermiso = $data->IdPermiso;
   $Permiso->Nombre = $data->Nombre;
   $Permiso->Descripcion = $data->Descripcion;
-  $Permiso->Estado = $data->Estado;
   $Permiso->UsuarioActualiza = $data->UsuarioActualiza;
 
 

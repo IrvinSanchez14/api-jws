@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdProveedor" => $IdProveedor,
+        "IdProveedor" => (int) $IdProveedor,
         "Nombre" => $Nombre,
         "Direccion" => $Direccion,
         "Telefono" => $Telefono,

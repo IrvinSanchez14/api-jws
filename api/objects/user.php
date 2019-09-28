@@ -55,6 +55,8 @@ class User
   }
 
 
+
+
   function update()
   {
     $query = "UPDATE " . $this->table_name . "
@@ -81,6 +83,29 @@ class User
     $stmt->bindParam(':IdTipoUsuario', $this->IdTipoUsuario);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
     $stmt->bindParam(':IdUsuario', $this->IdUsuario);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+    return false;
+  }
+
+  function updateUsuarioSucursal()
+  {
+    $query = "UPDATE usuario_sucursal
+    SET
+        IdSucursal = :IdSucursal,
+        UsuarioActualiza = :UsuarioActualiza
+        WHERE
+          IdUsuario=:IdUsuario";
+    $stmt = $this->conn->prepare($query);
+    $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
+    $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
+
+    $stmt->bindParam(':IdSucursal', $this->IdSucursal);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
+    $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
       return true;
@@ -128,25 +153,25 @@ class User
 
 
 
-  function createUsuerSucursal($id)
+  function createUsuarioSucursal()
   {
     $query = "INSERT INTO usuario_sucursal
     SET
         IdSucursal = :IdSucursal,
-        IdUsuario = 30,
+        IdUsuario = :IdUsuario,
         UsuarioCreador = :UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
+    $this->IdUsuario = htmlspecialchars(strip_tags($this->IdUsuario));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
 
     $stmt->bindParam(':IdSucursal', $this->IdSucursal);
+    $stmt->bindParam(':IdUsuario', $this->IdUsuario);
     $stmt->bindParam(':UsuarioCreador', $this->UsuarioCreador);
 
     if ($stmt->execute()) {
-      echo json_encode("hey");
       return true;
     }
-    echo json_encode("fallo");
     return false;
   }
 

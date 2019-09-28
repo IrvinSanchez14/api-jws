@@ -25,12 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $user->Nombre = $data->Nombre;
   $user->Email = $data->Email;
   $user->Alias = $data->Alias;
-  $user->IdTipoUsuario = $data->IdTipoUsuario;
+  $user->IdTipoUsuario = $data->valueSelect;
   $user->UsuarioActualiza = $data->UsuarioActualiza;
 
 
 
   if ($user->update()) {
+    if ($data->valueSelectSucursal > 0) {
+      $user->IdSucursal = $data->valueSelectSucursal;
+      if ($user->updateUsuarioSucursal()) {
+        http_response_code(200);
+        echo json_encode(
+          array("message" => "Datos guardados exitosamente en Empresa.")
+        );
+      }
+    }
     http_response_code(200);
     echo json_encode(
       array("message" => "Datos guardados exitosamente en Empresa.")
