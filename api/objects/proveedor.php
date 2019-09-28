@@ -99,7 +99,6 @@ class Proveedor
                 DUI=:DUI,
                 NIT=:NIT,
                 NRC=:NRC,
-                Estado=:Estado,
                 UsuarioActualiza=:UsuarioActualiza
 
                 WHERE
@@ -115,7 +114,6 @@ class Proveedor
     $this->DUI = htmlspecialchars(strip_tags($this->DUI));
     $this->NIT = htmlspecialchars(strip_tags($this->NIT));
     $this->NRC = htmlspecialchars(strip_tags($this->NRC));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdProveedor = htmlspecialchars(strip_tags($this->IdProveedor));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
@@ -128,7 +126,6 @@ class Proveedor
     $stmt->bindParam(':DUI', $this->DUI);
     $stmt->bindParam(':NIT', $this->NIT);
     $stmt->bindParam(':NRC', $this->NRC);
-    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdProveedor', $this->IdProveedor);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 

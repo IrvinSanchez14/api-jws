@@ -61,7 +61,6 @@ class Permiso
               SET
                 Nombre=:Nombre,
                 Descripcion=:Descripcion,
-                Estado=:Estado,
                 UsuarioActualiza=:UsuarioActualiza
               WHERE
                 IdPermiso=:IdPermiso";
@@ -69,13 +68,11 @@ class Permiso
 
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Descripcion = htmlspecialchars(strip_tags($this->Descripcion));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdPermiso = htmlspecialchars(strip_tags($this->IdPermiso));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
 
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Descripcion', $this->Descripcion);
-    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':IdPermiso', $this->IdPermiso);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 

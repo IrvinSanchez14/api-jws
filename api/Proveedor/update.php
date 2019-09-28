@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
   $proveedor->DUI = $data->DUI;
   $proveedor->NIT = $data->NIT;
   $proveedor->NRC = $data->NRC;
-  $proveedor->Estado = $data->Estado;
   $proveedor->UsuarioActualiza = $data->UsuarioActualiza;
 
   if ($proveedor->update()) {

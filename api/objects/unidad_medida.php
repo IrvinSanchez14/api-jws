@@ -20,7 +20,7 @@ class UnidadMedida
   function readAll()
   {
     $query = "SELECT 
-                  um.IdUnidadMedida, um.Siglas, um.Nombre, um.Estado, um.FechaCreacion
+                  um.IdUnidadMedida, um.Siglas, um.Nombre, if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, um.FechaCreacion
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
@@ -46,7 +46,7 @@ class UnidadMedida
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->UsuarioCreador = htmlspecialchars(strip_tags($this->UsuarioCreador));
- 
+
 
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Siglas', $this->Siglas);
@@ -67,7 +67,6 @@ class UnidadMedida
               SET
                 Nombre=:Nombre,
                 Siglas=:Siglas,
-                Estado=:Estado,
                 UsuarioActualiza=:UsuarioActualiza
 
               WHERE
@@ -76,14 +75,12 @@ class UnidadMedida
 
     $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
     $this->Siglas = htmlspecialchars(strip_tags($this->Siglas));
-    $this->Estado = htmlspecialchars(strip_tags($this->Estado));
     $this->IdUnidadMedida = htmlspecialchars(strip_tags($this->IdUnidadMedida));
     $this->UsuarioActualiza = htmlspecialchars(strip_tags($this->UsuarioActualiza));
-    
+
     $stmt->bindParam(':IdUnidadMedida', $this->IdUnidadMedida);
     $stmt->bindParam(':Nombre', $this->Nombre);
     $stmt->bindParam(':Siglas', $this->Siglas);
-    $stmt->bindParam(':Estado', $this->Estado);
     $stmt->bindParam(':UsuarioActualiza', $this->UsuarioActualiza);
 
     if ($stmt->execute()) {
@@ -131,27 +128,26 @@ class UnidadMedida
   }
 
   function evalNombreUM()
-    {
-      $query = "SELECT 
+  {
+    $query = "SELECT 
                   Siglas, Nombre 
                   FROM 
                     " . $this->table_name . "
                   WHERE
                     Siglas = ? AND Nombre = ? ";
-      $stmt = $this->conn->prepare($query);
-      $this->SiglasUM = htmlspecialchars(strip_tags($this->SiglasUM));
-      $this->NombreUM = htmlspecialchars(strip_tags($this->NombreUM));
-      $stmt->bindparam(1, $this->SiglasUM);
-      $stmt->bindparam(2, $this->NombreUM);
-      $stmt->execute();
-      $num = $stmt->rowCount();
-      if($num > 0)
-      {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->Siglas = $row['Siglas'];
-        $this->Nombre = $row['Nombre'];
-        return true;
-      }
-      return false;
+    $stmt = $this->conn->prepare($query);
+    $this->SiglasUM = htmlspecialchars(strip_tags($this->SiglasUM));
+    $this->NombreUM = htmlspecialchars(strip_tags($this->NombreUM));
+    $stmt->bindparam(1, $this->SiglasUM);
+    $stmt->bindparam(2, $this->NombreUM);
+    $stmt->execute();
+    $num = $stmt->rowCount();
+    if ($num > 0) {
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $this->Siglas = $row['Siglas'];
+      $this->Nombre = $row['Nombre'];
+      return true;
     }
+    return false;
+  }
 }

@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     http_response_code(200);
     $last_id = $db->lastInsertId();
     $user->IdUsuario = $last_id;
-    echo json_encode($last_id);
-    if ($user->createUsuerSucursal($last_id)) {
+    $user->IdSucursal = $data->valueSelectSucursal;
+    if ($user->createUsuarioSucursal()) {
       $asunto = 'Creaction de Cuenta - Sistema La Pizzeria';
       echo json_encode($asunto);
       $cuerpo = "Hola $data->Nombre: <br /><br />Tu cuenta en el sistema de La Pizzeria a sido creado correctamente.<br /> Tu contraseña temporal es " . $passRandom . ".<br />

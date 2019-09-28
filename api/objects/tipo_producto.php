@@ -20,7 +20,7 @@ class TipoProducto
   function readAll()
   {
     $query = "SELECT 
-                  um.IdTipoProducto, um.Descripcion, um.Nombre, um.Estado, um.FechaCreacion
+                  um.IdTipoProducto, um.Descripcion, um.Nombre, if(um.Estado = 0, 'Disponible','Inactivo')AS estadoTexto, um.FechaCreacion
                 FROM
                   " . $this->table_name . " um
                 ORDER BY
@@ -137,13 +137,12 @@ class TipoProducto
     $this->NombreTP = htmlspecialchars(strip_tags($this->NombreTP));
     $stmt->bindParam(1, $this->NombreTP);
     $stmt->execute();
-    $num =$stmt->rowCount();
-    if($num > 0)
-    {
+    $num = $stmt->rowCount();
+    if ($num > 0) {
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $this->Nombre = $row['Nombre'];
       return true;
     }
-      return false;
-    }
+    return false;
   }
+}
