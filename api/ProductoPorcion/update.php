@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PUT"  || $_SERVER['REQUEST_METHOD'] == "OPTIO
   $db = $database->getConnection();
   $lista = new lista_producto_porcion($db);
   $data = json_decode(file_get_contents("php://input"));
-  $lista->IdProducto = $data->NombreProducto;
+  $lista->IdProducto = $data->valueSelect;
   $lista->IdPorcion = $data->Porcion;
   $lista->IdListaPP = $data->IdListaPP;
   $lista->UsuarioActualiza = $data->UsuarioActualiza;

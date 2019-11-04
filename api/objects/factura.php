@@ -32,6 +32,7 @@ class Factura
                 TipoFactura = :TipoFactura,
                 TotalSinIva = :TotalSinIva,
                 IVA = :IVA,
+                IdEstado = 2,
                 UsuarioCreador=:UsuarioCreador";
     $stmt = $this->conn->prepare($query);
     $this->NoFactura = htmlspecialchars(strip_tags($this->NoFactura));
@@ -121,5 +122,27 @@ class Factura
     $stmt->bindParam(1, $this->IdCP);
     $stmt->execute();
     return $stmt;
+  }
+  function changeStateFactura()
+  {
+    $query = "UPDATE
+                factura_cabecera
+              SET
+                IdEstado=:IdEstado
+              WHERE
+                IdCP=:IdCP";
+    $stmt = $this->conn->prepare($query);
+
+    $this->IdEstado = htmlspecialchars(strip_tags($this->IdEstado));
+    $this->IdCP = htmlspecialchars(strip_tags($this->IdCP));
+
+    $stmt->bindParam(':IdEstado', $this->IdEstado);
+    $stmt->bindParam(':IdCP', $this->IdCP);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
