@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
               );
               array_push($products_arr, $product_item);
             }
-            if ($email->enviarEmailVarios($products_arr, 'lista existente', 'hola lista')) {
+            if ($email->enviarEmailVarios($products_arr, 'lista existente', file_get_contents('../templateEmail/index.html'))) {
               echo json_encode(
                 array("message" => "Datos guardados exitosamente")
               );

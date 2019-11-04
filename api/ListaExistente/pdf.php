@@ -38,15 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
 
   // set auto page breaks
   $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-  
+
 
   // set image scale factor
   $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
   // set some language-dependent strings (optional)
-  if (@file_exists(dirname(_FILE_) . '/lang/spa.php')) {
-    require_once(dirname(_FILE_) . '/lang/spa.php');
-    
+  if (@file_exists(dirname(FILE) . '/lang/spa.php')) {
+    require_once(dirname(FILE) . '/lang/spa.php');
+
     $pdf->setLanguageArray($l);
   }
 
@@ -73,16 +73,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
   $database = new Database();
   $db = $database->getConnection();
   $lista_existente = new lista_existente($db);
-  $lista_existente->FechaCreacion='2019-08-17';
+  $lista_existente->FechaCreacion = '2019-11-03';
   $stmt = $lista_existente->ListaExistente();
-  $ID = $lista_existente->IdListaExistene;
+  //$ID = $lista_existente->IdListaExistene;
 
-$lista_existente->IdListaExistene = $ID;
-$stmt = $lista_existente->ListaDetalle();
+  //$lista_existente->IdListaExistene = $ID;
+  $stmt = $lista_existente->ListaDetalle();
   $num = $stmt->rowCount();
 
   //echo $html ="<style>td{align: center;}</style>";
-  $html = "<h5>Usuario creador: ".$lista_existente->Nombre_Usuario." "." Sucursal: ".$lista_existente->Sucursal."</h5><br />";
+  $html = "<h5>Usuario creador: " . $lista_existente->Nombre_Usuario . " " . " Sucursal: " . $lista_existente->Sucursal . "</h5><br />";
   if ($num > 0) {
     $html .= '<table border="1"><tr style=" background-color: #4CAF50; color: white;"><th align="center">Producto</th><th align="center">Cantidad</th><th align="center">Porcion</th></tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -91,7 +91,7 @@ $stmt = $lista_existente->ListaDetalle();
     }
     $html .= "</table>";
 
-     // Print text using writeHTMLCell()
+    // Print text using writeHTMLCell()
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
     // ---------------------------------------------------------

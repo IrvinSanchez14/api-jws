@@ -39,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
     if ($factura->createCabecera()) {
       $last_id = $db->lastInsertId();
       if ($last_id > 0) {
-        echo json_encode($data);
         if ($factura->createDetalle($last_id, $data->Detalle)) {
           http_response_code(200);
           echo json_encode(

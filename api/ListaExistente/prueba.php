@@ -14,35 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/produccion.php';
+  include_once '../objects/lista_existente.php';
   $database = new Database();
   $db = $database->getConnection();
-  $produccion = new Produccion($db);
+  $lista = new lista_existente($db);
   $data = json_decode(file_get_contents("php://input"));
-  $produccion->IdPC = $data->IdPC;
-  $stmt = $produccion->readDetalleProduccion();
+  $lista->IdListaExistene = 7;
+  $stmt = $lista->ListaDetalle();
 
   if ($stmt) {
     $products_arr = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdProduccion" => $IdProduccion,
-        "IdPC" => $IdPC,
-        "IdProducto" => $IdProducto,
-        "cantidadNota" => $cantidadNota,
-        "Cantidad" => $Cantidad,
-        "IdPorcion" => $IdPorcion,
-        "FechaVencimiento" => $FechaVencimiento,
-        "NombreProducto" => $NombreProducto,
-        "NombrePorcion" => $NombrePorcion,
+        "Producto" => $Producto
       );
       array_push($products_arr, $product_item);
     }
     http_response_code(200);
     echo json_encode($products_arr);
   } else {
-    http_response_code(404);
+    http_response_code(200);
     echo json_encode(
       array("message" => "No se encontraron datos.")
     );

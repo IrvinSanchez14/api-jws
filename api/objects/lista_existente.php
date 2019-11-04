@@ -49,7 +49,7 @@ class lista_existente
     LEFT JOIN sucursales su ON le.IdSucursal=su.IdSucursal
     LEFT JOIN usuarios us ON le.UsuarioCreador= us.IdUsuario
     LEFT JOIN estados es ON le.IdEstado = es.IdEstado
-    WHERE DATE (le.FechaCreacion)= ?";
+    WHERE DATE(le.FechaCreacion)= ?";
 
     $stmt = $this->conn->prepare($query);
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
@@ -80,6 +80,8 @@ class lista_existente
     $stmt = $this->conn->prepare($query);
     $this->IdListaExistene = htmlspecialchars(strip_tags($this->IdListaExistene));
     $stmt->bindParam(1, $this->IdListaExistene);
+    $stmt->execute();
+    return $stmt;
   }
 
   function verAdministradores()

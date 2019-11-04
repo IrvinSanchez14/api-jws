@@ -39,20 +39,20 @@ class lista_producto_porcion
   function leerProductos()
   {
     $query = "SELECT 
-                lpp.IdListaPP, pr.Nombre AS NombreProducto,pr.IdProducto, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
-              FROM 
-                lista_producto_porcion lpp
-              LEFT JOIN 
-                productos pr ON lpp.IdProducto=pr.IdProducto 
-              LEFT JOIN 
-                porciones po ON lpp.IdPorcion=po.IdPorcion
-              LEFT JOIN 
-                unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
-              GROUP BY 
-                pr.IdProducto,
-                lpp.IdListaPP
-              ORDER BY 
-                lpp.FechaCreacion DESC";
+    lpp.IdListaPP, pr.Nombre AS NombreProducto,CONCAT(po.Cantidad,' ',um.Nombre) AS Porcion, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
+  FROM 
+    lista_producto_porcion lpp
+  LEFT JOIN 
+    productos pr ON lpp.IdProducto=pr.IdProducto 
+  LEFT JOIN 
+    porciones po ON lpp.IdPorcion=po.IdPorcion
+  LEFT JOIN 
+    unidad_medida um ON po.IdUnidadMedida=um.IdUnidadMedida
+  GROUP BY 
+    pr.IdProducto,
+    lpp.IdListaPP
+  ORDER BY 
+    lpp.FechaCreacion DESC";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
@@ -62,7 +62,7 @@ class lista_producto_porcion
   function leerPorcionProducto()
   {
     $query = "SELECT 
-                lpp.IdListaPP, pr.Nombre AS NombreProducto, CONCAT(po.Cantidad,' ',um.Siglas) AS Porcion, po.IdPorcion, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
+                lpp.IdListaPP, pr.Nombre AS NombreProducto, CONCAT(po.Cantidad,' ',um.Nombre) AS Porcion, po.IdPorcion, if(lpp.Estado = 0, 'Disponible','Inactivo')AS estadoTexto
               FROM 
                 lista_producto_porcion lpp
               LEFT JOIN 

@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
     http_response_code(200);
     echo json_encode($products_arr);
   } else {
-    http_response_code(404);
+    http_response_code(200);
     echo json_encode(
-      array("message" => "No se encontraron datos.")
+      array("error" => "No se encontraron datos.")
     );
   }
 } else {

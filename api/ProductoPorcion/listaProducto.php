@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "OPTION
       $product_item = array(
         "IdListaPP" => $IdListaPP,
         "NombreProducto" => $NombreProducto,
-        "IdProducto" => $IdProducto,
+        "Porcion" => $Porcion,
         "estadoTexto" => $estadoTexto
       );
       array_push($products_arr, $product_item);

@@ -14,28 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
   http_response_code(200);
   include_once '../../config/database.php';
-  include_once '../objects/produccion.php';
+  include_once '../objects/reporteria.php';
   $database = new Database();
   $db = $database->getConnection();
-  $produccion = new Produccion($db);
+  $reporteria = new reporteria($db);
   $data = json_decode(file_get_contents("php://input"));
-  $produccion->IdPC = $data->IdPC;
-  $stmt = $produccion->readDetalleProduccion();
+  $reporteria->FechaCreacion = $data->fecha;
+  $reporteria->IdSucursal = $data->id_sucursal;
+  $stmt = $reporteria->nota_envio_fecha_sucursal();
 
   if ($stmt) {
     $products_arr = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
       $product_item = array(
-        "IdProduccion" => $IdProduccion,
-        "IdPC" => $IdPC,
-        "IdProducto" => $IdProducto,
-        "cantidadNota" => $cantidadNota,
+        "lote" => $lote,
+        "nombreProducto" => $nombreProducto,
+        "porcionNombre" => $porcionNombre,
         "Cantidad" => $Cantidad,
-        "IdPorcion" => $IdPorcion,
         "FechaVencimiento" => $FechaVencimiento,
-        "NombreProducto" => $NombreProducto,
-        "NombrePorcion" => $NombrePorcion,
+        "nombreSucursal" => $nombreSucursal
       );
       array_push($products_arr, $product_item);
     }
