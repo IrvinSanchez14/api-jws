@@ -12,6 +12,7 @@ class lista_existente
   public $IdProducto;
   public $IdPorcion;
   public $Cantidad;
+  public $IdSucursal;
 
   public function __construct($db)
   {
@@ -45,27 +46,24 @@ class lista_existente
 
   function ListaExistente()
   {
-    $query = "SELECT le.IdListaExistene, su.Nombre as Sucursal, us.Nombre AS Nombre_Usuario, es.Nombre AS Estado, le.FechaCreacion from lista_existente le
-    LEFT JOIN sucursales su ON le.IdSucursal=su.IdSucursal
-    LEFT JOIN usuarios us ON le.UsuarioCreador= us.IdUsuario
-    LEFT JOIN estados es ON le.IdEstado = es.IdEstado
-    WHERE DATE(le.FechaCreacion)= ?";
+    $query = "SELECT 
+                le.IdListaExistene, su.Nombre as Sucursal, us.Nombre AS Nombre_Usuario, es.Nombre AS Estado, le.FechaCreacion from lista_existente le
+              LEFT JOIN 
+                sucursales su ON le.IdSucursal=su.IdSucursal
+              LEFT JOIN 
+                usuarios us ON le.UsuarioCreador= us.IdUsuario
+              LEFT JOIN 
+                estados es ON le.IdEstado = es.IdEstado
+              WHERE 
+                DATE(le.FechaCreacion)= ? AND su.IdSucursal = ?";
 
     $stmt = $this->conn->prepare($query);
     $this->FechaCreacion = htmlspecialchars(strip_tags($this->FechaCreacion));
+    $this->IdSucursal = htmlspecialchars(strip_tags($this->IdSucursal));
     $stmt->bindParam(1, $this->FechaCreacion);
+    $stmt->bindParam(2, $this->IdSucursal);
     $stmt->execute();
-    $num = $stmt->rowCount();
-    if ($num > 0) {
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
-      $this->IdListaExistene = $row['IdListaExistene'];
-      $this->Sucursal = $row['Sucursal'];
-      $this->Nombre_Usuario = $row['Nombre_Usuario'];
-      $this->Estado = $row['Estado'];
-      $this->FechaCreacion = $row['FechaCreacion'];
-      return true;
-    }
-    return false;
+    return $stmt;
   }
 
   function ListaDetalle()

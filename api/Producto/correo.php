@@ -21,10 +21,10 @@ $cuerpo = '';
 echo $num;
 if ($num >= 0) {
   echo "hola";
-  $cuerpo .= '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">Fecha de Vencimiento</th><th align="center">Nombre</th><th align="center">Cantidad</th></tr>';
+  $cuerpo .= '<table border="0.5"  ><tr style=" background-color: #4CAF50; color: white;"><th align="center">Lote</th><th align="center">Fecha de Vencimiento</th><th align="center">Nombre</th><th align="center">Cantidad</th><th align="center">Porcion</th></tr>';
   while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     extract($row);
-    $cuerpo .= '<tr><td align="center">' . $FechaVencimiento . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Numero_porciones . '</td></tr>';
+    $cuerpo .= '<tr><td align="center">' . $lote . '</td><td align="center">' . $FechaVencimiento . '</td><td align="center">' . $Nombre . '</td><td align="center">' . $Numero_porciones . '</td><td align="center">' . $porcion . '</td></tr>';
   }
   $cuerpo .= "</table>";
 }

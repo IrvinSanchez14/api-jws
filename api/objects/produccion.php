@@ -134,11 +134,19 @@ class Produccion
   }
   function productoVencido()
   {
-    $query = "SELECT p.FechaVencimiento, pr.Nombre , p.Cantidad AS Numero_porciones FROM produccion p
-    left JOIN productos pr on p.IdProducto = pr.IdProducto
-    LEFT JOIN porciones por ON p.IdPorcion = por.IdPorcion
-    WHERE p.FechaVencimiento BETWEEN (SELECT CURDATE()) AND 
-    (DATE_ADD(CURDATE(), INTERVAL 5 DAY)) AND p.Estado = 0 ";
+    $query = "SELECT 
+                p.FechaVencimiento, pr.Nombre , p.Cantidad AS Numero_porciones, pc.lote, CONCAT(por.Cantidad, ' ',um.Nombre)AS porcion FROM produccion p
+              LEFT JOIN 
+                produccion_cabecera pc ON p.IdPC = pc.IdPC
+              left JOIN 
+                productos pr on p.IdProducto = pr.IdProducto
+              LEFT JOIN 
+                porciones por ON p.IdPorcion = por.IdPorcion
+              LEFT JOIN 
+                unidad_medida um ON por.IdUnidadMedida=um.IdUnidadMedida
+              WHERE 
+                p.FechaVencimiento BETWEEN (SELECT CURDATE()) AND 
+                (DATE_ADD(CURDATE(), INTERVAL 5 DAY)) AND  pc.IdPC != 5";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
@@ -156,7 +164,9 @@ class Produccion
     $mail->Username = 'lapizzeriapassrecovery@gmail.com'; //correo emisor
     $mail->Password = 'lapizzeria2019'; //contraseña del correo del emisor
     $mail->setFrom('lapizzeriapassrecovery@gmail.com', 'La Pizzeria'); //se establece quien envia el correo
-    $mail->addAddress('irvnsanchez@gmail.com', 'Raul'); //email y nombre del receptor guardados en sus respectivas variables
+    $mail->addAddress('irvnsanchez@gmail.com', 'Raul');
+    $mail->addAddress('raul.sosa@outlook.com', 'Raul');
+    $mail->addAddress('rivera.fuentes@outlook.com', 'Raul'); //email y nombre del receptor guardados en sus respectivas variables
     $mail->Subject = $asunto; //se configura cual es el asunto del correo
     $mail->Body    = $cuerpo; //se configura cual es el cuerpo del correo
     $mail->IsHTML(true);
