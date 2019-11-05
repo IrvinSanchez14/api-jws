@@ -146,7 +146,7 @@ class Produccion
   }
   function enviarEmail($asunto, $cuerpo)
   { //funcion de enviar email, recibe el email, el nombre, asunto y cuerpo
-    require_once '../../login/PHPMailer/PHPMailerAutoload.php'; //lebreria phpmailer se usa para el funcionamiento del envio de correo
+    require_once '/var/www/html/api-jws/login/PHPMailer/PHPMailerAutoload.php'; //lebreria phpmailer se usa para el funcionamiento del envio de correo
     $mail = new PHPMailer();
     $mail->isSMTP(); // protocolo de transferencia de correo
     $mail->SMTPAuth = true;
